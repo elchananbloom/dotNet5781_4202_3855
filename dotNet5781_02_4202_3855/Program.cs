@@ -10,6 +10,7 @@ namespace dotNet5781_02_4202_3855
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("bye bye!!"  );
         }
     }
 }
