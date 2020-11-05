@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dotNet5781_4202_3855
+namespace dotNet5781_00_4202_3855
 {
-    class Program
+    partial class Program
     {
-        static void Main(string[] args)
+        static partial void welcome4202()
         {
+            Console.WriteLine("I'm also here");
         }
     }
 }
