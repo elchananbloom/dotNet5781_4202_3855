@@ -17,8 +17,9 @@ namespace dotNet_02_4202_3855
 
             set
             {
-                Random rand = new Random();
-                busStationDist = rand.Next(500);
+                //Random rand = new Random();
+                //busStationDist = rand.Next(500);
+                busStationDist = value;
             }
         }
         public TimeSpan TravelTime
@@ -26,8 +27,9 @@ namespace dotNet_02_4202_3855
             get { return travelTime; }
             set
             {
-                Random rand = new Random();
-                travelTime = new TimeSpan(rand.Next(2), rand.Next(59), rand.Next(59));
+                //Random rand = new Random();
+                //travelTime = new TimeSpan(rand.Next(2), rand.Next(59), rand.Next(59));
+                travelTime = value;
             }
         }
         //All the class's functions.

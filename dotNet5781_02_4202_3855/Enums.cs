@@ -11,4 +11,5 @@ namespace dotNet5781_02_4202_3855
     public enum DeletingOptions { DELETE_BUSLINE = 1, DELETE_STATION_FROM_BUSLINE }//enum for the inner delete options.
     public enum SearchingOptions { BUSSES_LINE = 1, OPTIONS_TRAVEL_BETWEEN_2_STATIONS }//enum for the inner searching options.
     public enum PrintingOptions { ALL_BUS_LINES = 1, STATIONS_LIST_AND_BUSLINES }//enum for the inner printing options
+    public enum Areas { GENERAL = 1, NORTH, SOUTH, CENTER, JERUSALEM };
 }

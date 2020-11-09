@@ -8,11 +8,16 @@ namespace dotNet_02_4202_3855
 {
     class BusStation//תחנת אוטובוס
     {
+        private const int MIN_LATITUDE = -90;
+        private const int MAX_LATITUDE = 90;
+        private const int MIN_LONGITUDE = -180;
+        private const int MAX_LONGITUDE = 180;
+
         protected string busStationKey;//the station's code.
         protected string stationAddress;//the address of the bus station.
         protected double latitude;
         protected double longitude;
-
+        private List<string> serials = new List<string>();
 
         //properties
         public string BusStationKey
@@ -20,14 +25,18 @@ namespace dotNet_02_4202_3855
             get { return busStationKey; }
             set
             {
+                if (serials.Contains(value))
+                {
+                    throw new ArgumentException(
+                        String.Format("{0} key number exists allready", value));
+                }
                 if (value.Length > 6)
                 {
-                    Console.WriteLine("Error, incorrect bus station number. Please enter a number that is less than 6 digits.");//////can do an exception instead.
+                    throw new ArgumentException(
+                                           String.Format("{0} is not a valid key number", value));
                 }
-                else
-                {
-                    busStationKey = value;
-                }
+                busStationKey = value;
+                serials.Add(BusStationKey);
             }
         }
         public string StationAddress
@@ -40,14 +49,22 @@ namespace dotNet_02_4202_3855
             get { return latitude; }
             set
             {
-                Random rand = new Random();
-                double result;
-                do
+                if (value >= MIN_LATITUDE && value <= MAX_LATITUDE)
                 {
-                    result = NextDouble(rand, 31, 33.3);
+                    latitude = value;
                 }
-                while (result < -90 || result > 90);
-                latitude = result;
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Latitude",
+                        String.Format("{0} should be between {1} and {2}", value, MIN_LATITUDE, MAX_LATITUDE));
+                }                //Random rand = new Random();
+                                 //double result;
+                                 //do
+                                 //{
+                                 //    result = NextDouble(rand, 31, 33.3);
+                                 //}
+                                 //while (result < -90 || result > 90);
+                                 // latitude = result;
             }
         }
         public double Longitude
@@ -55,18 +72,28 @@ namespace dotNet_02_4202_3855
             get { return longitude; }
             set
             {
-                Random rand = new Random();
-                double result;
-                do
+                if (value >= MIN_LONGITUDE && value <= MAX_LONGITUDE)
                 {
-                    result = NextDouble(rand, 34.3, 35.5);
+                    longitude = value;
                 }
-                while (result < -180 || result > 180);
-                longitude = result;
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Longitude",
+                        String.Format("{0} should be between {1} and {2}", value, MIN_LONGITUDE, MAX_LONGITUDE));
+                }
+                //Random rand = new Random();
+                //double result;
+                //do
+                //{
+                //    result = NextDouble(rand, 34.3, 35.5);
+                //}
+                //while (result < -180 || result > 180);
+                //longitude = result;
             }
         }
         // All the class's functions.
         //this func is made for generating the random namber of the station's location, (since it is a double type range).
+        ////////////////////////////////main
         public double NextDouble(Random rand, double minValue, double maxValue)
         {
             return rand.NextDouble() * (maxValue - minValue) + minValue;
@@ -74,7 +101,12 @@ namespace dotNet_02_4202_3855
         //the ToString() func as requested.
         public override string ToString()
         {
-            return "Bus Station Code: " + BusStationKey + ", " + Latitude + "°N " + Longitude + "°E";
+            String result = "Bus Station Code: " + BusStationKey;
+            result += String.Format(", {0}°{1} {2}°{3}",
+                Math.Abs(Latitude), (Latitude > 0) ? "N" : "S",
+                Math.Abs(Longitude), (Longitude > 0) ? "E" : "W");
+            return result;
+           // return "Bus Station Code: " + BusStationKey + ", " + Latitude + "°N " + Longitude + "°E";
         }
 
         //הקריאה בפונקציה הראשית לפונקציה to string() 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dotNet5781_02_4202_3855;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +11,7 @@ namespace dotNet_02_4202_3855
 
 {
 
-    public enum Area { GENERAL = 1, NORTH, SOUTH, CENTER, JERUSALEM };
+   
     class BusLine //:IComparable//קו אוטובוס בודד
     {
         private int busLineNumber;
@@ -45,19 +46,19 @@ namespace dotNet_02_4202_3855
                 string name = "";
                 switch (int.Parse(area))
                 {
-                    case 1:
+                    case (int)Areas.GENERAL:
                         name = "General";
                         break;
-                    case 2:
+                    case (int)Areas.NORTH:
                         name = "North";
                         break;
-                    case 3:
+                    case (int)Areas.SOUTH:
                         name = "South";
                         break;
-                    case 4:
+                    case (int)Areas.CENTER:
                         name = "Center";
                         break;
-                    case 5:
+                    case (int)Areas.JERUSALEM:
                         name = "Jerusalem";
                         break;
                     default:
@@ -112,7 +113,11 @@ namespace dotNet_02_4202_3855
             Console.WriteLine("Enter the place in the list to where you want to add the Bus Station\nit needs to be between 0 - {0}.", stationListHaloch.Count + 1);
             int place = int.Parse(Console.ReadLine());
             if (result == false)
-            {////////////////////////////////exception
+            {
+                if (place > stationListHaloch.Count)
+                {
+                    throw new IndexOutOfRangeException();
+                }
                 stationListHaloch.Insert(place, newBusStation);
                 if (place == 0)
                 {
@@ -154,7 +159,7 @@ namespace dotNet_02_4202_3855
                 //}
             }
             else
-                Console.WriteLine("The station you want to add already exists in the system.");
+                throw new KeyNotFoundException();
             // }
             //  break;
 
@@ -265,13 +270,13 @@ namespace dotNet_02_4202_3855
                     {
                         firstStation = stationListHaloch[0];
                     }
-                    if (place == stationListHaloch.Count + 1)
+                    if (place == stationListHaloch.Count)
                     {
-                        lastStation = stationListHaloch[stationListHaloch.Count];
+                        lastStation = stationListHaloch[stationListHaloch.Count-1];
                     }
                 }
                 else
-                    Console.WriteLine("The station you want to remove does not exists in the list.");
+                    throw new KeyNotFoundException();
             }
         }
 
@@ -305,7 +310,7 @@ namespace dotNet_02_4202_3855
             }
             else
             {
-                Console.WriteLine("The bus station you enterned does not exsists in this bus line route.");
+                throw new KeyNotFoundException();
             }
             return distance;
         }
@@ -323,7 +328,7 @@ namespace dotNet_02_4202_3855
             }
             else
             {
-                Console.WriteLine("The bus station you enterned does not exsists in this bus line route.");
+                throw new KeyNotFoundException();
             }
             return travelTime;
         }
@@ -340,6 +345,8 @@ namespace dotNet_02_4202_3855
                     subRoute.stationListHaloch.Add(stationListHaloch[i]);
                 }
             }
+            else
+                throw new KeyNotFoundException();
             return subRoute;
         }
 
