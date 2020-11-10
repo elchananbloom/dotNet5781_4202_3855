@@ -185,8 +185,6 @@ namespace dotNet_02_4202_3855
 
 
 
-
-
         }
 
         private static void getsStationDetails(BusLineStation newBus)
