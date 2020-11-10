@@ -12,29 +12,30 @@ namespace dotNet_02_4202_3855
             int count = countBusLinesInCollection(bus);
             if (count >= 2)
             {
-                Console.WriteLine("There are already more than two bus lines with the same line number.");
+                throw new ArgumentException("There are already more than two bus lines with the same line number.");
+                // Console.WriteLine("There are already more than two bus lines with the same line number.");
             }
-            else
-            {
-                busLinesCollection.Add(bus);
-            }
+            busLinesCollection.Add(bus);
         }
         //this func delete bus line from the bus line collection.
-        public void subBusLine(BusLine bus)
+        public void subBusLine(BusLine bus, BusLineStation firstStation)
         {
-            if (countBusLinesInCollection(bus) > 0)
+            int count = countBusLinesInCollection(bus);
+            if (count > 0)
             {
                 for (int index = 0; index < busLinesCollection.Count; index++)
                 {
-                    if (bus.BusLineNumber == busLinesCollection[index].BusLineNumber)
+                    if (bus.BusLineNumber == busLinesCollection[index].BusLineNumber && bus.FirstStation == firstStation)
                     {
                         busLinesCollection.RemoveAt(index);
                     }
                 }
             }
+
             else
             {
-                Console.WriteLine("This bus line does not exists in the system");
+                throw new KeyNotFoundException("This bus line does not exists in the system");
+                //Console.WriteLine("This bus line does not exists in the system");
             }
         }
 
@@ -51,7 +52,7 @@ namespace dotNet_02_4202_3855
             }
             if (newBusLine.Count == 0)
             {
-                throw new ArgumentException("There are no line buses passing through this station.")//////////
+                throw new ArgumentException("There are no line buses passing through this station.");
             }
             return newBusLine;
         }
@@ -81,15 +82,21 @@ namespace dotNet_02_4202_3855
 
 
 
-
-        //public BusLine this[string busLineNumber]   indexer
-        //{
-        //    get { }
-        //}
+        //indexer
+        public BusLine this[int busLineNumber,BusLineStation first]
+        {
+            get
+            {
+                BusLine result = busLinesCollection.Find(bus => bus.BusLineNumber == busLineNumber && bus.FirstStation == first);
+                if (result == null)
+                    throw new KeyNotFoundException();
+                return result;
+            }
+        }
+        //IEnumerator
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)busLinesCollection).GetEnumerator();
+            return busLinesCollection.GetEnumerator();
         }
-
     }
 }
