@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+
 namespace dotNet_02_4202_3855
-
 {
-
-   
     class BusLine //:IComparable//קו אוטובוס בודד
     {
         private int busLineNumber;
@@ -19,6 +18,22 @@ namespace dotNet_02_4202_3855
         private BusLineStation lastStation;
         private string area;
         public List<BusLineStation> stationListHaloch = new List<BusLineStation>();//רשימת תחנות הלוך
+
+        public BusLine(int v)
+        {
+            V = v;
+        }
+
+        public BusLine(Random r)
+        {
+        }
+
+        public BusLine()
+        {
+        }
+
+
+
         //properties.
         public int BusLineNumber { get => busLineNumber; set => busLineNumber = value; }
         internal BusLineStation FirstStation
@@ -69,7 +84,11 @@ namespace dotNet_02_4202_3855
             set => area = value;
         }
 
+        public int V { get; }
+
+
         //All the class's functions.
+
         //the ToString() func as requested.
         public override string ToString()
         {
@@ -91,7 +110,6 @@ namespace dotNet_02_4202_3855
         //הקריאה בפונקציה הראשית לפונקציה to string() 
         //BusStation busStation = new BusStation { busStationKey = ////, location };
         //Console.WriteLine(busStation);
-
 
         //this func adds a station to the line route.  
         public void AddStationToLineRoute(BusLineStation newBusStation)
@@ -286,12 +304,13 @@ namespace dotNet_02_4202_3855
         {
             return stationsList.Exists(s => s.BusStationKey == newBusStation.BusStationKey);
         }
+
         //this func checks if the station already exsists in the list by key number.
         public bool stationCheck(string key, List<BusLineStation> stationsList)
         {
             return stationsList.Exists(s => s.BusStationKey == key);
-
         }
+
         //this func returns the index of bus station in station list.
         public int find_index(BusLineStation newBusStation, List<BusLineStation> stationsList)
         {
@@ -359,6 +378,7 @@ namespace dotNet_02_4202_3855
             return this.CompareTo(line);
             // }
         }
+
         //this funp overrides the original CompareTo function.
         public int CompareTo(object obj)
         {
@@ -367,7 +387,5 @@ namespace dotNet_02_4202_3855
             return time1.CompareTo(time2);
             //   throw new NotImplementedException();
         }
-
     }
-
 }

@@ -6,12 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-/*
- * indexer
- * IEnumerable
- * Exception
- * 
- */
 namespace dotNet_02_4202_3855
 {
     class Program
@@ -33,6 +27,45 @@ namespace dotNet_02_4202_3855
                 Console.WriteLine("\t0: Exit");
                 Console.WriteLine("Enter the number of your choice: ");
                 userChoice = Console.ReadLine();
+
+
+                Random randLineNum = new Random(550);//the line num
+                BusLine bus1 = new BusLine(randLineNum); 
+                busLinesCollection.addBusLine(bus1);
+                BusLine bus2 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus2);
+                BusLine bus3 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus3);
+                BusLine bus4 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus4);
+                BusLine bus5 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus5);
+                BusLine bus6 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus6);
+                BusLine bus7 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus7);
+                BusLine bus8 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus8);
+                BusLine bus9 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus9);
+                BusLine bus10 = new BusLine(randLineNum);
+                busLinesCollection.addBusLine(bus10);
+
+                int keyNum = 55;
+                for (int i = 0; i <= 10; i++)
+                {
+                    busLinesCollection[i].AddSationToLineRoute(keyNum + i);
+                }
+
+                for (int i= 10; i<=40; i++)
+                {
+                   
+
+                }
+
+                
+
+
 
                 //List<string> busStationNames = { "Amarpe", "Golda", "Kikar Hashabat", "Binyane Ahoma", "Givat Mordechai", "Masof Egged", "Merkaz Arav", "Shachal", "Tedi", "Chazon ish", "Tzomet Ramot",
                 //"Yrmiyaho", "Central Bus Station", "Kanfe Nesharim", "Beth Adfos", "Mintz", "Tzondak", "Machane Yahouda", "Aza", "Shabtay Anegbi", "Yefe Rom", "Hertzog", "Ahoman" };
@@ -63,7 +96,7 @@ namespace dotNet_02_4202_3855
 
                         case (int)Options.SEARCH:
                             {
-                                    SearchingOptions(busLines);
+                                SearchingOptions(busLines);
                             }
                             break;
 
@@ -90,10 +123,7 @@ namespace dotNet_02_4202_3855
                                             break;
                                         default: break;
                                     }
-
-
                                 }
-
 
                             }
                             break;
@@ -109,12 +139,10 @@ namespace dotNet_02_4202_3855
 
 
 
-
-
-
-
-
         }
+
+        //All the main's functions.
+
 
         private static void SearchingOptions(BusLinesCollection busLines)
         {
@@ -249,9 +277,6 @@ namespace dotNet_02_4202_3855
         {
             return rand.NextDouble() * (maxValue - minValue) + minValue;
         }
-
-
-        //All the main's functions.
 
         //this functions displays (presents) the sub options displays to each case of the general switch.
         private static int subOptionsDisplays(string message)
