@@ -83,11 +83,11 @@ namespace dotNet_02_4202_3855
 
 
         //indexer
-        public BusLine this[int busLineNumber]
+        public BusLine this[int busLineNumber,BusLineStation first]
         {
             get
             {
-                BusLine result = busLinesCollection.Find(bus => bus.BusLineNumber == busLineNumber);
+                BusLine result = busLinesCollection.Find(bus => bus.BusLineNumber == busLineNumber && bus.FirstStation == first);
                 if (result == null)
                     throw new KeyNotFoundException();
                 return result;

@@ -92,16 +92,11 @@ namespace dotNet_02_4202_3855
             }
         }
         // All the class's functions.
-        //this func is made for generating the random namber of the station's location, (since it is a double type range).
-        ////////////////////////////////main
-        public double NextDouble(Random rand, double minValue, double maxValue)
-        {
-            return rand.NextDouble() * (maxValue - minValue) + minValue;
-        }
+       
         //the ToString() func as requested.
         public override string ToString()
         {
-            String result = "Bus Station Code: " + BusStationKey;
+            String result = "Bus Station Code: " + BusStationKey + "Bus Station Address" + stationAddress;
             result += String.Format(", {0}°{1} {2}°{3}",
                 Math.Abs(Latitude), (Latitude > 0) ? "N" : "S",
                 Math.Abs(Longitude), (Longitude > 0) ? "E" : "W");

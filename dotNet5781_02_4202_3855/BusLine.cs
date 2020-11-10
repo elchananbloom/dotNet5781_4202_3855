@@ -73,7 +73,7 @@ namespace dotNet_02_4202_3855
         //the ToString() func as requested.
         public override string ToString()
         {
-            string str = "Bus Number: " + busLineNumber + "," + "Area: " + area + "," + "bus station List:\n";
+            string str = "Bus Number: " + busLineNumber + "," + "Area: " + area + "," + "bus stations List:\n";
             for (int i = 0; i < stationListHaloch.Count; i++)
             {
                 str += stationListHaloch[i].ToString();
@@ -110,10 +110,11 @@ namespace dotNet_02_4202_3855
 
             bool result;
             result = stationChecking(newBusStation, stationListHaloch);
-            Console.WriteLine("Enter the place in the list to where you want to add the Bus Station\nit needs to be between 0 - {0}.", stationListHaloch.Count + 1);
-            int place = int.Parse(Console.ReadLine());
             if (result == false)
             {
+                Console.WriteLine("Enter the place in the list to where you want to add the Bus Station\nit needs to be between 0 - {0}.", stationListHaloch.Count + 1);
+                int place = int.Parse(Console.ReadLine());
+
                 if (place > stationListHaloch.Count)
                 {
                     throw new IndexOutOfRangeException();
@@ -286,9 +287,9 @@ namespace dotNet_02_4202_3855
             return stationsList.Exists(s => s.BusStationKey == newBusStation.BusStationKey);
         }
         //this func checks if the station already exsists in the list by key number.
-        public bool stationCheck(string number, List<BusLineStation> stationsList)
+        public bool stationCheck(string key, List<BusLineStation> stationsList)
         {
-            return stationsList.Exists(s => s.BusStationKey == number);
+            return stationsList.Exists(s => s.BusStationKey == key);
 
         }
         //this func returns the index of bus station in station list.
@@ -308,10 +309,10 @@ namespace dotNet_02_4202_3855
                     distance += stationListHaloch[i].BusStationDist;
                 }
             }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
+            //else
+            //{
+            //    throw new KeyNotFoundException();
+            //}
             return distance;
         }
 
@@ -326,10 +327,10 @@ namespace dotNet_02_4202_3855
                     travelTime += stationListHaloch[i].TravelTime;
                 }
             }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
+            //else
+            //{
+            //    throw new KeyNotFoundException();
+            //}
             return travelTime;
         }
 
@@ -345,8 +346,8 @@ namespace dotNet_02_4202_3855
                     subRoute.stationListHaloch.Add(stationListHaloch[i]);
                 }
             }
-            else
-                throw new KeyNotFoundException();
+            //else
+            //    throw new KeyNotFoundException();
             return subRoute;
         }
 
