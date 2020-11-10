@@ -7,6 +7,16 @@ namespace dotNet_02_4202_3855
         private int busStationDist;//מרחק מתחנת קו אוטובוס הקודמת 
         private TimeSpan travelTime;//זמן נסיעה מתחנת קו אוטובוס הקודמת 
 
+        public BusLineStation(int busStationKey, string stationAddress, double latitude, double longitude, int busStationDist, TimeSpan travelTime)
+        {
+            this.busStationKey = busStationKey;
+            this.stationAddress = stationAddress;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.busStationDist = busStationDist;
+            this.travelTime = travelTime;
+        }
+
         //property.
         public int BusStationDist
         {

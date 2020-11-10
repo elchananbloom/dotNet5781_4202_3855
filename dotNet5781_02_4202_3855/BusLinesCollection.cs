@@ -40,7 +40,7 @@ namespace dotNet_02_4202_3855
         }
 
         //this func returns bus lines list that pass through this bus station
-        public List<BusLine> busLinesInStation(string number)
+        public List<BusLine> busLinesInStation(int number)
         {
             List<BusLine> newBusLine = new List<BusLine>();
             for (int index = 0; index < busLinesCollection.Count; index++)
@@ -87,7 +87,7 @@ namespace dotNet_02_4202_3855
         {
             get
             {
-                BusLine result = busLinesCollection.Find(bus => bus.BusLineNumber == busLineNumber && bus.FirstStation == first);
+                BusLine result = busLinesCollection.Find(bus => bus.BusLineNumber == busLineNumber && bus.FirstStation.BusStationKey == first.BusStationKey);
                 if (result == null)
                     throw new KeyNotFoundException();
                 return result;

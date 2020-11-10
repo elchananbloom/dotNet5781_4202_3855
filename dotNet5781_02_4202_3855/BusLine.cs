@@ -19,18 +19,36 @@ namespace dotNet_02_4202_3855
         private string area;
         public List<BusLineStation> stationListHaloch = new List<BusLineStation>();//רשימת תחנות הלוך
 
-        public BusLine(int v)
+        public BusLine(int busLineNumber, BusLineStation firstStation, BusLineStation lastStation, string area)
         {
-            V = v;
-        }
-
-        public BusLine(Random r)
-        {
+            this.busLineNumber = busLineNumber;
+            this.firstStation = firstStation;
+            this.lastStation = lastStation;
+            this.area = area;
+            stationListHaloch.Insert(0, firstStation);
+            stationListHaloch.Add(lastStation);
         }
 
         public BusLine()
         {
         }
+
+        //public BusLine(int v)
+        //{
+        //    V = v;
+        //}
+
+        //public BusLine(Random r)
+        //{
+        //}
+
+        //public BusLine()
+        //{
+        //}
+
+        //public BusLine(int v, BusLineStation firstStation, BusLineStation lastStation, string area) : this(v)
+        //{
+        //}
 
 
 
@@ -130,7 +148,7 @@ namespace dotNet_02_4202_3855
             result = stationChecking(newBusStation, stationListHaloch);
             if (result == false)
             {
-                Console.WriteLine("Enter the place in the list to where you want to add the Bus Station\nit needs to be between 0 - {0}.", stationListHaloch.Count + 1);
+                Console.WriteLine("Enter the place in the list to where you want to add the Bus Station\nit needs to be between 0 - {0}.", stationListHaloch.Count);
                 int place = int.Parse(Console.ReadLine());
 
                 if (place > stationListHaloch.Count)
@@ -142,7 +160,7 @@ namespace dotNet_02_4202_3855
                 {
                     firstStation = stationListHaloch[0];
                 }
-                if (place == stationListHaloch.Count - 1)
+                if (place == stationListHaloch.Count)
                 {
                     lastStation = stationListHaloch[stationListHaloch.Count];
                 }
@@ -306,7 +324,7 @@ namespace dotNet_02_4202_3855
         }
 
         //this func checks if the station already exsists in the list by key number.
-        public bool stationCheck(string key, List<BusLineStation> stationsList)
+        public bool stationCheck(int key, List<BusLineStation> stationsList)
         {
             return stationsList.Exists(s => s.BusStationKey == key);
         }

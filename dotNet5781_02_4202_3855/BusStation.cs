@@ -2,25 +2,35 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 namespace dotNet_02_4202_3855
 {
     class BusStation//תחנת אוטובוס
     {
+        private const int MAX_DIGITS = 1000000;
         private const int MIN_LATITUDE = -90;
         private const int MAX_LATITUDE = 90;
         private const int MIN_LONGITUDE = -180;
         private const int MAX_LONGITUDE = 180;
 
-        protected string busStationKey;//the station's code.
+        protected int busStationKey;//the station's code.
         protected string stationAddress;//the address of the bus station.
         protected double latitude;
         protected double longitude;
-        private List<string> serials = new List<string>();
+        private List<int> serials = new List<int>();
 
+        //public static bool operator==(BusStation buss,BusStation b)
+        //{
+        //    return buss.busStationKey == b.busStationKey;
+        //}
+        //public static bool operator !=(BusStation buss, BusStation b)
+        //{
+        //    return buss.busStationKey != b.busStationKey;
+        //}
         //properties
-        public string BusStationKey
+        public int BusStationKey
         {
             get { return busStationKey; }
             set
@@ -30,7 +40,7 @@ namespace dotNet_02_4202_3855
                     throw new ArgumentException(
                         String.Format("{0} key number exists allready", value));
                 }
-                if (value.Length > 6)
+                if (value > 0 && value < MAX_DIGITS)
                 {
                     throw new ArgumentException(
                                            String.Format("{0} is not a valid key number", value));
