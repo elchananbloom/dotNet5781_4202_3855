@@ -7,12 +7,9 @@ namespace dotNet_02_4202_3855
         private int busStationDist;//מרחק מתחנת קו אוטובוס הקודמת 
         private TimeSpan travelTime;//זמן נסיעה מתחנת קו אוטובוס הקודמת 
 
-        public BusLineStation(int busStationKey, string stationAddress, double latitude, double longitude, int busStationDist, TimeSpan travelTime)
+        public BusLineStation(int busStationDist, TimeSpan travelTime, int busStationKey, string stationAddress, double latitude, double longitude) :base(busStationKey, stationAddress, latitude, longitude)
         {
-            this.busStationKey = busStationKey;
-            this.stationAddress = stationAddress;
-            this.latitude = latitude;
-            this.longitude = longitude;
+           
             this.busStationDist = busStationDist;
             this.travelTime = travelTime;
         }
@@ -47,7 +44,7 @@ namespace dotNet_02_4202_3855
         public override string ToString()
         {////////////////
             string str = base.ToString() + "\n";
-            str += "busStationDist: " + BusStationDist + "," + "travelTime: " + TravelTime;
+            str += "\t\tBusStationDist: " + BusStationDist + ", " + "TravelTime: " + TravelTime + ".\n";
             return str;
         }
         //public static BusLineStation operator=(BusLineStation a,BusLineStation b)

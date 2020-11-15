@@ -102,7 +102,7 @@ namespace dotNet_02_4202_3855
             set => area = value;
         }
 
-        public int V { get; }
+       // public int V { get; }
 
 
         //All the class's functions.
@@ -110,7 +110,7 @@ namespace dotNet_02_4202_3855
         //the ToString() func as requested.
         public override string ToString()
         {
-            string str = "Bus Number: " + busLineNumber + "," + "Area: " + area + "," + "bus stations List:\n";
+            string str = "Bus Number: " + busLineNumber + ".\n\tArea: " + Area + ".\n\tBus stations List:\n";
             for (int i = 0; i < stationListHaloch.Count; i++)
             {
                 str += stationListHaloch[i].ToString();
@@ -124,13 +124,12 @@ namespace dotNet_02_4202_3855
             //}
             return str;
         }
-
         //הקריאה בפונקציה הראשית לפונקציה to string() 
         //BusStation busStation = new BusStation { busStationKey = ////, location };
         //Console.WriteLine(busStation);
 
         //this func adds a station to the line route.  
-        public void AddStationToLineRoute(BusLineStation newBusStation)
+        public void AddStationToLineRoute(BusLineStation newBusStation,int place)
         {
             // int num;
             //  string userChoice;
@@ -148,8 +147,7 @@ namespace dotNet_02_4202_3855
             result = stationChecking(newBusStation, stationListHaloch);
             if (result == false)
             {
-                Console.WriteLine("Enter the place in the list to where you want to add the Bus Station\nit needs to be between 0 - {0}.", stationListHaloch.Count);
-                int place = int.Parse(Console.ReadLine());
+               
 
                 if (place > stationListHaloch.Count)
                 {
@@ -286,17 +284,16 @@ namespace dotNet_02_4202_3855
             //}
             //  }
         }
-
         //this func subtract a station from the line route.
         public void SubtractStationOfLineRoute(BusLineStation stationKey)
         {
-            int num;
-            string userChoice;
-            Console.WriteLine("Press:\n\t 1: To remove the sation from the Haloch list.\n\t 2: To remove the station to the Return list.");
-            userChoice = Console.ReadLine();
-            bool success = true;
-            if (success = Int32.TryParse(userChoice, out num))
-            {
+            //int num;
+            //string userChoice;
+           // Console.WriteLine("Press:\n\t 1: To remove the sation from the Haloch list.\n\t 2: To remove the station to the Return list.");
+           // userChoice = Console.ReadLine();
+            //bool success = true;
+            //if (success = Int32.TryParse(userChoice, out num))
+            //{
                 bool result;
                 result = stationChecking(stationKey, stationListHaloch);
                 if (result)
@@ -311,10 +308,11 @@ namespace dotNet_02_4202_3855
                     {
                         lastStation = stationListHaloch[stationListHaloch.Count-1];
                     }
+                    Console.WriteLine("The station has been removed successfully.");
                 }
                 else
                     throw new KeyNotFoundException();
-            }
+          //  }
         }
 
         //this func checks if the station already exsists un the list by bus line station.
@@ -372,13 +370,15 @@ namespace dotNet_02_4202_3855
         }
 
         //this func return the sub route between 2 stations
-        public BusLine subRoute(BusLineStation busStation1, BusLineStation busStation2)
+        public BusLine subRoute(BusLineStation busStation1, BusLineStation busStation2,BusLine bus)
         {
             BusLine subRoute = new BusLine();
             //  List<BusLineStation> subRoute = new List<BusLineStation>();
             if (stationChecking(busStation1, stationListHaloch) && stationChecking(busStation2, stationListHaloch))
             {
-                for (int i = find_index(busStation1, stationListHaloch); i < find_index(busStation2, stationListHaloch); i++)
+                subRoute.busLineNumber = bus.busLineNumber;
+                subRoute.area = bus.area;
+                for (int i = find_index(busStation1, stationListHaloch); i < find_index(busStation2, stationListHaloch)+1; i++)
                 {
                     subRoute.stationListHaloch.Add(stationListHaloch[i]);
                 }

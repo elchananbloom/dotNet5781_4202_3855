@@ -16,7 +16,63 @@ namespace dotNet_02_4202_3855
             string userChoice = string.Empty;
             List<BusLine> busesList = new List<BusLine>();
             BusLinesCollection busLines = new BusLinesCollection();
-            Console.WriteLine("   Welcome to the information system on bus lines and arrival times at stations.");
+            Console.WriteLine("\tWelcome to the information system on bus lines and arrival times at stations.\n");
+            Console.WriteLine("\t\t\tCreating 10 bus lines and 40 stations...\n");
+            List<BusLineStation> stations = new List<BusLineStation>();
+            int[] stationKeys = new int[40];
+            string[] addres = { "Malissa", "Barton", "Heide", "Quintin", "Lula", "Ione", "Larhonda", "Yuko", "Wendolyn", "Willene", "Mitsue", "Ellsworth", "Angla", "Scarlet", "Xiao", "Khalilah", "Charlsie", "Norbert", "Ria", "Ladonna", "Jama", "Earlene", "Sylvia", "Ellie", "Loyce", "Meagan", "Oretha", "Corina", "Joelle", "Arthur", "Larita", "Dillon", "Beulah", "Fritz", "Danyelle", "Kerstin", "Deirdre", "Kathi", "Dodie", "Angelika" };
+            Random rand = new Random();
+            double latitude;
+            double longitude;
+            int busStationDist;
+            TimeSpan travelTime;
+            for (int i = 0; i < 40; i++)
+            {
+                stationKeys[i] = i + 25487 - 15 * i;
+                latitude = NextDouble(rand, 31.0, 33.3);
+                longitude = NextDouble(rand, 34.3, 35.5);
+                busStationDist = rand.Next(500);
+                travelTime = new TimeSpan(rand.Next(2), rand.Next(59), rand.Next(59));
+                BusLineStation busSt = new BusLineStation(busStationDist, travelTime, stationKeys[i], addres[i], latitude, longitude);
+                stations.Add(busSt);
+
+            }
+            Random randLineNum = new Random();//the line num
+            string[] area = { "2", "3", "4", "1", "5", "1", "3", "2", "4", "5" };
+            int index = 0;
+            int anotherIndex = 0;
+            int[] lineNumber = { randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550) };
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busLines.addBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            index = 10;
+            int stationsIndex = 0;
+            int lineNumIndex = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
+                stationsIndex += 2;
+            }
+            busLines[lineNumber[9], stations[stationsIndex]].AddStationToLineRoute(stations[9], 1);
+            lineNumIndex = 0;
+            stationsIndex = 0;
+            for (int i = 0; i < 20; i++)
+            {
+                busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
+                stationsIndex += 2;
+                if (lineNumIndex == 10)
+                {
+                    lineNumIndex = 0;
+                    stationsIndex = 0;
+                }
+            }
             do
             {
                 Console.WriteLine("\nSelect the number of your choice:");
@@ -29,37 +85,7 @@ namespace dotNet_02_4202_3855
                 userChoice = Console.ReadLine();
 
                 //int[] busesLineNum= { 23, 4, 5, 6, 78, 6, 43, 234, 32, 76 };
-                //int[] stationKeys = new int[40];
-                //string[] addres = new string[40];
-                //string x = "hello";
-                //for (int i = 0; i < 40; i++)
-                //{
-                //    stationKeys[i] = i + 25487 - 15 * i;
-                //    addres[i] = x;
-                //    x += 5 * i;
-                //}
-                //Random randLineNum = new Random(550);//the line num
-                //BusLine bus1 = new BusLine(randLineNum); 
-                //busLines.addBusLine(bus1);
-                //BusLine bus2 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus2);
-                //BusLine bus3 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus3);
-                //BusLine bus4 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus4);
-                //BusLine bus5 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus5);
-                //BusLine bus6 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus6);
-                //BusLine bus7 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus7);
-                //BusLine bus8 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus8);
-                //BusLine bus9 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus9);
-                //BusLine bus10 = new BusLine(randLineNum);
-                //busLines.addBusLine(bus10);
-
+               
                 //int keyNum = 55;
                 //for (int i = 0; i <= 10; i++)
                 //{
@@ -69,11 +95,11 @@ namespace dotNet_02_4202_3855
 
                 //for (int i= 10; i<=40; i++)
                 //{
-                   
+
 
                 //}
 
-                
+
 
 
 
@@ -114,13 +140,13 @@ namespace dotNet_02_4202_3855
                             {
                                 //printingOptions();//////
                                 {
-                                    int choice = subOptionsDisplays("Press:\n     1: All bus lines in the system.\n     2: List of all stations and line numbers passing through them.");
+                                    int choice = subOptionsDisplays("Press:\n\t1: All bus lines in the system.\n\t2: List of all stations and line numbers passing through them.");
 
                                     switch (choice)
                                     {
                                         case (int)PrintingOptions.ALL_BUS_LINES:
 
-                                            foreach(BusLine bus in busLines)
+                                            foreach (BusLine bus in busLines)
                                             {
                                                 Console.WriteLine(bus);
                                             }
@@ -156,28 +182,36 @@ namespace dotNet_02_4202_3855
 
         private static void SearchingOptions(BusLinesCollection busLines)
         {
-            int choice = subOptionsDisplays("Press:\n     1: Lines passing through the station according to station number\n     2: Printing the options for travel between 2 stations, without changing buses.");
+            int choice = subOptionsDisplays("Press:\n\t1: Lines passing through the station according to station number\n\t2: Printing the options for travel between 2 stations, without changing buses.");
 
             switch (choice)
             {
                 case (int)dotNet5781_02_4202_3855.SearchingOptions.BUSSES_LINE:
 
+                    Console.WriteLine("Enter the bus station's key.");
                     int busStationKey = int.Parse(Console.ReadLine());
                     List<BusLine> linesInStation = new List<BusLine>();
                     linesInStation = busLines.busLinesInStation(busStationKey);
-
+                    foreach (BusLine bus in linesInStation)
+                    {
+                        Console.WriteLine(bus);
+                    }
                     break;
 
                 case (int)dotNet5781_02_4202_3855.SearchingOptions.OPTIONS_TRAVEL_BETWEEN_2_STATIONS:
-
+                    Console.WriteLine("Enter the first station's details:");
                     BusLineStation departure = getsStationDetails();
-                    //////////////////////////////////////////////////////////////////////////
+                    Console.WriteLine("Enter the second station's details:");
                     BusLineStation destination = getsStationDetails();
 
                     BusLinesCollection sortedTravelOptions = new BusLinesCollection();
                     foreach (BusLine bus in busLines)
                     {
-                        sortedTravelOptions.addBusLine(bus.subRoute(departure, destination));
+                        BusLine busss = bus.subRoute(departure, destination,bus);
+                        if (busss.BusLineNumber != 0)
+                        {
+                            sortedTravelOptions.addBusLine(busss);
+                        }
                     }
                     sortedTravelOptions.sortBusLineTimes();
                     foreach (BusLine bus in sortedTravelOptions)
@@ -199,7 +233,7 @@ namespace dotNet_02_4202_3855
             {
                 case (int)dotNet5781_02_4202_3855.DeletingOptions.DELETE_BUSLINE:
                     int busLineNum;
-                    
+
                     Console.WriteLine("Enter the bus line number.");
                     busLineNum = int.Parse(Console.ReadLine());
                     Console.WriteLine("Enter the first station of the bus.");
@@ -212,8 +246,8 @@ namespace dotNet_02_4202_3855
                     Console.WriteLine("Enter the bus line number.");
                     busLineNum = int.Parse(Console.ReadLine());
                     Console.WriteLine("Enter the first station of the bus.");
-                    firstStationInBusLine=getsStationDetails();
-                    Console.WriteLine("Enter the station you want to remove from the bus line route.");
+                    firstStationInBusLine = getsStationDetails();
+                    Console.WriteLine("Enter the station you want to remove from the bus line route:");
                     BusLineStation removedStation = getsStationDetails();
 
                     busLines[busLineNum, firstStationInBusLine].SubtractStationOfLineRoute(removedStation);
@@ -253,12 +287,14 @@ namespace dotNet_02_4202_3855
 
                     //BusLineStation newBusStation = new BusLineStation();
                     Console.WriteLine("Enter the following bus station's details:");////////////
-                    BusLineStation newBusStation=getsStationDetails();
+                    BusLineStation newBusStation = getsStationDetails();
                     Console.WriteLine("Enter the bus line number.");
                     int.TryParse(Console.ReadLine(), out busLineNumber);
                     Console.WriteLine("Enter the following first bus station's details:");
                     firstStation = getsStationDetails();
-                    busLines[busLineNumber, firstStation].AddStationToLineRoute(newBusStation);
+                    Console.WriteLine("Enter the place in the list to where you want to add the Bus Station");
+                    int place = int.Parse(Console.ReadLine());
+                    busLines[busLineNumber, firstStation].AddStationToLineRoute(newBusStation,place);
                     //find specific bus line - keep it 
                     ///////////////////////////////////////////////////////indexer
                     // busesList[0].AddStationToLineRoute(newBusStation);
@@ -281,7 +317,7 @@ namespace dotNet_02_4202_3855
             double longitude = NextDouble(rand, 34.3, 35.5);
             int busStationDist = rand.Next(500);
             TimeSpan travelTime = new TimeSpan(rand.Next(2), rand.Next(59), rand.Next(59));
-            BusLineStation newBus = new BusLineStation(busStationKey, stationAddress, latitude, longitude, busStationDist, travelTime);
+            BusLineStation newBus = new BusLineStation(busStationDist, travelTime, busStationKey, stationAddress, latitude, longitude);
             return newBus;
         }
         //this func is made for generating the random namber of the station's location, (since it is a double type range).

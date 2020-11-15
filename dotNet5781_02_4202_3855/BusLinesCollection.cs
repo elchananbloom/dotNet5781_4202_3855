@@ -28,6 +28,7 @@ namespace dotNet_02_4202_3855
                     if (bus.BusLineNumber == busLinesCollection[index].BusLineNumber && bus.FirstStation == firstStation)
                     {
                         busLinesCollection.RemoveAt(index);
+                        Console.WriteLine("The bus line has been removed successfully.");
                     }
                 }
             }
@@ -40,12 +41,12 @@ namespace dotNet_02_4202_3855
         }
 
         //this func returns bus lines list that pass through this bus station
-        public List<BusLine> busLinesInStation(int number)
+        public List<BusLine> busLinesInStation(int stationNmber)
         {
             List<BusLine> newBusLine = new List<BusLine>();
             for (int index = 0; index < busLinesCollection.Count; index++)
             {
-                if (busLinesCollection[index].stationCheck(number, busLinesCollection[index].stationListHaloch))
+                if (busLinesCollection[index].stationCheck(stationNmber, busLinesCollection[index].stationListHaloch))
                 {
                     newBusLine.Add(busLinesCollection[index]);
                 }

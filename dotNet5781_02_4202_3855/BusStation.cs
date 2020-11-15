@@ -20,15 +20,21 @@ namespace dotNet_02_4202_3855
         protected double latitude;
         protected double longitude;
         private List<int> serials = new List<int>();
-
-        //public static bool operator==(BusStation buss,BusStation b)
-        //{
-        //    return buss.busStationKey == b.busStationKey;
-        //}
-        //public static bool operator !=(BusStation buss, BusStation b)
-        //{
-        //    return buss.busStationKey != b.busStationKey;
-        //}
+        public BusStation(int busStationKey, string stationAddress, double latitude, double longitude)
+        {
+            this.BusStationKey = busStationKey;
+            this.StationAddress = stationAddress;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+        }
+        public static bool operator ==(BusStation buss, BusStation b)
+        {
+            return buss.busStationKey == b.busStationKey;
+        }
+        public static bool operator !=(BusStation buss, BusStation b)
+        {
+            return buss.busStationKey != b.busStationKey;
+        }
         //properties
         public int BusStationKey
         {
@@ -40,7 +46,7 @@ namespace dotNet_02_4202_3855
                     throw new ArgumentException(
                         String.Format("{0} key number exists allready", value));
                 }
-                if (value > 0 && value < MAX_DIGITS)
+                if (value <= 0 || value >= MAX_DIGITS)
                 {
                     throw new ArgumentException(
                                            String.Format("{0} is not a valid key number", value));
@@ -106,8 +112,8 @@ namespace dotNet_02_4202_3855
         //the ToString() func as requested.
         public override string ToString()
         {
-            String result = "Bus Station Code: " + BusStationKey + "Bus Station Address" + stationAddress;
-            result += String.Format(", {0}°{1} {2}°{3}",
+            String result = "\t\tBus Station Code: " + BusStationKey + "\n\t\tBus Station Address: " + stationAddress;
+            result += String.Format("\n\t\tLatitude: {0}°{1}, Longitude: {2}°{3}",
                 Math.Abs(Latitude), (Latitude > 0) ? "N" : "S",
                 Math.Abs(Longitude), (Longitude > 0) ? "E" : "W");
             return result;
