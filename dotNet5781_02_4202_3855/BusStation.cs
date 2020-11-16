@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace dotNet_02_4202_3855
 {
-    class BusStation//תחנת אוטובוס
+    class BusStation
     {
         private const int MAX_DIGITS = 1000000;
         private const int MIN_LATITUDE = -90;
@@ -15,11 +15,12 @@ namespace dotNet_02_4202_3855
         private const int MIN_LONGITUDE = -180;
         private const int MAX_LONGITUDE = 180;
 
-        protected int busStationKey;//the station's code.
-        protected string stationAddress;//the address of the bus station.
+        protected int busStationKey;
+        protected string stationAddress;
         protected double latitude;
         protected double longitude;
         private List<int> serials = new List<int>();
+        //ctor
         public BusStation(int busStationKey, string stationAddress, double latitude, double longitude)
         {
             this.BusStationKey = busStationKey;
@@ -27,6 +28,7 @@ namespace dotNet_02_4202_3855
             this.Latitude = latitude;
             this.Longitude = longitude;
         }
+        //operators
         public static bool operator ==(BusStation buss, BusStation b)
         {
             return buss.busStationKey == b.busStationKey;
@@ -73,14 +75,7 @@ namespace dotNet_02_4202_3855
                 {
                     throw new ArgumentOutOfRangeException("Latitude",
                         String.Format("{0} should be between {1} and {2}", value, MIN_LATITUDE, MAX_LATITUDE));
-                }                //Random rand = new Random();
-                                 //double result;
-                                 //do
-                                 //{
-                                 //    result = NextDouble(rand, 31, 33.3);
-                                 //}
-                                 //while (result < -90 || result > 90);
-                                 // latitude = result;
+                }               
             }
         }
         public double Longitude
@@ -97,14 +92,6 @@ namespace dotNet_02_4202_3855
                     throw new ArgumentOutOfRangeException("Longitude",
                         String.Format("{0} should be between {1} and {2}", value, MIN_LONGITUDE, MAX_LONGITUDE));
                 }
-                //Random rand = new Random();
-                //double result;
-                //do
-                //{
-                //    result = NextDouble(rand, 34.3, 35.5);
-                //}
-                //while (result < -180 || result > 180);
-                //longitude = result;
             }
         }
         // All the class's functions.
@@ -112,25 +99,11 @@ namespace dotNet_02_4202_3855
         //the ToString() func as requested.
         public override string ToString()
         {
-            String result = "\t\tBus Station Code: " + BusStationKey + "\n\t\tBus Station Address: " + stationAddress;
+            String result = "\n\t\tBus Station Code: " + BusStationKey + "\n\t\tBus Station Address: " + stationAddress;
             result += String.Format("\n\t\tLatitude: {0}°{1}, Longitude: {2}°{3}",
                 Math.Abs(Latitude), (Latitude > 0) ? "N" : "S",
                 Math.Abs(Longitude), (Longitude > 0) ? "E" : "W");
             return result;
-           // return "Bus Station Code: " + BusStationKey + ", " + Latitude + "°N " + Longitude + "°E";
         }
-
-        //הקריאה בפונקציה הראשית לפונקציה to string() 
-        //BusStation busStation = new BusStation { busStationKey = ////, location };
-        //Console.WriteLine(busStation);
-
-
-
-
-
-
-
     }
-
-
 }
