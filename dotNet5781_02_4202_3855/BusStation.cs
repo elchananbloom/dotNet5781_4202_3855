@@ -5,9 +5,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-namespace dotNet_02_4202_3855
+namespace dotNet5781_02_4202_3855
 {
-    class BusStation
+    public class BusStation
     {
         private const int MAX_DIGITS = 1000000;
         private const int MIN_LATITUDE = -90;

@@ -1,8 +1,8 @@
 ﻿using System;
-namespace dotNet_02_4202_3855
+namespace dotNet5781_02_4202_3855
 
 {
-    class BusLineStation : BusStation
+    public class BusLineStation : BusStation
     {
         private int busStationDistance; 
         private TimeSpan travelTime; 

@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
-namespace dotNet_02_4202_3855
+namespace dotNet5781_02_4202_3855
 {
-    class BusLinesCollection : IEnumerable
+    public class BusLinesCollection : IEnumerable
     {
         public List<BusLine> busLinesCollection = new List<BusLine>();
         List<BusLineStation> allBusStations = new List<BusLineStation>();
