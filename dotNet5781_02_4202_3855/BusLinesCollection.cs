@@ -8,6 +8,7 @@ namespace dotNet5781_02_4202_3855
         public List<BusLine> busLinesCollection = new List<BusLine>();
         List<BusLineStation> allBusStations = new List<BusLineStation>();
 
+        public List<BusLine>  AllBusses { get => busLinesCollection; }
         //prints all the stations and the lines passing through them.
         public void PrintAllStationsAndLinesInStation()
         {

@@ -13,11 +13,12 @@
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" 
               VerticalAlignment="Stretch" Width="auto">
-            <!--<TextBox HorizontalAlignment="Left" Height="23" Margin="42,22,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" FontFamily="Edwardian Script ITC" FontSize="24"/>-->
         </Grid>
+        <Label Content="Bus Line Number:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        <ListBox Name="lbBusLineStations" Grid.Column="1" ItemsSource="{Binding}" Height="auto" Grid.Row="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
         <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <TextBox Name="tbArea" HorizontalAlignment="Stretch" Text="{Binding Path=Area}" VerticalAlignment="Stretch" Grid.Column="3" FontFamily="Broadway" FontSize="22" FontWeight="Bold"/>
-        <ListBox Name="lbBusLineStations" Grid.Column="1" ItemsSource="{Binding}" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto"/>
+        <Label Content="Area :" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>

@@ -5,9 +5,14 @@ namespace dotNet5781_02_4202_3855
     public class BusLineStation : BusStation
     {
         private int busStationDistance; 
-        private TimeSpan travelTime; 
+        private TimeSpan travelTime;
         //ctor
-        public BusLineStation(int busStationDist, TimeSpan travelTime, int busStationKey, string stationAddress, double latitude, double longitude) :base(busStationKey, stationAddress, latitude, longitude)
+        public BusLineStation()
+        {
+
+        }
+        public BusLineStation(int busStationDist, TimeSpan travelTime, int busStationKey, string stationAddress, double latitude, double longitude)
+            :base(busStationKey, stationAddress, latitude, longitude)
         {
            
             this.busStationDistance = busStationDist;

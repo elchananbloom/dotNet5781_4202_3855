@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using dotNet_02_4202_3855;
 using dotNet5781_02_4202_3855;  
 namespace dotNet5781_03A_4202_3855
 {
@@ -21,17 +20,24 @@ namespace dotNet5781_03A_4202_3855
     /// </summary>
     public partial class MainWindow : Window
     {
+        BusLinesCollection busCompany;
         public MainWindow()
         {
-
+            busCompany = new BusLinesCollection();
+            initbusApp();
             InitializeComponent();
+            cbBusLines.ItemsSource = busCompany;
+            cbBusLines.DisplayMemberPath = "BusLineNumber";
+            cbBusLines.SelectedIndex = 0;
         }
-        private static initbusApp()
+        static double NextDouble(Random rand, double minValue, double maxValue)
+        {
+            return rand.NextDouble() * (maxValue - minValue) + minValue;
+        }
+        private void initbusApp()
         {
             List<BusLine> busesList = new List<BusLine>();
-            BusLinesCollection busLines = new BusLinesCollection();
-            Console.WriteLine("\tWelcome to the information system on bus lines and arrival times at stations.\n");
-            Console.WriteLine("\t\t\tCreating 10 bus lines and 40 stations...\n");
+           
             List<BusLineStation> stations = new List<BusLineStation>();
             int[] stationKeys = new int[40];
             string[] addres = { "Malissa", "Barton", "Heide", "Quintin", "Lula", "Ione", "Larhonda", "Yuko", "Wendolyn", "Willene", "Mitsue", "Ellsworth", "Angla", "Scarlet", "Xiao", "Khalilah", "Charlsie", "Norbert", "Ria", "Ladonna", "Jama", "Earlene", "Sylvia", "Ellie", "Loyce", "Meagan", "Oretha", "Corina", "Joelle", "Arthur", "Larita", "Dillon", "Beulah", "Fritz", "Danyelle", "Kerstin", "Deirdre", "Kathi", "Dodie", "Angelika" };
@@ -56,30 +62,30 @@ namespace dotNet5781_03A_4202_3855
             int index = 0;
             int anotherIndex = 0;
             int[] lineNumber = { randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550) };
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
-            busLines.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
+            busCompany.AddBusLine(new BusLine(lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++]));
             index = 10;
             int stationsIndex = 0;
             int lineNumIndex = 0;
             for (int i = 0; i < 9; i++)
             {
-                busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
+                busCompany[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
                 stationsIndex += 2;
             }
-            busLines[lineNumber[9], stations[stationsIndex]].AddStationToLineRoute(stations[9], 1);
+            busCompany[lineNumber[9], stations[stationsIndex]].AddStationToLineRoute(stations[9], 1);
             lineNumIndex = 0;
             stationsIndex = 0;
             for (int i = 0; i < 20; i++)
             {
-                busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
+                busCompany[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
                 stationsIndex += 2;
                 if (lineNumIndex == 10)
                 {
