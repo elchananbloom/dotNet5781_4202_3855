@@ -18,6 +18,7 @@ namespace dotNet5781_02_4202_3855
         private BusLineStation lastStation;
         private string area;
         public List<BusLineStation> stationList = new List<BusLineStation>();
+        public List<BusLineStation> StationList { get => stationList; }
         //ctors.
         public BusLine(int busLineNumber, BusLineStation firstStation, BusLineStation lastStation, string area)
         {

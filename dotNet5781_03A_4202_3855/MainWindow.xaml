@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03A_4202_3855"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="800">
+        Title="Azoulay-Bloom TRANSPORT" Height="640" Width="800">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -13,17 +13,17 @@
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" 
               VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Bus Line Number:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+            <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Stretch" FontStretch="Normal" VerticalAlignment="Stretch" SelectionChanged="cbBusLines_SelectionChanged"/>
+            <TextBox Name="tbArea" HorizontalAlignment="Stretch" Text="{Binding Path=Area}" VerticalAlignment="Stretch" Grid.Column="3" FontFamily="Broadway" FontSize="22" FontWeight="Bold"/>
+            <Label Content="Area :" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+           
         </Grid>
-        <Label Content="Bus Line Number:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <ListBox Name="lbBusLineStations" Grid.Column="1" ItemsSource="{Binding}" Height="auto" Grid.Row="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
-        <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <TextBox Name="tbArea" HorizontalAlignment="Stretch" Text="{Binding Path=Area}" VerticalAlignment="Stretch" Grid.Column="3" FontFamily="Broadway" FontSize="22" FontWeight="Bold"/>
-        <Label Content="Area :" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-    </Grid>
-</Window>
+        <ListBox Name="lbBusLineStations" Grid.Column="1" ItemsSource="{Binding}" Height="auto" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+    </Grid></Window>

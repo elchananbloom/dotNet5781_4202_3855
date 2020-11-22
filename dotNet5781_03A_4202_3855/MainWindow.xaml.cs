@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using dotNet5781_02_4202_3855;  
+using dotNet5781_02_4202_3855;
 namespace dotNet5781_03A_4202_3855
 {
     /// <summary>
@@ -21,6 +21,7 @@ namespace dotNet5781_03A_4202_3855
     public partial class MainWindow : Window
     {
         BusLinesCollection busCompany;
+        private BusLine currentDisplayBusLine;
         public MainWindow()
         {
             busCompany = new BusLinesCollection();
@@ -37,7 +38,7 @@ namespace dotNet5781_03A_4202_3855
         private void initbusApp()
         {
             List<BusLine> busesList = new List<BusLine>();
-           
+
             List<BusLineStation> stations = new List<BusLineStation>();
             int[] stationKeys = new int[40];
             string[] addres = { "Malissa", "Barton", "Heide", "Quintin", "Lula", "Ione", "Larhonda", "Yuko", "Wendolyn", "Willene", "Mitsue", "Ellsworth", "Angla", "Scarlet", "Xiao", "Khalilah", "Charlsie", "Norbert", "Ria", "Ladonna", "Jama", "Earlene", "Sylvia", "Ellie", "Loyce", "Meagan", "Oretha", "Corina", "Joelle", "Arthur", "Larita", "Dillon", "Beulah", "Fritz", "Danyelle", "Kerstin", "Deirdre", "Kathi", "Dodie", "Angelika" };
@@ -95,6 +96,19 @@ namespace dotNet5781_03A_4202_3855
             }
 
         }
+        private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowBusLine((cbBusLines.SelectedValue as BusLine).BusLineNumber);
+        }
+        private void ShowBusLine(int index)
+        {
+            currentDisplayBusLine = busCompany.AllBusses[cbBusLines.SelectedIndex];
+            UpGrid.DataContext = currentDisplayBusLine;
+            lbBusLineStations.DataContext = currentDisplayBusLine.StationList;
+        }
+
     }
-   
 }
+
+
+
