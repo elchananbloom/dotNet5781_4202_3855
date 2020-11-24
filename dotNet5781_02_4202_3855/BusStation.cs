@@ -103,8 +103,8 @@ namespace dotNet5781_02_4202_3855
         //the ToString() func as requested.
         public override string ToString()
         {
-            String result = "\n\t\tBus Station Code: " + BusStationKey + "\n\t\tBus Station Address: " + stationAddress;
-            result += String.Format("\n\t\tLatitude: {0}°{1}, Longitude: {2}°{3}",
+            String result = "\nBus Station Code: " + BusStationKey + "\nBus Station Address: " + stationAddress;
+            result += String.Format("\nLatitude: {0}°{1}, Longitude: {2}°{3}",
                 Math.Abs(Latitude), (Latitude > 0) ? "N" : "S",
                 Math.Abs(Longitude), (Longitude > 0) ? "E" : "W");
             return result;

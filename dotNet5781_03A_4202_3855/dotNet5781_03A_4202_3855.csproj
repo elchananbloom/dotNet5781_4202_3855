@@ -100,5 +100,11 @@
       <Name>dotNet5781_02_4202_3855</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="progromLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="programLogoUpdated.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,6 +24,7 @@ namespace dotNet5781_02_4202_3855
         {
             this.busLineNumber = busLineNumber;
             this.firstStation = firstStation;
+            //firstStation.TravelTime = new TimeSpan(0, 0, 0);
             this.lastStation = lastStation;
             this.area = area;
             stationList.Insert(0, firstStation);
@@ -95,6 +96,14 @@ namespace dotNet5781_02_4202_3855
                     throw new IndexOutOfRangeException("The index is out of range.");
                 }
                 stationList.Insert(place, newBusStation);
+                Random rand = new Random();
+                //for(int i=1;i<stationList.Count;i++)
+                //{
+                //    if(stationList[i].TravelTime==new TimeSpan(0,0,0))
+                //    {
+                //        stationList[i].TravelTime = new TimeSpan(rand.Next(2), rand.Next(59), rand.Next(59));
+                //    }
+                //}
                 if (place == 0)
                 {
                     firstStation = stationList[0];

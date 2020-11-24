@@ -44,7 +44,7 @@ namespace dotNet5781_02_4202_3855
         public override string ToString()
         {
             string str = base.ToString() + "\n";
-            str += "\t\tBusStationDist: " + BusStationDist + ", " + "TravelTime: " + TravelTime + ".";
+            str += "Bus Station Distance: " + BusStationDist + ", " + "Travel Time: " + TravelTime + ".";
             return str;
         }
     }
