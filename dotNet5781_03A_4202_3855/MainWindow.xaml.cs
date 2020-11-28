@@ -31,10 +31,20 @@ namespace dotNet5781_03A_4202_3855
             cbBusLines.DisplayMemberPath = "BusLineNumber";
             cbBusLines.SelectedIndex = 0;
         }
+        /// <summary>
+        /// random func for the latitude and longitue.
+        /// </summary>
+        /// <param name="rand">random number</param>
+        /// <param name="minValue">minimum value</param>
+        /// <param name="maxValue">maximum value</param>
+        /// <returns></returns>
         static double NextDouble(Random rand, double minValue, double maxValue)
         {
             return rand.NextDouble() * (maxValue - minValue) + minValue;
         }
+        /// <summary>
+        /// insert 10 bus lines
+        /// </summary>
         private void initbusApp()
         {
             List<BusLine> busesList = new List<BusLine>();
@@ -96,10 +106,18 @@ namespace dotNet5781_03A_4202_3855
             }
 
         }
+        /// <summary>
+        /// call the showBusLine func by the bus line number that shos in the combo box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowBusLine((cbBusLines.SelectedValue as BusLine).BusLineNumber);
         }
+        /// <summary>
+        ///  shows the bus line stations in the list box by bus line number.
+        /// </summary>
         private void ShowBusLine(int index)
         {
             currentDisplayBusLine = busCompany.AllBusses[cbBusLines.SelectedIndex];

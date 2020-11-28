@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace dotNet_01_4202_3855
+namespace dotNet5781_03B_4202_3855
 {
+
+
+
     public class Bus
     {
         private string licenseNumber;//the set function will call another function that checks the correctness of a licence number.
@@ -64,5 +71,15 @@ namespace dotNet_01_4202_3855
             this.fuelStatus = fuelStatus;
             this.dateBegin = dateBegin;
         }
+        public override string ToString()
+        {
+            String result = "";
+            result+= "\nLicense number: "+LicenseNumber+"\nCommencement of activity: " + DateBegin + "\nTotal mileage: " + TotalMileage + "\nLast maintenance day: " + LastTreatment
+                + "\nKilometer driven since last maintenance: " + Maintenance + "\nKilometers left from last fueling: " + FuelStatus; 
+            return result;
+        }
     }
+
+   
 }
+
