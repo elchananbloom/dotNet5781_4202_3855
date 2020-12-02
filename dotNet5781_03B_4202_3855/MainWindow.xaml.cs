@@ -37,7 +37,7 @@ namespace dotNet5781_03B_4202_3855
             for (int i = 0; i < busses.Count; i++)
             {
                 ListBoxItem newItem = new ListBoxItem();
-                newItem.Content = busses[i].ToString();
+                newItem.Content = busses[i].LicenseNumber;
                 lbBusDetails.Items.Add(newItem);
                 //lbBusDetails.DataContext = busses[i];
                 //currentDisplayBusLicenseNumber = busses[i];
