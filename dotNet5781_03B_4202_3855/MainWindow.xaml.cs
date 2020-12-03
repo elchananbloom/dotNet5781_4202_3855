@@ -29,16 +29,18 @@ namespace dotNet5781_03B_4202_3855
             //cbBusLicenseNumber.DisplayMemberPath = "LicenseNumber";
             //cbBusLicenseNumber.SelectedIndex = 0;
             initBus();
-            ShowBusLicenseNumber();
+            lbBusDetails.ItemsSource = busses;
+            //ShowBusLicenseNumber();
         }
         private void ShowBusLicenseNumber()
         {
 
             for (int i = 0; i < busses.Count; i++)
             {
-                ListBoxItem newItem = new ListBoxItem();
-                newItem.Content = busses[i].LicenseNumber;
-                lbBusDetails.Items.Add(newItem);
+                showOneBus(busses[i]);
+                //ListBoxItem newItem = new ListBoxItem();
+                //newItem.Content = busses[i].LicenseNumber;
+                //lbBusDetails.Items.Add(newItem);
                 //lbBusDetails.DataContext = busses[i];
                 //currentDisplayBusLicenseNumber = busses[i];
                 //DataContext = currentDisplayBusLicenseNumber;
@@ -83,7 +85,18 @@ namespace dotNet5781_03B_4202_3855
             {
                 Bus newbus = wnd.AddedBus;
                 busses.Add(newbus);
+                //showOneBus(newbus);
             }
+        }
+        private void Click_Pick(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void showOneBus(Bus newbus)
+        {
+            ListBoxItem newItem = new ListBoxItem();
+            newItem.Content = newbus.LicenseNumber;
+            lbBusDetails.Items.Add(newItem);
         }
 
         //private void cbBusLicenseNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
