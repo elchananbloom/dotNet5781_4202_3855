@@ -36,7 +36,28 @@ namespace dotNet5781_03B_4202_3855
             }
             set
             {
-                this.licenseNumber = value;
+                if ((DateBegin.Year < 2018 && value.Length == 7) || (DateBegin.Year >= 2018 && value.Length == 8))
+                {
+                    if (value.Length == 7)
+                    {
+                        string begin = value.Substring(0, 2);
+                        string middle = value.Substring(2, 3);
+                        string end = value.Substring(5, 2);
+                        licenseNumber = String.Format("{0}-{1}-{2}", begin, middle, end);
+                    }
+                    else if(value.Length == 8)
+                    {
+                        string begin = value.Substring(0, 3);
+                        string middle = value.Substring(3, 2);
+                        string end = value.Substring(5, 3);
+                        licenseNumber = String.Format("{0}-{1}-{2}.", begin, middle, end);
+                    }
+                }
+                else
+                {
+                    //result = false;
+                    throw new Exception("Error. Incorrect license number.\nEnter a license number again.");
+                }
             }
         }
         public int Maintenance
@@ -56,20 +77,20 @@ namespace dotNet5781_03B_4202_3855
         }
         public Bus(string licenceNumber, DateTime Date, int fuel)//this function is for adding a new bus to the list by getting it's licence number and it's date commencement of activity.
         {
-            this.fuelStatus = fuel;
-            this.licenseNumber = licenceNumber;
-            this.dateBegin = Date;
+            this.DateBegin = Date;
+            this.FuelStatus = fuel;
+            this.LicenseNumber = licenceNumber;
         }
         public Bus() { }
 
         public Bus(string licenseNumber, int maintenance, DateTime lastTreatment, int totalMileage, int fuelStatus, DateTime dateBegin)
         {
-            this.licenseNumber = licenseNumber;
-            this.maintenance = maintenance;
-            this.lastTreatment = lastTreatment;
-            this.totalMileage = totalMileage;
-            this.fuelStatus = fuelStatus;
-            this.dateBegin = dateBegin;
+            this.DateBegin = dateBegin;
+            this.LicenseNumber = licenseNumber;
+            this.Maintenance = maintenance;
+            this.LastTreatment = lastTreatment;
+            this.TotalMileage = totalMileage;
+            this.FuelStatus = fuelStatus;
         }
         public override string ToString()
         {

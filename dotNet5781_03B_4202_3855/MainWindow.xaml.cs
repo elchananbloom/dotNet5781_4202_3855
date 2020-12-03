@@ -75,6 +75,17 @@ namespace dotNet5781_03B_4202_3855
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AddBus wnd = new AddBus();
+            bool? result = wnd.ShowDialog();
+            if(result == true)
+            {
+                Bus newbus = wnd.AddedBus;
+                busses.Add(newbus);
+            }
+        }
+
         //private void cbBusLicenseNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
         //    ShowBusLicenseNumber((cbBusLicenseNumber.SelectedValue as Bus).LicenseNumber);

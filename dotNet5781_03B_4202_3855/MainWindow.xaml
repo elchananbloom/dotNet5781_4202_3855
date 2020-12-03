@@ -20,15 +20,13 @@
             </Grid.ColumnDefinitions>
 
             <Label Content="Bus License Number:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <!--<ComboBox x:Name="cbBusLicenseNumber" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="cbBusLicenseNumber_SelectionChanged"/>-->
         </Grid>
         <Grid x:Name="BottomGrid" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="97*"/>
-                <ColumnDefinition Width="432*"/>
-                <ColumnDefinition Width="265*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="lbBusDetails" ItemsSource="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="3"/>
+            <ListBox x:Name="lbBusDetails" ItemsSource="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Grid x:Name="RightBottomGrid" Grid.Column="2" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto" Margin="0.333,0,0.334,0">
                 <Grid.RowDefinitions>
@@ -38,7 +36,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Add Bus" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Content="Add Bus" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"/>
             </Grid>
         </Grid>
 
