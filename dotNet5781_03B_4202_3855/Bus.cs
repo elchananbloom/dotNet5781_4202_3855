@@ -50,7 +50,7 @@ namespace dotNet5781_03B_4202_3855
                         string begin = value.Substring(0, 3);
                         string middle = value.Substring(3, 2);
                         string end = value.Substring(5, 3);
-                        licenseNumber = String.Format("{0}-{1}-{2}.", begin, middle, end);
+                        licenseNumber = String.Format("{0}-{1}-{2}", begin, middle, end);
                     }
                 }
                 else
@@ -63,12 +63,20 @@ namespace dotNet5781_03B_4202_3855
         public int Maintenance
         {
             get { return maintenance; }
-            set { maintenance = value; }
+            set 
+            { 
+                Random rand = new Random(); 
+                maintenance = rand.Next(20000);
+            }
         }
         public int TotalMileage
         {
             get { return totalMileage; }
-            set { totalMileage = value; }
+            set 
+            {
+                Random rand = new Random();
+                totalMileage = rand.Next(500000); 
+            }
         }
         public int FuelStatus
         {

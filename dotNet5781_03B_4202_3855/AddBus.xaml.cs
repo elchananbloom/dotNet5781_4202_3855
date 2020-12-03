@@ -45,7 +45,6 @@ namespace dotNet5781_03B_4202_3855
         {
             this.DialogResult = true;
             this.Close();
-
         }
     }
 }
