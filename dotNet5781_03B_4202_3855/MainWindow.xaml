@@ -30,8 +30,10 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Text="{Binding LicenseNumber}"/>
-                            <Button x:Name="bPickBus" Content="Pick" Height="25" Margin="3" Click="Click_Pick"/>
+                            <TextBlock Text="{Binding LicenseNumber}" Name="tbMyBus"/> 
+                            <Button x:Name="bPickBus" HorizontalAlignment="Right" Content="Pick" Height="25" Margin="100, 1" Click="Click_Pick"/>
+                            <Button x:Name="bRefueling" Content="Refuel" HorizontalAlignment="Right" Height="25" Margin="150, 1" Click="bRefueling_Click"/>
+                            <!--<Button x:Name="bDetails" MouseDoubleClick="bDetails_MouseDoubleClick"/>-->
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

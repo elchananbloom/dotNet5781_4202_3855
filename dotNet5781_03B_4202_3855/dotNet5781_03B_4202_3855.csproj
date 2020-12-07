@@ -63,6 +63,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +81,9 @@
     <Compile Include="Bus.cs" />
     <Compile Include="BusDetails.xaml.cs">
       <DependentUpon>BusDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Details.xaml.cs">
+      <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
     <Compile Include="MainWindow.xaml.cs">

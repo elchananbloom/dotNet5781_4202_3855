@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+
+
 namespace dotNet5781_03B_4202_3855
 {
     /// <summary>
@@ -19,11 +22,12 @@ namespace dotNet5781_03B_4202_3855
     /// </summary>
     public partial class MainWindow : Window
     {
-        static List<Bus> busses = new List<Bus>();
+        //tatic IObservable<Bus> busses = new 
+        static ObservableCollection <Bus> busses = new ObservableCollection <Bus>();
         //private Bus currentDisplayBusLicenseNumber;
         public MainWindow()
         {
-            busses = new List<Bus>();
+            busses = new ObservableCollection<Bus>();
             InitializeComponent();
             //cbBusLicenseNumber.ItemsSource = busses;
             //cbBusLicenseNumber.DisplayMemberPath = "LicenseNumber";
@@ -34,7 +38,6 @@ namespace dotNet5781_03B_4202_3855
         }
         private void ShowBusLicenseNumber()
         {
-
             for (int i = 0; i < busses.Count; i++)
             {
                 showOneBus(busses[i]);
@@ -84,20 +87,49 @@ namespace dotNet5781_03B_4202_3855
             if(result == true)
             {
                 Bus newbus = wnd.AddedBus;
+                foreach(Bus bus in busses)
+                {
+                    if (bus.LicenseNumber==newbus.LicenseNumber)
+                        throw new ArgumentException("The bus already exists in the system.");
+                }
                 busses.Add(newbus);
+                MessageBox.Show("The bus has been added successfuly.");
                 //showOneBus(newbus);
             }
         }
+
         private void Click_Pick(object sender, RoutedEventArgs e)
         {
-
+            var bBus = (sender as FrameworkElement);
+            Bus bus = (bBus.DataContext) as Bus;
+            PickBus exr = new PickBus(bus);
+            exr.ShowDialog();
         }
+
         private void showOneBus(Bus newbus)
         {
             ListBoxItem newItem = new ListBoxItem();
             newItem.Content = newbus.LicenseNumber;
             lbBusDetails.Items.Add(newItem);
         }
+
+        private void bRefueling_Click(object sender, RoutedEventArgs e)
+        {
+            Button bBus = (Button)sender;
+            Bus bus = (Bus)bBus.DataContext;
+            bus.FuelStatus = 0;
+        }
+
+        //private void bDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    if(e.ClickCount>=2)
+        //    {
+        //        Button bBus = (Button)sender;
+        //        Bus bus = (Bus)bBus.DataContext;
+        //        Details details = new Details(bus);
+        //        details.ShowDialog();
+        //    }
+        //}
 
         //private void cbBusLicenseNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{

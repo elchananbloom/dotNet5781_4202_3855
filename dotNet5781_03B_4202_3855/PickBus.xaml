@@ -12,7 +12,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Enter the distance:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch"/>
- 
+        <TextBox Grid.Column="1" Name="tbDistance" HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch" KeyDown="tbDistance_KeyDown" >
+        </TextBox>
+
+
     </Grid>
 </Window>

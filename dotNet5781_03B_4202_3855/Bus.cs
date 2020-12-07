@@ -11,6 +11,7 @@ namespace dotNet5781_03B_4202_3855
 
     public class Bus
     {
+        private int status;
         private string licenseNumber;//the set function will call another function that checks the correctness of a licence number.
         private int maintenance;
         private DateTime lastTreatment;
@@ -83,6 +84,9 @@ namespace dotNet5781_03B_4202_3855
             get { return fuelStatus; }
             set { fuelStatus = value; }
         }
+
+        public int Status { get => status; set => status = value; }
+
         public Bus(string licenceNumber, DateTime Date, int fuel)//this function is for adding a new bus to the list by getting it's licence number and it's date commencement of activity.
         {
             this.DateBegin = Date;

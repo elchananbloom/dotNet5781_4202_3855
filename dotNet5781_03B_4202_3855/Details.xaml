@@ -1,0 +1,14 @@
+﻿<Window x:Class="dotNet5781_03B_4202_3855.Details"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
+        mc:Ignorable="d"
+        Title="Details" Height="344.118" Width="429.412">
+    <Grid>
+        <ListBox HorizontalAlignment="Stretch" x:Name="lbDetails" ItemsSource="{Binding}" VerticalAlignment="Stretch" Margin="0,0,0,59"/>
+        <Button x:Name="Treatment" Content="Treatment" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="50" Margin="50, 1" Width="108" RenderTransformOrigin="-0.235,0.621" Click="Treatment_Click"/>
+        <Button x:Name="Refuel" Content="Refuel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="50" Margin="50, 1" Width="108" RenderTransformOrigin="-0.235,0.621" Click="bRefueling_Click" />
+    </Grid>
+</Window>
