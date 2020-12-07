@@ -65,9 +65,14 @@ namespace dotNet5781_03B_4202_3855
         {
             get { return maintenance; }
             set 
-            { 
-                Random rand = new Random(); 
-                maintenance = rand.Next(20000);
+            {
+                if (maintenance == 0)
+                    maintenance = value;
+                else
+                {
+                    Random rand = new Random();
+                    maintenance = rand.Next(20000);
+                }
             }
         }
         public int TotalMileage
@@ -107,8 +112,8 @@ namespace dotNet5781_03B_4202_3855
         public override string ToString()
         {
             String result = "";
-            result+= "\nLicense number: "+LicenseNumber+"\nCommencement of activity: " + DateBegin + "\nTotal mileage: " + TotalMileage + "\nLast maintenance day: " + LastTreatment
-                + "\nKilometer driven since last maintenance: " + Maintenance + "\nKilometers left from last fueling: " + FuelStatus; 
+            result+= "\nLicense number: "+licenseNumber+"\nCommencement of activity: " + dateBegin + "\nTotal mileage: " + totalMileage + "\nLast maintenance day: " + lastTreatment
+                + "\nKilometer driven since last maintenance: " + maintenance + "\nKilometers left from last fueling: " + fuelStatus; 
             return result;
         }
     }

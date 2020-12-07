@@ -26,7 +26,11 @@ namespace dotNet5781_03B_4202_3855
         {
             el = bus;
             InitializeComponent();
-            lbDetails.ItemsSource = el.ToString();
+            ListBoxItem newItem = new ListBoxItem();
+            newItem.Content = el.ToString();
+            lbDetails.Items.Add(newItem);
+            //DataContext = el;
+            //lbDetails.DataContext = el.ToString();
         }
 
         private void Treatment_Click(object sender, RoutedEventArgs e)
@@ -38,9 +42,8 @@ namespace dotNet5781_03B_4202_3855
 
         private void bRefueling_Click(object sender, RoutedEventArgs e)
         {
-            Button bBus = (Button)sender;
-            Bus bus = (Bus)bBus.DataContext;
-            bus.FuelStatus = 0;
+            MessageBox.Show("vdffndfhd");
+            el.FuelStatus = 0;
         }
     }
 }

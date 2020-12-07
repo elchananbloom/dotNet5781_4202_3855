@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
-        Title="TravelWindow" Height="90.541" Width="589.189">
-    <Grid Height="421" Margin="0,0,0.333,-0.333" VerticalAlignment="Bottom">
+        Title="TravelWindow" Height="70" Width="300">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Enter your distance:" />
-        <TextBox x:Name="tbKms"  Grid.Column="1"/>
+        <Label Content="Enter the distance:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16"/>
+        <TextBox x:Name="tbKms" Margin="5" Grid.Column="1" KeyDown="tbKms_KeyDown"/>
     </Grid>
 </Window>

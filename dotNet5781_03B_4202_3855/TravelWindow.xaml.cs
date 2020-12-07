@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,9 +20,48 @@ namespace dotNet5781_03B_4202_3855
     /// </summary>
     public partial class TravelWindow : Window
     {
-        public TravelWindow()
+        private Bus currentBus;
+        public Bus CurrentBus { get => currentBus; }
+        public TravelWindow(Bus bus)
         {
+            currentBus = bus;
             InitializeComponent();
+        }
+
+        private void tbKms_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.Return)
+            {
+                try
+                {
+                    string km = this.tbKms.Text;
+                    int num = int.Parse(km);
+                    if (currentBus.FuelStatus < num)
+                    {
+                        throw new ArgumentOutOfRangeException("There is not enough fuel in the tank.");
+                    }
+                    if (currentBus.Maintenance + num > 20000 || currentBus.LastTreatment.AddYears(1) < DateTime.Now)
+                    {
+                        throw new ArgumentOutOfRangeException("The bus needs to be sent for treatment.");
+                    }
+                    //if (currentBus.Status != (int)BusStatus.READY_TO_DRIVE)
+                    //{
+                    //    throw new InvalidOperationException("The bus isn't ready to drive.");
+                    //}
+                    currentBus.FuelStatus -= num;
+                    currentBus.Maintenance += num;
+                    currentBus.TotalMileage += num;
+                    Thread.Sleep(500);
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.Message);
+                }
+                finally
+                {
+                    this.Close();
+                }
+            }
         }
     }
 }

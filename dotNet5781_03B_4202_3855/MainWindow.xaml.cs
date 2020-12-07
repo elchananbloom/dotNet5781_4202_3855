@@ -23,7 +23,7 @@ namespace dotNet5781_03B_4202_3855
     public partial class MainWindow : Window
     {
         //tatic IObservable<Bus> busses = new 
-        static ObservableCollection <Bus> busses = new ObservableCollection <Bus>();
+        static ObservableCollection<Bus> busses = new ObservableCollection<Bus>();
         //private Bus currentDisplayBusLicenseNumber;
         public MainWindow()
         {
@@ -55,7 +55,7 @@ namespace dotNet5781_03B_4202_3855
         /// </summary>
         private static void initBus()
         {
-            
+
             string[] licenseNum = { "5632357", "57643276", "9853435", "56623267", "8534356", "5452537", "57342125", "56745257", "9743247", "2378635" };
             int[] mainten = new int[10];
             Random rand = new Random();
@@ -84,12 +84,12 @@ namespace dotNet5781_03B_4202_3855
         {
             AddBus wnd = new AddBus();
             bool? result = wnd.ShowDialog();
-            if(result == true)
+            if (result == true)
             {
                 Bus newbus = wnd.AddedBus;
-                foreach(Bus bus in busses)
+                foreach (Bus bus in busses)
                 {
-                    if (bus.LicenseNumber==newbus.LicenseNumber)
+                    if (bus.LicenseNumber == newbus.LicenseNumber)
                         throw new ArgumentException("The bus already exists in the system.");
                 }
                 busses.Add(newbus);
@@ -102,8 +102,8 @@ namespace dotNet5781_03B_4202_3855
         {
             var bBus = (sender as Button);
             Bus bus = (bBus.DataContext) as Bus;
-            PickBusWindow exr = new PickBusWindow(bus);
-            exr.Show();
+            TravelWindow exr = new TravelWindow(bus);
+            exr.ShowDialog();
             //if (result == true)
             //{
             //    //TODO
@@ -124,16 +124,15 @@ namespace dotNet5781_03B_4202_3855
             bus.FuelStatus = 0;
         }
 
-        //private void bDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    if(e.ClickCount>=2)
-        //    {
-        //        Button bBus = (Button)sender;
-        //        Bus bus = (Bus)bBus.DataContext;
-        //        Details details = new Details(bus);
-        //        details.ShowDialog();
-        //    }
-        //}
+        private void bDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TextBox bBus = sender as TextBox;
+            Bus bus = (Bus)bBus.DataContext;
+            Details details = new Details(bus);
+            details.ShowDialog();
+        }
+
+
 
         //private void cbBusLicenseNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
