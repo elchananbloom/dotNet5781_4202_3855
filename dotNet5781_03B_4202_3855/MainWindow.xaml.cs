@@ -36,20 +36,20 @@ namespace dotNet5781_03B_4202_3855
             lbBusDetails.ItemsSource = busses;
             //ShowBusLicenseNumber();
         }
-        private void ShowBusLicenseNumber()
-        {
-            for (int i = 0; i < busses.Count; i++)
-            {
-                showOneBus(busses[i]);
-                //ListBoxItem newItem = new ListBoxItem();
-                //newItem.Content = busses[i].LicenseNumber;
-                //lbBusDetails.Items.Add(newItem);
-                //lbBusDetails.DataContext = busses[i];
-                //currentDisplayBusLicenseNumber = busses[i];
-                //DataContext = currentDisplayBusLicenseNumber;
-                //lbBusDetails.DataContext = currentDisplayBusLicenseNumber.ToString();
-            }
-        }
+        //private void ShowBusLicenseNumber()
+        //{
+        //    for (int i = 0; i < busses.Count; i++)
+        //    {
+        //        showOneBus(busses[i]);
+        //        //ListBoxItem newItem = new ListBoxItem();
+        //        //newItem.Content = busses[i].LicenseNumber;
+        //        //lbBusDetails.Items.Add(newItem);
+        //        //lbBusDetails.DataContext = busses[i];
+        //        //currentDisplayBusLicenseNumber = busses[i];
+        //        //DataContext = currentDisplayBusLicenseNumber;
+        //        //lbBusDetails.DataContext = currentDisplayBusLicenseNumber.ToString();
+        //    }
+        //}
         /// <summary>
         /// initializing 10 busses
         /// </summary>
@@ -100,10 +100,14 @@ namespace dotNet5781_03B_4202_3855
 
         private void Click_Pick(object sender, RoutedEventArgs e)
         {
-            var bBus = (sender as FrameworkElement);
+            var bBus = (sender as Button);
             Bus bus = (bBus.DataContext) as Bus;
-            PickBus exr = new PickBus(bus);
-            exr.ShowDialog();
+            PickBusWindow exr = new PickBusWindow(bus);
+            exr.Show();
+            //if (result == true)
+            //{
+            //    //TODO
+            //}
         }
 
         private void showOneBus(Bus newbus)

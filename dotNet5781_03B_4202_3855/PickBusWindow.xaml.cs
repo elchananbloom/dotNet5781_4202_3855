@@ -17,37 +17,39 @@ namespace dotNet5781_03B_4202_3855
     /// <summary>
     /// Interaction logic for PickBus.xaml
     /// </summary>
-    public partial class PickBus : Window
+    public partial class PickBusWindow : Window
     {
-        private Bus el;
-        public Bus al { get => el; set => el = value; }
-        public PickBus(Bus bus)
+        private Bus currentBus;
+        public Bus CurrentBus { get => currentBus;}
+        public PickBusWindow(Bus bus)
         {
             InitializeComponent();
-            al = bus;
+            currentBus = bus;
         }
 
         private void tbDistance_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Return)
             {
                 try
                 {
                     string km = tbDistance.Text;
                     int num = int.Parse(km);
-                    if (el.FuelStatus < num)
+                    if (currentBus.FuelStatus < num)
                     {
                         throw new ArgumentOutOfRangeException("There is not enough fuel in the tank.");
                     }
-                    if (el.Maintenance + num > 20000 || el.LastTreatment.AddYears(1) < DateTime.Now)
+                    if (currentBus.Maintenance + num > 20000 || currentBus.LastTreatment.AddYears(1) < DateTime.Now)
                     {
                         throw new ArgumentOutOfRangeException("The bus needs to be sent for treatment.");
                     }
-                    if (el.Status != (int)BusStatus.READY_TO_DRIVE)
+                    if (currentBus.Status != (int)BusStatus.READY_TO_DRIVE)
                     {
                         throw new InvalidOperationException("The bus isn't ready to drive.");
                     }
-                    el.FuelStatus -= num;
+                    currentBus.FuelStatus -= num;
+                    currentBus.Maintenance += num;
+                    currentBus.TotalMileage += num;
                     this.Close();
                 }
                 catch (Exception error)
