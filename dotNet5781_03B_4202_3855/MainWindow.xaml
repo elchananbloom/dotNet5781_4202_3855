@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="Blue">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto" Grid.Row="0" >
+        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" Background="{x:Null}" VerticalAlignment="Stretch" Width="auto" Height="auto" Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -19,20 +19,20 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Bus License Number:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Content="Bus License Number:" FontSize="22" Grid.ColumnSpan="4" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Grid>
-        <Grid x:Name="BottomGrid" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto">
+        <Grid x:Name="BottomGrid" Grid.Row="1" Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="lbBusDetails" ItemsSource="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ListBox x:Name="lbBusDetails" Background="{x:Null}" ItemsSource="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBox Text="{Binding LicenseNumber}" Name="tbMyBus"  MouseDoubleClick="bDetails_MouseDoubleClick"/>
-                            <Button x:Name="bPickBus" HorizontalAlignment="Right" Content="Pick" Height="25" Margin="100, 1" Click="Click_Pick"/>
-                            <Button x:Name="bRefueling" Content="Refuel" HorizontalAlignment="Right" Height="25" Margin="150, 1" Click="bRefueling_Click"/>
+                            <TextBox Text="{Binding LicenseNumber}" FontWeight="Bold" Width="509" FontSize="16" Foreground="Orange" Background="{x:Null}" Name="tbMyBus"  MouseDoubleClick="bDetails_MouseDoubleClick"/>
+                            <Button x:Name="bPickBus" Background="Orange" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Right" Content="Pick" Height="auto" FontSize="16" Width="50" Margin="100, 1" Click="Click_Pick"/>
+                            <Button x:Name="bRefueling" Content="Refuel" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Right" Height="auto" FontSize="16" Width="70" Margin="150, 1" Click="bRefueling_Click"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -46,7 +46,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Add Bus" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"/>
+                <Button Content="Add Bus" Foreground="White" Background="Orange" FontSize="22" BorderBrush="blue" BorderThickness="5"
+                        Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"/>
             </Grid>
         </Grid>
 

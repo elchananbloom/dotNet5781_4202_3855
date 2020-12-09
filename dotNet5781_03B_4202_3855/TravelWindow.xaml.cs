@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,7 +37,7 @@ namespace dotNet5781_03B_4202_3855
                 {
                     string km = this.tbKms.Text;
                     int num = int.Parse(km);
-                    if (currentBus.FuelStatus < num)
+                    if (currentBus.FuelStatus - num < 0 )
                     {
                         throw new ArgumentOutOfRangeException("There is not enough fuel in the tank.");
                     }
@@ -62,6 +63,15 @@ namespace dotNet5781_03B_4202_3855
                     this.Close();
                 }
             }
+        }
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+        private static bool IsTextAllowed(string text)
+        {
+            return !_regex.IsMatch(text);
+        }
+        private void tbKms_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);   
         }
     }
 }

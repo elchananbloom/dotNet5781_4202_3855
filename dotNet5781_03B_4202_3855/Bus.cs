@@ -66,12 +66,14 @@ namespace dotNet5781_03B_4202_3855
             get { return maintenance; }
             set 
             {
-                if (maintenance == 0)
-                    maintenance = value;
-                else
+                if (totalMileage == 0)
                 {
                     Random rand = new Random();
                     maintenance = rand.Next(20000);
+                }
+                else
+                {
+                    maintenance = 0;
                 }
             }
         }

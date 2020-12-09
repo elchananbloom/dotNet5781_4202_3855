@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,11 +19,11 @@ namespace dotNet5781_03B_4202_3855
     /// <summary>
     /// Interaction logic for Details.xaml
     /// </summary>
-    public partial class Details : Window
+    public partial class DetailsWindow : Window
     {
         private Bus el;
         public Bus al { get => el; }
-        public Details(Bus bus)
+        public DetailsWindow(Bus bus)
         {
             el = bus;
             InitializeComponent();
@@ -42,8 +43,7 @@ namespace dotNet5781_03B_4202_3855
 
         private void bRefueling_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("vdffndfhd");
-            el.FuelStatus = 0;
+            el.FuelStatus = 1200;
         }
     }
 }

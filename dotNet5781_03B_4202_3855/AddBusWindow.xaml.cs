@@ -17,11 +17,11 @@ namespace dotNet5781_03B_4202_3855
     /// <summary>
     /// Interaction logic for AddBus.xaml
     /// </summary>
-    public partial class AddBus : Window
+    public partial class AddBusWindow : Window
     {
         private Bus bus;
         public Bus AddedBus { get => bus; }
-        public AddBus()
+        public AddBusWindow()
         {
             bus = new Bus();
             InitializeComponent();

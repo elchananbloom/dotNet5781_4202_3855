@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
         Title="TravelWindow" Height="70" Width="300">
-    <Grid>
+    <Grid Background="Blue">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Enter the distance:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16"/>
-        <TextBox x:Name="tbKms" Margin="5" Grid.Column="1" KeyDown="tbKms_KeyDown"/>
+        <Label Content="Enter the distance:" FontWeight="Bold" Foreground="White" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16"/>
+        <TextBox x:Name="tbKms" Margin="5" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" Foreground="Orange" Grid.Column="1" Background="{x:Null}" PreviewTextInput="tbKms_PreviewTextInput" KeyDown="tbKms_KeyDown"/>
     </Grid>
 </Window>

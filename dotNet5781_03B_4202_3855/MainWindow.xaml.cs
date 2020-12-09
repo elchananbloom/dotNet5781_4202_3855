@@ -82,7 +82,7 @@ namespace dotNet5781_03B_4202_3855
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AddBus wnd = new AddBus();
+            AddBusWindow wnd = new AddBusWindow();
             bool? result = wnd.ShowDialog();
             if (result == true)
             {
@@ -104,10 +104,6 @@ namespace dotNet5781_03B_4202_3855
             Bus bus = (bBus.DataContext) as Bus;
             TravelWindow exr = new TravelWindow(bus);
             exr.ShowDialog();
-            //if (result == true)
-            //{
-            //    //TODO
-            //}
         }
 
         private void showOneBus(Bus newbus)
@@ -121,14 +117,14 @@ namespace dotNet5781_03B_4202_3855
         {
             Button bBus = (Button)sender;
             Bus bus = (Bus)bBus.DataContext;
-            bus.FuelStatus = 0;
+            bus.FuelStatus = 1200;
         }
 
         private void bDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TextBox bBus = sender as TextBox;
             Bus bus = (Bus)bBus.DataContext;
-            Details details = new Details(bus);
+            DetailsWindow details = new DetailsWindow(bus);
             details.ShowDialog();
         }
 
