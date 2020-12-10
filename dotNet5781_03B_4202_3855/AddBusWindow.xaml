@@ -5,37 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
-        Title="AddBus" Height="224.821" Width="300.36">
+        Title="AddBus" Height="224.821" Width="300.36" Icon="programLogoUpdated.png">
 
     <Grid Background="Blue">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="22,22,0,0" VerticalAlignment="Top" Height="163" Grid.RowSpan="2" Width="262">
+        <Grid x:Name="grid1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Content="Date Begin:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-            <DatePicker x:Name="dateBeginDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding DateBegin, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-            <Label Content="Fuel Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-            <TextBox x:Name="fuelStatusTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding FuelStatus, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            <Label Content="Last Treatment:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <DatePicker x:Name="lastTreatmentDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="2" SelectedDate="{Binding LastTreatment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-            <Label Content="License Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-            <TextBox x:Name="licenseNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding LicenseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            <!--<Label Content="Maintenance:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
-            <TextBox x:Name="maintenanceTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" Text="{Binding Maintenance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            <Label Content="Total Mileage:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
-            <TextBox x:Name="totalMileageTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" Text="{Binding TotalMileage, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>-->
+            <Label Content="Date Begin:" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <DatePicker x:Name="dateBeginDatePicker" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding DateBegin, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+            <Label Content="Fuel Status:" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBox x:Name="fuelStatusTextBox" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding FuelStatus, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Last Treatment:" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <DatePicker x:Name="lastTreatmentDatePicker" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalAlignment="Left" Margin="3" Grid.Row="2" SelectedDate="{Binding LastTreatment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+            <Label Content="License Number:" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <TextBox x:Name="licenseNumberTextBox" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding LicenseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>
-        <Button Grid.Row="1" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="Button_Click_1" IsDefault="True" Margin="3" Width="60"/>
+        <Button Grid.Row="1" Content="Add" Background="Orange" Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="Button_Click_1" IsDefault="True" Margin="3" Width="60"/>
     </Grid>
 </Window>

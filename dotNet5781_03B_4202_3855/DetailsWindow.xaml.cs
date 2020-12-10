@@ -27,9 +27,15 @@ namespace dotNet5781_03B_4202_3855
         {
             el = bus;
             InitializeComponent();
-            ListBoxItem newItem = new ListBoxItem();
-            newItem.Content = el.ToString();
-            lbDetails.Items.Add(newItem);
+            dateBeginTextBox.Content = el.DateBegin.ToString();
+            fuelStatusTextBox.Content = el.FuelStatus.ToString();
+            lastTreatmentTextBox.Content = el.LastTreatment.ToString();
+            licenseNumberTextBox.Content = el.LicenseNumber;
+            maintenanceTextBox.Content = el.Maintenance.ToString();
+            totalMileageTextBox.Content = el.TotalMileage.ToString();
+            //ListBoxItem newItem = new ListBoxItem();
+            //newItem.Content = el.ToString();
+            //lbDetails.Items.Add(newItem);
             //DataContext = el;
             //lbDetails.DataContext = el.ToString();
         }
@@ -44,6 +50,14 @@ namespace dotNet5781_03B_4202_3855
         private void bRefueling_Click(object sender, RoutedEventArgs e)
         {
             el.FuelStatus = 1200;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource busViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("busViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // busViewSource.Source = [generic data source]
         }
     }
 }
