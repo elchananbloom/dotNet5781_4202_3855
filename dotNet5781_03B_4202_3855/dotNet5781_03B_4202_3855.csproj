@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ThreadProgressBar.cs" />
     <Compile Include="TravelWindow.xaml.cs">
       <DependentUpon>TravelWindow.xaml</DependentUpon>
     </Compile>
@@ -120,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="programLogoUpdated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="programOnlyLogoUpdated.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

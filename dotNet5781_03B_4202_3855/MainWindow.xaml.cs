@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-
+using System.ComponentModel;
 
 namespace dotNet5781_03B_4202_3855
 {
@@ -24,18 +24,28 @@ namespace dotNet5781_03B_4202_3855
     {
         //tatic IObservable<Bus> busses = new 
         static ObservableCollection<Bus> busses = new ObservableCollection<Bus>();
+        int refuelCount = 12;
+        ProgressBar progressBar = new ProgressBar();
+
         //private Bus currentDisplayBusLicenseNumber;
         public MainWindow()
         {
             busses = new ObservableCollection<Bus>();
             InitializeComponent();
+            
+
             //cbBusLicenseNumber.ItemsSource = busses;
             //cbBusLicenseNumber.DisplayMemberPath = "LicenseNumber";
             //cbBusLicenseNumber.SelectedIndex = 0;
             initBus();
             lbBusDetails.ItemsSource = busses;
             //ShowBusLicenseNumber();
-        }
+            //progressBar.Background = Brushes.Red;
+            //progressBar.Margin = new Thickness(170, 5, 5, 5);
+            //progressBar.Width = 50;
+            //progressBar.HorizontalAlignment = HorizontalAlignment.Right;
+        }             
+
         //private void ShowBusLicenseNumber()
         //{
         //    for (int i = 0; i < busses.Count; i++)
@@ -73,7 +83,7 @@ namespace dotNet5781_03B_4202_3855
             {
                 fuel[i] = rand.Next(1000);
             }
-            fuel[0] = 1150;
+            fuel[0] = 50;
             for (int i = 0; i < 10; i++)
             {
                 busses.Add(new Bus(licenseNum[i], mainten[i], lastTreat[i], rand.Next(500000), fuel[i], dateBegin[i]));
@@ -98,14 +108,7 @@ namespace dotNet5781_03B_4202_3855
             }
         }
 
-        private void Click_Pick(object sender, RoutedEventArgs e)
-        {
-            var bBus = (sender as Button);
-            Bus bus = (bBus.DataContext) as Bus;
-            TravelWindow exr = new TravelWindow(bus);
-            exr.ShowDialog();
-        }
-
+       
         private void showOneBus(Bus newbus)
         {
             ListBoxItem newItem = new ListBoxItem();
@@ -115,16 +118,104 @@ namespace dotNet5781_03B_4202_3855
 
         private void bRefueling_Click(object sender, RoutedEventArgs e)
         {
-            Button bBus = (Button)sender;
-            Bus bus = (Bus)bBus.DataContext;
+            try
+            {
+                Button btnBus = (Button)sender;
+                Bus bus = (Bus)btnBus.DataContext;
+                BackgroundWorker bgWorker = new BackgroundWorker();
+                bgWorker.DoWork += BgWorker_DoWork;
+                bgWorker.ProgressChanged += BgWorker_ProgressChanged;
+                bgWorker.RunWorkerCompleted += BgWorker_RunWorkerCompleted;
+                bgWorker.WorkerSupportsCancellation = true;
+                bgWorker.WorkerReportsProgress = true;
+                ThreadProgressBar threadProgressBar = new ThreadProgressBar();
+                TextBox tbRow = new TextBox();
+
+                if (bus.Status == (int)BusStatus.READY_TO_DRIVE || bus.Status == (int)BusStatus.NEED_REFUELING)
+                {
+                    if (!bgWorker.IsBusy)
+                    {
+
+                        var busGrid = btnBus.Parent as Grid;
+                        var pbRefuel = busGrid.Children[3] as ProgressBar;
+                        tbRow = busGrid.Children[0] as TextBox;
+                        threadProgressBar.Bus = bus;
+                        threadProgressBar.Obj = pbRefuel;
+                        threadProgressBar.Tb = tbRow;
+
+                        tbRow.Background = Brushes.Red;
+                        tbRow.Opacity = 0.5;
+                        bgWorker.RunWorkerAsync(threadProgressBar);
+                    }
+                    else
+                        bgWorker.CancelAsync();
+                }
+                else
+                    throw new ArgumentException("The bus can not be refueled.");
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message);
+            }
+        }
+        private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker bgw = sender as BackgroundWorker;
+            ThreadProgressBar tpbBus = e.Argument as ThreadProgressBar;
+            Bus bus = tpbBus.Bus as Bus;
+            bus.Status = (int)BusStatus.IN_REFUELING;
+            for (int i = 1; i <= refuelCount; i++)
+            {
+                bgw.ReportProgress(i, tpbBus);
+                System.Threading.Thread.Sleep(1000);
+            }
+            e.Result = tpbBus;
+        }
+        private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ThreadProgressBar tpbBus = e.UserState as ThreadProgressBar;
+            ProgressBar pbRefuel = tpbBus.Obj as ProgressBar;
+            pbRefuel.Visibility = Visibility.Visible;
+            pbRefuel.Value = e.ProgressPercentage;
+            pbRefuel.Maximum = refuelCount;
+        }
+        private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ThreadProgressBar tpbBus = e.Result as ThreadProgressBar;
+            Bus bus = tpbBus.Bus as Bus;
+            ProgressBar pbRefuel = tpbBus.Obj as ProgressBar;
             bus.FuelStatus = 1200;
+            pbRefuel.Visibility = Visibility.Hidden;
+            bus.Status = (int)BusStatus.READY_TO_DRIVE;
+            TextBox tbRow = tpbBus.Tb as TextBox;
+            tbRow.Background = null;
+            tbRow.Opacity = 1;
+        }
+        private void Click_Pick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var bBus = (sender as Button);
+                Bus bus = (bBus.DataContext) as Bus;
+                if (bus.Status == (int)BusStatus.READY_TO_DRIVE)
+                {
+                    TravelWindow exr = new TravelWindow(bus, bBus);
+                    exr.ShowDialog();
+                }
+                else
+                    throw new ArgumentException("The bus is not ready to be used.");
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message);
+            }
         }
 
         private void bDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            TextBox bBus = sender as TextBox;
-            Bus bus = (Bus)bBus.DataContext;
-            DetailsWindow details = new DetailsWindow(bus);
+            TextBox tbBus = sender as TextBox;
+            Bus bus = (Bus)tbBus.DataContext;
+            DetailsWindow details = new DetailsWindow(bus,tbBus);
             details.ShowDialog();
         }
 

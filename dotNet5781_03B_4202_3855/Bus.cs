@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace dotNet5781_03B_4202_3855
 {
@@ -18,7 +19,24 @@ namespace dotNet5781_03B_4202_3855
         private int totalMileage;
         private int fuelStatus;
         private DateTime dateBegin;
+        //private int trip;
 
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //public int Trip
+        //{
+        //    get { return trip; }
+        //    set
+        //    {
+        //        trip = value;
+        //        OnPropertyChange(this, new PropertyChangedEventArgs("Trip"));
+        //    }
+        //}
+
+        //private void OnPropertyChange(Bus bus, PropertyChangedEventArgs args)
+        //{
+        //    PropertyChanged?.Invoke(bus, args);
+        //}
         public DateTime DateBegin
         {
             get { return dateBegin; }
@@ -66,15 +84,16 @@ namespace dotNet5781_03B_4202_3855
             get { return maintenance; }
             set 
             {
-                if (totalMileage == 0)
-                {
-                    Random rand = new Random();
-                    maintenance = rand.Next(20000);
-                }
-                else
-                {
-                    maintenance = 0;
-                }
+                maintenance = value;
+                //if (totalMileage == 0)
+                //{
+                //    Random rand = new Random();
+                //    maintenance = rand.Next(20000);
+                //}
+                //else
+                //{
+                //    maintenance = 0;
+                //}
             }
         }
         public int TotalMileage
@@ -92,13 +111,30 @@ namespace dotNet5781_03B_4202_3855
             set { fuelStatus = value; }
         }
 
-        public int Status { get => status; set => status = value; }
+        public int Status
+        {
+            get
+            {
+                return status;
+            }
+            set 
+            {
+                //READY_TO_DRIVE = 1, NEED_REFUELING, NEED_TREATMENT
+              // value = (int)BusStatus.READY_TO_DRIVE;
+                if (FuelStatus <= 0)
+                    value= (int)BusStatus.NEED_REFUELING;
+                if (maintenance >= 20000 || LastTreatment <= DateTime.Now.AddYears(-1))
+                    value= (int)BusStatus.NEED_TREATMENT;
+                status =value;
+            }
+        } 
 
         public Bus(string licenceNumber, DateTime Date, int fuel)//this function is for adding a new bus to the list by getting it's licence number and it's date commencement of activity.
         {
             this.DateBegin = Date;
             this.FuelStatus = fuel;
             this.LicenseNumber = licenceNumber;
+            Status = status;
         }
         public Bus() { }
 
@@ -106,10 +142,11 @@ namespace dotNet5781_03B_4202_3855
         {
             this.DateBegin = dateBegin;
             this.LicenseNumber = licenseNumber;
-            this.Maintenance = maintenance;
+            this.maintenance = maintenance;
             this.LastTreatment = lastTreatment;
             this.TotalMileage = totalMileage;
             this.FuelStatus = fuelStatus;
+            Status = status;
         }
         public override string ToString()
         {

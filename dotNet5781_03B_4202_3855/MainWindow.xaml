@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Icon="programLogoUpdated.png">
+
     <Grid Background="Blue">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -33,6 +34,9 @@
                             <TextBox Text="{Binding LicenseNumber}" FontWeight="Bold" Width="509" FontSize="16" Foreground="Orange" Background="{x:Null}" Name="tbMyBus"  MouseDoubleClick="bDetails_MouseDoubleClick"/>
                             <Button x:Name="bPickBus" Background="Orange" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Right" Content="Pick" Height="auto" FontSize="16" Width="50" Margin="100, 1" Click="Click_Pick"/>
                             <Button x:Name="bRefueling" Content="Refuel" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Right" Height="auto" FontSize="16" Width="70" Margin="150, 1" Click="bRefueling_Click"/>
+                            <ProgressBar x:Name="pbRefuel" Background="Orange" Foreground="White" Visibility="Hidden"  Width="80" HorizontalAlignment="Right" Margin="140,3,10,3"/>
+                            <ProgressBar x:Name="pbPick" Background="Orange" Foreground="White" Visibility="Hidden"  Width="80" HorizontalAlignment="Right" Margin="140,3,10,3"/>
+                            <ProgressBar x:Name="pbTreatment" Background="Orange" Foreground="White" Visibility="Hidden"  Width="80" HorizontalAlignment="Right" Margin="140,3,10,3"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -46,8 +50,38 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                
                 <Button Content="Add Bus" Foreground="White" Background="Orange" FontSize="22" BorderBrush="blue" BorderThickness="5"
-                        Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"/>
+                        Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"></Button>
+                <Grid Grid.Row="4" Margin="5">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="programOnlyLogoUpdated.png"/>
+                    </Grid.Background>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="In Refuelling:" TextWrapping="WrapWithOverflow" Background="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="22"/>
+                    <Rectangle Grid.Row="1" Fill="Red" Opacity="0.5"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="In Travel:" TextWrapping="WrapWithOverflow" Background="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="22"/>
+                    <Rectangle Grid.Row="1" Fill="Yellow" Opacity="0.5"/>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="In Treatment:" TextWrapping="WrapWithOverflow" Background="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="22"/>
+                    <Rectangle Grid.Row="1" Fill="Brown" Opacity="0.5"/>
+                </Grid>
             </Grid>
         </Grid>
 
