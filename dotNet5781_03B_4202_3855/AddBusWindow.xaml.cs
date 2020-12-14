@@ -21,6 +21,10 @@ namespace dotNet5781_03B_4202_3855
     {
         private Bus bus;
         public Bus AddedBus { get => bus; }
+
+        /// <summary>
+        /// ctor.
+        /// </summary>
         public AddBusWindow()
         {
             bus = new Bus();
@@ -28,19 +32,11 @@ namespace dotNet5781_03B_4202_3855
             this.DataContext = bus;
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //}
-
-        //private void Window_Loaded(object sender, RoutedEventArgs e)
-        //{
-
-        //    System.Windows.Data.CollectionViewSource busViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("busViewSource")));
-        //    // Load data by setting the CollectionViewSource.Source property:
-        //    // busViewSource.Source = [generic data source]
-        //}
-
+        /// <summary>
+        /// this func starts the func of the addbus in the main-window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;

@@ -10,7 +10,6 @@ namespace dotNet5781_03B_4202_3855
     public class Bus
     {
         private int status;
-        //the set function will call another function that checks the correctness of a licence number.
         private string licenseNumber;
         private int maintenance;
         private DateTime lastTreatment;

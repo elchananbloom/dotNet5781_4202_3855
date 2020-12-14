@@ -27,15 +27,25 @@ namespace dotNet5781_03B_4202_3855
         public Bus CurrentBus { get => currentBus; }
         public Button BtnBus { get => btnBus; set => btnBus = value; }
         BackgroundWorker bgWorker = new BackgroundWorker();
-       
+        
+        /// <summary>
+        /// ctor.
+        /// </summary>
+        /// <param name="bus"></param>
+        /// <param name="bBus"></param>
         public TravelWindow(Bus bus,Button bBus)
         {
             BtnBus = bBus;
             currentBus = bus;
             InitializeComponent();
-            
         }
 
+
+        /// <summary>
+        /// this func starts the thread by the 'enter'.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tbKms_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key==Key.Return)
@@ -69,24 +79,14 @@ namespace dotNet5781_03B_4202_3855
                     {
                         throw new ArgumentOutOfRangeException("The bus needs to be sent for treatment.");
                     }
-                    //if (currentBus.Status != (int)BusStatus.READY_TO_DRIVE)
-                    //{
-                    //    throw new InvalidOperationException("The bus isn't ready to drive.");
-                    //}
                     if (!bgWorker.IsBusy)
                     {
-                        //TextBox bBus = (TextBox)sender;
-                        //Bus bus = (Bus)bBus.DataContext;
-                        
-                        //List<Object> list = new List<object> { bus, c };
-
                         tbRow.Background = Brushes.Yellow;
                         tbRow.Opacity = 0.5;
                         bgWorker.RunWorkerAsync(threadProgressBar);
                     }
                     else
                         bgWorker.CancelAsync();
-                   
                 }
                 catch (Exception error)
                 {
@@ -98,6 +98,11 @@ namespace dotNet5781_03B_4202_3855
                 }
             }
         }
+        /// <summary>
+        /// this is the first func of the thread.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgw = sender as BackgroundWorker;
@@ -112,6 +117,11 @@ namespace dotNet5781_03B_4202_3855
             }
             e.Result = tgwBus;
         }
+        /// <summary>
+        /// this is the second func of the thread for the progress change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.UserState as ThreadProgressBar;
@@ -120,6 +130,11 @@ namespace dotNet5781_03B_4202_3855
             pbTravel.Value = e.ProgressPercentage;
             pbTravel.Maximum = (int)tpbBus.TimeOfDriving;
         }
+        /// <summary>
+        /// this is the third func of the thread after it has been complited successfuly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.Result as ThreadProgressBar;
@@ -135,7 +150,12 @@ namespace dotNet5781_03B_4202_3855
             tbRow.Background = null;
             tbRow.Opacity = 1;
         }
-        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+
+
+        /// <summary>
+        /// the 3 following functions are making sure that the input from the user are numbers. 
+        /// </summary>
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); 
         private static bool IsTextAllowed(string text)
         {
             return !_regex.IsMatch(text);
