@@ -65,13 +65,18 @@ namespace dotNet5781_03B_4202_3855
                 bgWorker.RunWorkerCompleted += BgWorker_RunWorkerCompleted;
                 bgWorker.WorkerSupportsCancellation = true;
                 bgWorker.WorkerReportsProgress = true;
+                BackgroundWorker bgWorkerRefuelingTimer = new BackgroundWorker();
+                bgWorkerRefuelingTimer.DoWork += BgWorkerRefuelingTimer_DoWork;
+                bgWorkerRefuelingTimer.ProgressChanged += BgWorkerRefuelingTimer_ProgressChanged;
+                bgWorkerRefuelingTimer.RunWorkerCompleted += BgWorkerRefuelingTimer_RunWorkerCompleted;
+                bgWorkerRefuelingTimer.WorkerReportsProgress = true;
+                bgWorkerRefuelingTimer.WorkerSupportsCancellation = true;
                 ThreadProgressBar threadProgressBar = new ThreadProgressBar();
                 TextBox tbRow = new TextBox();
                 if (bus.Status == (int)BusStatus.READY_TO_DRIVE || bus.Status == (int)BusStatus.NEED_REFUELING)
                 {
                     if (!bgWorker.IsBusy)
                     {
-
                         var tbGrid = tbBus.Parent as Grid;
                         var pbRefuel = tbGrid.Children[3] as ProgressBar;
                         tbRow = tbGrid.Children[0] as TextBox;
@@ -81,7 +86,7 @@ namespace dotNet5781_03B_4202_3855
 
                         tbRow.Background = Brushes.Red;
                         tbRow.Opacity = 0.5;
-                        this.Close();
+                        bgWorkerRefuelingTimer.RunWorkerAsync();
                         bgWorker.RunWorkerAsync(threadProgressBar);
                     }
                     else
@@ -143,7 +148,41 @@ namespace dotNet5781_03B_4202_3855
             tbRow.Background = null;
             tbRow.Opacity = 1;
         }
-       
+
+
+        /// <summary>
+        /// this is the first func of the thread that starts running it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BgWorkerRefuelingTimer_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker bgWorkerRefuelingTimer = sender as BackgroundWorker;
+            for (int i = refuelCount; i >= 0; i--)
+            {
+                bgWorkerRefuelingTimer.ReportProgress(i);
+                Thread.Sleep(1000);
+            }
+        }
+        /// <summary>
+        /// this is the second func of the thread that shows the progress change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BgWorkerRefuelingTimer_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            this.RefuelTimer.Content = e.ProgressPercentage;
+        }
+        /// <summary>
+        /// this is the third func of the thread that finish the refuelling.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BgWorkerRefuelingTimer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Close();
+        }
+
 
         /// <summary>
         /// this func is for the treatment timer, and it includes a back-ground-worker thread.
@@ -171,11 +210,10 @@ namespace dotNet5781_03B_4202_3855
                 ThreadProgressBar threadProgressBar = new ThreadProgressBar();
                 TextBox tbRow = new TextBox();
 
-                if (bus.Status == (int)BusStatus.READY_TO_DRIVE || bus.Status == (int)BusStatus.NEED_REFUELING||bus.Status==(int)BusStatus.NEED_TREATMENT)
+                if (bus.Status == (int)BusStatus.READY_TO_DRIVE || bus.Status == (int)BusStatus.NEED_REFUELING || bus.Status == (int)BusStatus.NEED_TREATMENT)
                 {
                     if (!bgWorkerTreatment.IsBusy)
                     {
-
                         var tbGrid = tbBus.Parent as Grid;
                         var pbTreatment = tbGrid.Children[5] as ProgressBar;
                         tbRow = tbGrid.Children[0] as TextBox;
@@ -207,7 +245,7 @@ namespace dotNet5781_03B_4202_3855
         private void BgWorkerTreatmentTimer_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgWorkerTreatmentTimer = sender as BackgroundWorker;
-            for (int i=treatmentCount;i>=0;i--)
+            for (int i = treatmentCount; i >= 0; i--)
             {
                 bgWorkerTreatmentTimer.ReportProgress(i);
                 Thread.Sleep(1000);
