@@ -7,36 +7,20 @@ using System.ComponentModel;
 
 namespace dotNet5781_03B_4202_3855
 {
-
-
-
     public class Bus
     {
         private int status;
-        private string licenseNumber;//the set function will call another function that checks the correctness of a licence number.
+        //the set function will call another function that checks the correctness of a licence number.
+        private string licenseNumber;
         private int maintenance;
         private DateTime lastTreatment;
         private int totalMileage;
         private int fuelStatus;
         private DateTime dateBegin;
-        //private int trip;
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //public int Trip
-        //{
-        //    get { return trip; }
-        //    set
-        //    {
-        //        trip = value;
-        //        OnPropertyChange(this, new PropertyChangedEventArgs("Trip"));
-        //    }
-        //}
-
-        //private void OnPropertyChange(Bus bus, PropertyChangedEventArgs args)
-        //{
-        //    PropertyChanged?.Invoke(bus, args);
-        //}
+        
+        /// <summary>
+        /// properties.
+        /// </summary>
         public DateTime DateBegin
         {
             get { return dateBegin; }
@@ -74,7 +58,6 @@ namespace dotNet5781_03B_4202_3855
                 }
                 else
                 {
-                    //result = false;
                     throw new Exception("Error. Incorrect license number.\nEnter a license number again.");
                 }
             }
@@ -85,15 +68,6 @@ namespace dotNet5781_03B_4202_3855
             set 
             {
                 maintenance = value;
-                //if (totalMileage == 0)
-                //{
-                //    Random rand = new Random();
-                //    maintenance = rand.Next(20000);
-                //}
-                //else
-                //{
-                //    maintenance = 0;
-                //}
             }
         }
         public int TotalMileage
@@ -110,7 +84,6 @@ namespace dotNet5781_03B_4202_3855
             get { return fuelStatus; }
             set { fuelStatus = value; }
         }
-
         public int Status
         {
             get
@@ -119,25 +92,40 @@ namespace dotNet5781_03B_4202_3855
             }
             set 
             {
-                //READY_TO_DRIVE = 1, NEED_REFUELING, NEED_TREATMENT
-              // value = (int)BusStatus.READY_TO_DRIVE;
                 if (FuelStatus <= 0)
                     value= (int)BusStatus.NEED_REFUELING;
                 if (maintenance >= 20000 || LastTreatment <= DateTime.Now.AddYears(-1))
                     value= (int)BusStatus.NEED_TREATMENT;
                 status =value;
             }
-        } 
+        }
 
-        public Bus(string licenceNumber, DateTime Date, int fuel)//this function is for adding a new bus to the list by getting it's licence number and it's date commencement of activity.
+        /// <summary>
+        ///         //this function is for adding a new bus to the list by getting it's licence number and it's date commencement of activity.
+        /// </summary>
+        /// <param name="licenceNumber"></param>
+        /// <param name="Date"></param>
+        /// <param name="fuel"></param>
+        public Bus(string licenceNumber, DateTime Date, int fuel)
         {
             this.DateBegin = Date;
             this.FuelStatus = fuel;
             this.LicenseNumber = licenceNumber;
             Status = status;
         }
+        /// <summary>
+       /// ctor.
+       /// </summary>
         public Bus() { }
-
+        /// <summary>
+        /// ctor with parameters.
+        /// </summary>
+        /// <param name="licenseNumber"></param>
+        /// <param name="maintenance"></param>
+        /// <param name="lastTreatment"></param>
+        /// <param name="totalMileage"></param>
+        /// <param name="fuelStatus"></param>
+        /// <param name="dateBegin"></param>
         public Bus(string licenseNumber, int maintenance, DateTime lastTreatment, int totalMileage, int fuelStatus, DateTime dateBegin)
         {
             this.DateBegin = dateBegin;
@@ -148,6 +136,11 @@ namespace dotNet5781_03B_4202_3855
             this.FuelStatus = fuelStatus;
             Status = status;
         }
+
+        /// <summary>
+        /// a func for the printing.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             String result = "";
@@ -156,7 +149,5 @@ namespace dotNet5781_03B_4202_3855
             return result;
         }
     }
-
-   
 }
 

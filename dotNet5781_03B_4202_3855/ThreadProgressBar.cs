@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace dotNet5781_03B_4202_3855
 {
+    /// <summary>
+    /// this class is for all the threads - Meaning, that it sends several objects together into the thread.
+    /// </summary>
     public  class ThreadProgressBar
     {
         private  object obj;

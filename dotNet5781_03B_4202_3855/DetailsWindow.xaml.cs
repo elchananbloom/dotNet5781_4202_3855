@@ -30,6 +30,11 @@ namespace dotNet5781_03B_4202_3855
         private int refuelCount = 12;
         private int treatmentCount = 144;
 
+        /// <summary>
+        /// ctor.
+        /// </summary>
+        /// <param name="bus">current bus</param>
+        /// <param name="tBus">current bus row</param>
         public DetailsWindow(Bus bus,TextBox tBus)
         {
             currentBus = bus;
@@ -41,23 +46,19 @@ namespace dotNet5781_03B_4202_3855
             licenseNumberTextBox.Content = currentBus.LicenseNumber;
             maintenanceTextBox.Content = currentBus.Maintenance.ToString();
             totalMileageTextBox.Content = currentBus.TotalMileage.ToString();
-            
-            //ListBoxItem newItem = new ListBoxItem();
-            //newItem.Content = el.ToString();
-            //lbDetails.Items.Add(newItem);
-            //DataContext = el;
-            //lbDetails.DataContext = el.ToString();
         }
 
-       
-
+        /// <summary>
+        /// this func is for the refuling button, and it includes a back-ground-worker thread.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bRefueling_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Button btnBus = (Button)sender;
                 Bus bus = currentBus;
-                //Bus bus1 = (Bus)bBus.DataContext;
                 BackgroundWorker bgWorker = new BackgroundWorker();
                 bgWorker.DoWork += BgWorker_DoWork;
                 bgWorker.ProgressChanged += BgWorker_ProgressChanged;
@@ -66,7 +67,6 @@ namespace dotNet5781_03B_4202_3855
                 bgWorker.WorkerReportsProgress = true;
                 ThreadProgressBar threadProgressBar = new ThreadProgressBar();
                 TextBox tbRow = new TextBox();
-
                 if (bus.Status == (int)BusStatus.READY_TO_DRIVE || bus.Status == (int)BusStatus.NEED_REFUELING)
                 {
                     if (!bgWorker.IsBusy)
@@ -94,8 +94,12 @@ namespace dotNet5781_03B_4202_3855
             {
                 MessageBox.Show(error.Message);
             }
-            //currentBus.FuelStatus = 1200;
         }
+        /// <summary>
+        /// this is the first func of the thread that starts running it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgw = sender as BackgroundWorker;
@@ -109,6 +113,11 @@ namespace dotNet5781_03B_4202_3855
             }
             e.Result = tpbBus;
         }
+        /// <summary>
+        ///  this is the second func of the thread that shows the progress change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.UserState as ThreadProgressBar;
@@ -117,6 +126,11 @@ namespace dotNet5781_03B_4202_3855
             pbRefuel.Value = e.ProgressPercentage;
             pbRefuel.Maximum = refuelCount;
         }
+        /// <summary>
+        /// this is the third func of the thread that finish the refuelling.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.Result as ThreadProgressBar;
@@ -129,13 +143,19 @@ namespace dotNet5781_03B_4202_3855
             tbRow.Background = null;
             tbRow.Opacity = 1;
         }
+       
+
+        /// <summary>
+        /// this func is for the treatment timer, and it includes a back-ground-worker thread.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Treatment_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Button btnBus = (Button)sender;
                 Bus bus = currentBus;
-                //Bus bus1 = (Bus)bBus.DataContext;
                 BackgroundWorker bgWorkerTreatment = new BackgroundWorker();
                 BackgroundWorker bgWorkerTreatmentTimer = new BackgroundWorker();
                 bgWorkerTreatmentTimer.DoWork += BgWorkerTreatmentTimer_DoWork;
@@ -178,12 +198,12 @@ namespace dotNet5781_03B_4202_3855
             {
                 MessageBox.Show(error.Message);
             }
-            //currentBus.FuelStatus = 1200;
-            //currentBus.LastTreatment = DateTime.Now;
-            //currentBus.Maintenance = 0;
-            //currentBus.Status = 1;
         }
-
+        /// <summary>
+        /// this is the first func of the thread that starts running it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorkerTreatmentTimer_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgWorkerTreatmentTimer = sender as BackgroundWorker;
@@ -193,17 +213,31 @@ namespace dotNet5781_03B_4202_3855
                 Thread.Sleep(1000);
             }
         }
-
+        /// <summary>
+        /// this is the second func of the thread that shows the progress change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorkerTreatmentTimer_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             this.lTimer.Content = e.ProgressPercentage;
         }
-
+        /// <summary>
+        /// this is the third func of the thread that finish the treatment.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorkerTreatmentTimer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.Close();
         }
 
+
+        /// <summary>
+        ///  this is the first func of the treatment thread that starts running it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorkerTreatment_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgw = sender as BackgroundWorker;
@@ -217,7 +251,11 @@ namespace dotNet5781_03B_4202_3855
             }
             e.Result = tpbBus;
         }
-
+        /// <summary>
+        /// this is the second func of the thread that shows the progress change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorkerTreatment_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.UserState as ThreadProgressBar;
@@ -226,7 +264,11 @@ namespace dotNet5781_03B_4202_3855
             pbTreatment.Value = e.ProgressPercentage;
             pbTreatment.Maximum = treatmentCount;
         }
-
+        /// <summary>
+        /// this is the third func of the thread that finish the treatment.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorkerTreatment_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.Result as ThreadProgressBar;
@@ -242,12 +284,15 @@ namespace dotNet5781_03B_4202_3855
             tbRow.Opacity = 1;
         }
 
+
+        /// <summary>
+        /// this func is for the window loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             System.Windows.Data.CollectionViewSource busViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("busViewSource")));
-            // Load data by setting the CollectionViewSource.Source property:
-            // busViewSource.Source = [generic data source]
         }
     }
 }

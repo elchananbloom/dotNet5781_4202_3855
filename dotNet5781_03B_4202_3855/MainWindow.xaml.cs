@@ -22,50 +22,25 @@ namespace dotNet5781_03B_4202_3855
     /// </summary>
     public partial class MainWindow : Window
     {
-        //tatic IObservable<Bus> busses = new 
         static ObservableCollection<Bus> busses = new ObservableCollection<Bus>();
-        int refuelCount = 12;
+        private int refuelCount = 12;
         ProgressBar progressBar = new ProgressBar();
 
-        //private Bus currentDisplayBusLicenseNumber;
+        /// <summary>
+        /// ctor.
+        /// </summary>
         public MainWindow()
         {
             busses = new ObservableCollection<Bus>();
             InitializeComponent();
-            
-
-            //cbBusLicenseNumber.ItemsSource = busses;
-            //cbBusLicenseNumber.DisplayMemberPath = "LicenseNumber";
-            //cbBusLicenseNumber.SelectedIndex = 0;
             initBus();
             lbBusDetails.ItemsSource = busses;
-            //ShowBusLicenseNumber();
-            //progressBar.Background = Brushes.Red;
-            //progressBar.Margin = new Thickness(170, 5, 5, 5);
-            //progressBar.Width = 50;
-            //progressBar.HorizontalAlignment = HorizontalAlignment.Right;
-        }             
-
-        //private void ShowBusLicenseNumber()
-        //{
-        //    for (int i = 0; i < busses.Count; i++)
-        //    {
-        //        showOneBus(busses[i]);
-        //        //ListBoxItem newItem = new ListBoxItem();
-        //        //newItem.Content = busses[i].LicenseNumber;
-        //        //lbBusDetails.Items.Add(newItem);
-        //        //lbBusDetails.DataContext = busses[i];
-        //        //currentDisplayBusLicenseNumber = busses[i];
-        //        //DataContext = currentDisplayBusLicenseNumber;
-        //        //lbBusDetails.DataContext = currentDisplayBusLicenseNumber.ToString();
-        //    }
-        //}
+        }
         /// <summary>
         /// initializing 10 busses
         /// </summary>
         private static void initBus()
         {
-
             string[] licenseNum = { "5632357", "57643276", "9853435", "56623267", "8534356", "5452537", "57342125", "56745257", "9743247", "2378635" };
             int[] mainten = new int[10];
             Random rand = new Random();
@@ -90,6 +65,11 @@ namespace dotNet5781_03B_4202_3855
             }
         }
 
+        /// <summary>
+        /// this func is for oppening the addbus window and update the new bus in list. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             AddBusWindow wnd = new AddBusWindow();
@@ -104,18 +84,13 @@ namespace dotNet5781_03B_4202_3855
                 }
                 busses.Add(newbus);
                 MessageBox.Show("The bus has been added successfuly.");
-                //showOneBus(newbus);
             }
         }
-
-       
-        private void showOneBus(Bus newbus)
-        {
-            ListBoxItem newItem = new ListBoxItem();
-            newItem.Content = newbus.LicenseNumber;
-            lbBusDetails.Items.Add(newItem);
-        }
-
+        /// <summary>
+        /// this func is for the refuling button, and it includes a back-ground-worker thread.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bRefueling_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -158,6 +133,11 @@ namespace dotNet5781_03B_4202_3855
                 MessageBox.Show(error.Message);
             }
         }
+        /// <summary>
+        /// this is the first func of the thread that starts running it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgw = sender as BackgroundWorker;
@@ -171,6 +151,11 @@ namespace dotNet5781_03B_4202_3855
             }
             e.Result = tpbBus;
         }
+        /// <summary>
+        /// this is the second func of the thread that shows the progress change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.UserState as ThreadProgressBar;
@@ -179,6 +164,11 @@ namespace dotNet5781_03B_4202_3855
             pbRefuel.Value = e.ProgressPercentage;
             pbRefuel.Maximum = refuelCount;
         }
+        /// <summary>
+        /// this is the third func of the thread that finish the refuelling. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ThreadProgressBar tpbBus = e.Result as ThreadProgressBar;
@@ -191,6 +181,11 @@ namespace dotNet5781_03B_4202_3855
             tbRow.Background = null;
             tbRow.Opacity = 1;
         }
+        /// <summary>
+        /// this func openes the travel window for the driving of the bus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Click_Pick(object sender, RoutedEventArgs e)
         {
             try
@@ -210,20 +205,17 @@ namespace dotNet5781_03B_4202_3855
                 MessageBox.Show(error.Message);
             }
         }
-
+        /// <summary>
+        /// this func is for the showing the bus details that openes by pressing doubleclick on the license number. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TextBox tbBus = sender as TextBox;
             Bus bus = (Bus)tbBus.DataContext;
-            DetailsWindow details = new DetailsWindow(bus,tbBus);
+            DetailsWindow details = new DetailsWindow(bus, tbBus);
             details.ShowDialog();
         }
-
-
-
-        //private void cbBusLicenseNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    ShowBusLicenseNumber((cbBusLicenseNumber.SelectedValue as Bus).LicenseNumber);
-        //}
     }
 }
