@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
-        Title="TravelWindow" Height="70" Width="300" Icon="programLogoUpdated.png">
-    <Grid Background="Blue">
+        Title="TravelWindow" WindowStartupLocation="CenterScreen" Height="70" Width="300" Icon="programLogoUpdated.png">
+    <Grid Background="Blue" FocusManager.FocusedElement="{Binding ElementName=tbKms}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>

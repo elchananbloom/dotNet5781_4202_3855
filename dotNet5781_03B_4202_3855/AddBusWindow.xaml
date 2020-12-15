@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet5781_03B_4202_3855"
         mc:Ignorable="d"
-        Title="AddBus" Height="224.821" Width="300.36" Icon="programLogoUpdated.png">
+        Title="AddBus" WindowStartupLocation="CenterScreen" Height="224.821" Width="300.36" Icon="programLogoUpdated.png">
 
     <Grid Background="Blue">
         <Grid.RowDefinitions>
