@@ -1,0 +1,23 @@
+﻿using G_DALAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DO
+{
+    //קו אוטובוס
+    public class BusLineDAO
+    {
+        //מזהה קו אוטובוס
+        private static int serialLine = 1;
+        public int LineNumber { get; set; }
+        public Area Area { get; set; }
+        public int FirstStationNumber { get; set; }
+        public int LastStationNumber { get; set; }
+
+        public bool Deleted { get; set; }
+
+    }
+}
