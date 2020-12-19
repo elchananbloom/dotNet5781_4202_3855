@@ -8,12 +8,13 @@ namespace DO
 {
     public class BusInTravelDAO
     {
-        //מזהה אוטובוס בנסיעה
-        private static int serial = 1;
+        //we need to do real time information and the serial number//
+        //מזהה אוטובוס בנסיעה- נותן ערך מספרי כמו תעודת זהות
+        public int CurrentSerialNB { get; set; }
         //compound key
         public string LicenseNumber { get; set; }
         //מזהה קו שבביצוע
-        public int Line { get; set; }
+        public int LineNumber { get; set; }
         //שעת יציאה לקו הפורמלי
         public DateTime Start { get; set; }
         //שעת יציאה בפועל
@@ -24,7 +25,8 @@ namespace DO
         public DateTime LastStationTimePassedThrough { get; set; }
         //זמן הגעה לתחנה הבאה
         public DateTime NextStationTimePassedThrough { get; set; }
-
+        //האם האוטובוס באמצע נסיעה או לא
+        public bool IsActive { get; set; }
         public string DriverID { get; set; }
 
     }

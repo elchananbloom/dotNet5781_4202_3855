@@ -12,6 +12,7 @@ namespace DO
         public DateTime StartOfWork { get; set; }
         public int TotalKms { get; set; }
         public int Fuel { get; set; }
+        public int Maintnance { get; set; }
         public Status Status { get; set; }
         public bool Deleted { get; set; }
 

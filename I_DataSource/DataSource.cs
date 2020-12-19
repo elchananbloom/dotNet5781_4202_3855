@@ -13,18 +13,22 @@ namespace I_DataSource
         /// <summary>
         /// Bus repository.
         /// </summary>
-        private static List<BusDAO> busses = new List<BusDAO>();
-        private static List<BusInTravelDAO> busestravel = new List<BusInTravelDAO>();
-        private static List<BusLineDAO> busesList = new List<BusLineDAO>();
-        private static List<StationDAO> stations = new List<StationDAO>();
-
+        private static List<BusDAO> bussesList = new List<BusDAO>();
+        private static List<BusInTravelDAO> busestravelList = new List<BusInTravelDAO>();
+        private static List<BusLineDAO> busLinesList = new List<BusLineDAO>();
+        private static List<StationDAO> stationsList = new List<StationDAO>();
+        private static List<StationLineDAO> stationLinesList = new List<StationLineDAO>();
+        private static List<CoupleStationInRowDAO> coupleStationInRowList = new List<CoupleStationInRowDAO>();
+        
         /// <summary>
         /// properties.
         /// </summary>
-        public static List<BusDAO> Buses { get => busses; }
-        public static List<BusInTravelDAO> BusesTravel { get => busestravel; }
-        public static List<BusLineDAO> BusesList { get => busesList; }
-        public static List<StationDAO> Stations { get => stations; }
+        public static List<BusDAO> BussesList { get => bussesList; }
+        public static List<BusInTravelDAO> BussesInTravelList { get => busestravelList; }
+        public static List<BusLineDAO> BusLinesList { get => busLinesList; }
+        public static List<StationDAO> StationsList { get => stationsList; }
+        public static List<StationLineDAO> StationLinesList { get => stationLinesList; }
+        public static List<CoupleStationInRowDAO> CoupleStationInRowList { get => coupleStationInRowList; }
 
 
         /// <summary>
@@ -32,7 +36,7 @@ namespace I_DataSource
         /// </summary>
         public static void initBuses()
         {
-            Buses.Add(new BusDAO
+            BussesList.Add(new BusDAO
             {
                 LicenseNumber = "1234567",
                 StartOfWork = DateTime.Today.AddYears(-3),
@@ -40,7 +44,7 @@ namespace I_DataSource
                 Fuel = 1200,
                 Status = Status.READY_TO_DRIVE
             });
-            Buses.Add(new BusDAO
+            BussesList.Add(new BusDAO
             {
                 LicenseNumber = "3333333",
                 StartOfWork = DateTime.Today.AddYears(-20),
@@ -48,7 +52,7 @@ namespace I_DataSource
                 Fuel = 500,
                 Status = Status.READY_TO_DRIVE
             });
-            Buses.Add(new BusDAO
+            BussesList.Add(new BusDAO
             {
                 LicenseNumber = "77745617",
                 StartOfWork = DateTime.Today.AddYears(-2),
@@ -56,7 +60,7 @@ namespace I_DataSource
                 Fuel = 1200,
                 Status = Status.READY_TO_DRIVE
             });
-            Buses.Add(new BusDAO
+            BussesList.Add(new BusDAO
             {
                 LicenseNumber = "6666666",
                 StartOfWork = DateTime.Today.AddYears(-100),
@@ -65,13 +69,13 @@ namespace I_DataSource
                 Status = Status.READY_TO_DRIVE
             });
         }
-
+        
         /// <summary>
         /// this func initialize the 50 stations, 10 lines with at least 10 stations, 20 buses etc...
         /// </summary>
         public static void init()
         {
-            int num = 0;
+            //int num = 0;
             string userChoice = string.Empty;
             //BusLinesCollection busLines = new BusLinesCollection();
             int[] stationKeys = new int[50];
@@ -92,7 +96,7 @@ namespace I_DataSource
                 busStationDist = rand.Next(500);
                 travelTime = new TimeSpan(rand.Next(2), rand.Next(59), rand.Next(59));
                 //StationDAO busSt = new StationDAO(busStationDist, travelTime, stationKeys[i], addres[i], latitude, longitude);
-                stations.Add(new StationDAO
+                stationsList.Add(new StationDAO
                 {
                     StationNumber= stationKeys[i],
                     Longtitude=longitude,
@@ -111,19 +115,38 @@ namespace I_DataSource
             //lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++
             
             //Initialize 10 lines.
-            //איך להתחל את 10 הקווים עם רשימה של תחנות???////////////////////////////////
             for (int i = 0; i < 10; i++)
             {
-                BusesList.Add(new BusLineDAO
+                BusLinesList.Add(new BusLineDAO
                 {
                     LineNumber = lineNumber[anotherIndex],
                     Area = (Area)area[anotherIndex++],
-                    FirstStationNumber = stations[index++].StationNumber,
-                    LastStationNumber = stations[index++].StationNumber,
+                    FirstStationNumber = stationsList[index++].StationNumber,
+                    LastStationNumber = stationsList[index++].StationNumber,
                     Deleted = true
                 }); 
             }
-           
+
+            //initialize 10 station lines to 10 bus lines.
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    StationLineDAO newStationLine = new StationLineDAO
+                    {
+                        LineNumber = lineNumber[i],
+                        StationNumber = stationsList[rand.Next(49)].StationNumber,
+                        NumberStationInLine = j,
+                        Deleted = false
+                    };
+                    if (stationLinesList.Exists(currentStationLine => currentStationLine.LineNumber == newStationLine.LineNumber
+                     && currentStationLine.StationNumber != newStationLine.StationNumber))
+                    {
+                        stationLinesList.Add(newStationLine);
+                    }
+                    j--;
+                }
+            }
             //index = 10;
             //int stationsIndex = 0;
             //int lineNumIndex = 0;

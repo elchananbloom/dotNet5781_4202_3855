@@ -15,6 +15,6 @@ namespace DO
         public string StationName { get; set; }
         public bool Deleted { get; set; }
 
-
+        
     }
 }

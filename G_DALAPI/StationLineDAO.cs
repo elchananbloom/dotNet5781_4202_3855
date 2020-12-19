@@ -13,7 +13,6 @@ namespace DO
         public int StationNumber { get; set; }
         //מספר תחנה בקו
         public int NumberStationInLine { get; set; }
-
         public bool Deleted { get; set; }
     }
 }

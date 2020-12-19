@@ -11,7 +11,7 @@ namespace DO
         public int StationNumberOne { get; set; }
         public int StationNumberTwo { get; set; }
         public int Distance { get; set; }
-        public DateTime AverageTravelTime { get; set; }
+        public TimeSpan AverageTravelTime { get; set; }
 
 
     }
