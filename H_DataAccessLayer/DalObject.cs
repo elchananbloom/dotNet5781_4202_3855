@@ -30,9 +30,6 @@ namespace H_DataAccessLayer
         #endregion singleton
 
 
-
-
-
         #region IDal implementation
 
 

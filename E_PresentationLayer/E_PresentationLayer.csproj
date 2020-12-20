@@ -57,6 +57,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="StationDetailsWindow.xaml.cs">
+      <DependentUpon>StationDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StationsOperationsWindow.xaml.cs">
+      <DependentUpon>StationsOperationsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="BusDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BusesOperationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LineDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LinesOperationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,12 +87,60 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusDetailsWindow.xaml.cs">
+      <DependentUpon>BusDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BusesOperationsWindow.xaml.cs">
+      <DependentUpon>BusesOperationsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LineDetailsWindow.xaml.cs">
+      <DependentUpon>LineDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LinesOperationsWindow.xaml.cs">
+      <DependentUpon>LinesOperationsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ManagementWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentBusesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentLinesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentStationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StationDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StationsOperationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManagementWindow.xaml.cs">
+      <DependentUpon>ManagementWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentBusesWindow.xaml.cs">
+      <DependentUpon>PresentBusesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentLinesWindow.xaml.cs">
+      <DependentUpon>PresentLinesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentStationsWindow.xaml.cs">
+      <DependentUpon>PresentStationsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="programLogoUpdated.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
