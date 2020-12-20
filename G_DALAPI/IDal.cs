@@ -49,6 +49,7 @@ namespace G_DALAPI
         bool UpdateStation(StationDAO station);
         #endregion
 
+
         #region BusLineDAO functions
         bool AddBusLine(BusLineDAO busLine);
         bool RemoveBusLine(BusLineDAO busLine);
@@ -57,9 +58,15 @@ namespace G_DALAPI
         bool UpdateBusLine(BusLineDAO busLine);
         #endregion
 
+
         #region CoupleStationInRowDAO functions
         List<CoupleStationInRowDAO> GetAllCoupleStationInRow();
-        bool AddCoupleStationInRow(int stationNumberOne, int stationNumberTwo, TimeSpan time, int distance);
+        bool UpdateCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow);
         #endregion
+
+
+        bool AddLineInService(LineInServiceDAO lineInService);
+        bool RemoveLineInService(LineInServiceDAO lineInService);
+        bool UpdateLineInService(LineInServiceDAO lineInService);
     }
 }

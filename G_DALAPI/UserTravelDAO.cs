@@ -9,7 +9,7 @@ namespace DO
     public class UserTravelDAO
     {
         //מזהה נסיעת משתמש
-        private static int userTravelSerial = 1;
+        //private static int userTravelSerial = 1;
         public string UserName { get; set; }
         public int LineNumber { get; set; }
         //מזהה תחנת עליה

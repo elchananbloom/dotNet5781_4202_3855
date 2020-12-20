@@ -8,10 +8,11 @@ namespace DO
 {
     public class LineInServiceDAO
     {
+        public int LineInServiceSerialNB { get; set; }
         public int LineNumber { get; set; }
-        public DateTime StartLineTime { get; set; }
-        public int Frequency { get; set; }
-        public DateTime EndLineTime { get; set; }
+        public TimeSpan StartLineTime { get; set; }
+        public TimeSpan Frequency { get; set; }
+        public TimeSpan EndLineTime { get; set; }
 
 
     }

@@ -19,7 +19,7 @@ namespace I_DataSource
         private static List<StationDAO> stationsList = new List<StationDAO>();
         private static List<StationLineDAO> stationLinesList = new List<StationLineDAO>();
         private static List<CoupleStationInRowDAO> coupleStationInRowList = new List<CoupleStationInRowDAO>();
-        
+        private static List<LineInServiceDAO> lineInServicesList = new List<LineInServiceDAO>();
         /// <summary>
         /// properties.
         /// </summary>
@@ -29,46 +29,47 @@ namespace I_DataSource
         public static List<StationDAO> StationsList { get => stationsList; }
         public static List<StationLineDAO> StationLinesList { get => stationLinesList; }
         public static List<CoupleStationInRowDAO> CoupleStationInRowList { get => coupleStationInRowList; }
+        public static List<LineInServiceDAO> LineInServicesList { get => lineInServicesList; }
 
 
         /// <summary>
         /// Initializing the BusDAO Yeshot.
         /// </summary>
-        public static void initBuses()
-        {
-            BussesList.Add(new BusDAO
-            {
-                LicenseNumber = "1234567",
-                StartOfWork = DateTime.Today.AddYears(-3),
-                TotalKms = 5000,
-                Fuel = 1200,
-                Status = Status.READY_TO_DRIVE
-            });
-            BussesList.Add(new BusDAO
-            {
-                LicenseNumber = "3333333",
-                StartOfWork = DateTime.Today.AddYears(-20),
-                TotalKms = 9999999,
-                Fuel = 500,
-                Status = Status.READY_TO_DRIVE
-            });
-            BussesList.Add(new BusDAO
-            {
-                LicenseNumber = "77745617",
-                StartOfWork = DateTime.Today.AddYears(-2),
-                TotalKms = 5000,
-                Fuel = 1200,
-                Status = Status.READY_TO_DRIVE
-            });
-            BussesList.Add(new BusDAO
-            {
-                LicenseNumber = "6666666",
-                StartOfWork = DateTime.Today.AddYears(-100),
-                TotalKms = 5000,
-                Fuel = 1200,
-                Status = Status.READY_TO_DRIVE
-            });
-        }
+        //public static void initBuses()
+        //{
+        //    BussesList.Add(new BusDAO
+        //    {
+        //        LicenseNumber = "1234567",
+        //        StartOfWork = DateTime.Today.AddYears(-3),
+        //        TotalKms = 5000,
+        //        Fuel = 1200,
+        //        Status = Status.READY_TO_DRIVE
+        //    });
+        //    BussesList.Add(new BusDAO
+        //    {
+        //        LicenseNumber = "3333333",
+        //        StartOfWork = DateTime.Today.AddYears(-20),
+        //        TotalKms = 9999999,
+        //        Fuel = 500,
+        //        Status = Status.READY_TO_DRIVE
+        //    });
+        //    BussesList.Add(new BusDAO
+        //    {
+        //        LicenseNumber = "77745617",
+        //        StartOfWork = DateTime.Today.AddYears(-2),
+        //        TotalKms = 5000,
+        //        Fuel = 1200,
+        //        Status = Status.READY_TO_DRIVE
+        //    });
+        //    BussesList.Add(new BusDAO
+        //    {
+        //        LicenseNumber = "6666666",
+        //        StartOfWork = DateTime.Today.AddYears(-100),
+        //        TotalKms = 5000,
+        //        Fuel = 1200,
+        //        Status = Status.READY_TO_DRIVE
+        //    });
+        //}
         
         /// <summary>
         /// this func initialize the 50 stations, 10 lines with at least 10 stations, 20 buses etc...
@@ -110,7 +111,7 @@ namespace I_DataSource
             Random randLineNum = new Random();
             int[] area = { 2, 3, 4, 1, 5, 1, 3, 2, 4, 5 };
             int index = 0;
-            int anotherIndex = 0;
+            //int anotherIndex = 0;
             int[] lineNumber = { randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550) };
             //lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++
             
@@ -119,8 +120,8 @@ namespace I_DataSource
             {
                 BusLinesList.Add(new BusLineDAO
                 {
-                    LineNumber = lineNumber[anotherIndex],
-                    Area = (Area)area[anotherIndex++],
+                    LineNumber = lineNumber[i],
+                    Area = (Area)area[i],
                     FirstStationNumber = stationsList[index++].StationNumber,
                     LastStationNumber = stationsList[index++].StationNumber,
                     Deleted = true
@@ -146,6 +147,18 @@ namespace I_DataSource
                     }
                     j--;
                 }
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                lineInServicesList.Add(new LineInServiceDAO
+                {
+                    LineInServiceSerialNB = Configuration.SerialLineInService,
+                    LineNumber = lineNumber[i],
+                    StartLineTime = new TimeSpan(rand.Next(23), 0, 0),
+                    Frequency = new TimeSpan(rand.Next(1), rand.Next(59), 0),
+                    EndLineTime = new TimeSpan(rand.Next(23), 0, 0)
+                });
             }
             //index = 10;
             //int stationsIndex = 0;
