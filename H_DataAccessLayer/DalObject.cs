@@ -10,7 +10,6 @@ namespace H_DataAccessLayer
 {
     public sealed class DalObject : IDal, IEnumerable
     {
-
         #region singleton implementaion
         private readonly static IDal mydal = new DalObject();
         private DalObject()
@@ -48,7 +47,6 @@ namespace H_DataAccessLayer
                 //return false;
             }
             BusDAO cloned = bus.Cloned();
-
             cloned.Deleted = false;
             DataSource.BussesList.Add(cloned);
             return true;
@@ -186,13 +184,11 @@ namespace H_DataAccessLayer
             //insert
             DataSource.BussesList.Add(bus.Cloned());
             return true;
-
         }
         #endregion
 
 
         #region BusInTravelDAO functions
-
         /// <summary>
         /// add bus in travel to the bussesInTravel list
         /// </summary>
@@ -513,15 +509,10 @@ namespace H_DataAccessLayer
             DataSource.StationsList.Add(station.Cloned());
             return true;
         }
-
         //public int CompareTo(StationLineDAO stationLine1, StationLineDAO stationLine2)
         //{
         //    return this.CompareTo(stationLine1, stationLine2);
         //}
-
-
-
-
         #endregion
 
 
@@ -735,7 +726,5 @@ namespace H_DataAccessLayer
 
         #endregion
     }
-
-
 }
 

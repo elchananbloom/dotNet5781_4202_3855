@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:E_PresentationLayer"
         mc:Ignorable="d"
-        Title="ManagementWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Manager" WindowStartupLocation="CenterScreen" Height="450" Width="600">
+
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" Background="{x:Null}" VerticalAlignment="Stretch" Width="auto" Height="auto" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Manager:" FontSize="35" Grid.ColumnSpan="4" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid x:Name="BottomGrid" Grid.Row="1" Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="PresentBuses" Content="Present Buses" Background="Orange" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
+            <Button x:Name="PresentLines" Grid.Column="1" Content="Present Lines" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
+            <Button x:Name="PresentStations" Grid.Column="2" Content="Present Stations" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.Background>
+                <ImageBrush ImageSource="programOnlyLogoUpdated.png"/>
+            </Grid.Background>
+        </Grid>
+
     </Grid>
 </Window>
+

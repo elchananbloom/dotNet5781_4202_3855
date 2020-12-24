@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace G_DALAPI
 {
@@ -10,7 +8,7 @@ namespace G_DALAPI
     /// Static Factory class for creating Dal tier implementation object according to
     /// configuration in file config.xml
     /// </summary>
-    public static class DalFactory
+    public static class DALFactory
     {
         /// <summary>
         /// The function creates Dal tier implementation object according to Dal type
@@ -28,10 +26,10 @@ namespace G_DALAPI
             // get dal implementation name from config.xml according to <data> element
             string dlType = DALConfig.DLName;
             // bring package name (dll file name) for the dal name (above) from the list of packages in config.xml
-            DLConfig.DLPackage dlPackage;
+            DALConfig.DALPackage dlPackage;
             try // get dal package info according to <dal> element value in config file
             {
-                dlPackage = DLConfig.DLPackages[dlType];
+                dlPackage = DALConfig.DLPackages[dlType];
             }
             catch (KeyNotFoundException ex)
             {
@@ -78,7 +76,7 @@ namespace G_DALAPI
             // Since the property is static - the object parameter is irrelevant for the GetValue() function and we can use null
             try
             {
-                IDL dal = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null) as IDL;
+                IDal dal = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null) as IDal;
                 // If the instance property is not initialized (i.e. it does not hold a real instance reference)...
                 if (dal == null)
                     throw new DLConfigException($"Class {dlNameSpace}.{dlClass} instance is not initialized");
@@ -92,7 +90,4 @@ namespace G_DALAPI
 
         }
     }
-    //    class DalFactory
-    //{
-    //}
 }
