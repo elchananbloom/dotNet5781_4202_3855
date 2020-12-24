@@ -15,18 +15,13 @@ using System.Windows.Shapes;
 namespace E_PresentationLayer
 {
     /// <summary>
-    /// Interaction logic for ManagementWindow.xaml
+    /// Interaction logic for UpdateBusWindow.xaml
     /// </summary>
-    public partial class ManagementWindow : Window
+    public partial class UpdateBusWindow : Window
     {
-        public ManagementWindow()
+        public UpdateBusWindow()
         {
             InitializeComponent();
-        }
-
-        private void PresentBuses_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

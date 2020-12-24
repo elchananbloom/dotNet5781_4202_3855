@@ -63,6 +63,9 @@
     <Compile Include="StationsOperationsWindow.xaml.cs">
       <DependentUpon>StationsOperationsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateBusWindow.xaml.cs">
+      <DependentUpon>UpdateBusWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="BusDetailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,6 +130,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UpdateBusWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ManagementWindow.xaml.cs">
@@ -168,6 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="programLogoUpdated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="programOnlyLogoUpdated.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

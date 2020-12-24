@@ -114,7 +114,10 @@ namespace I_DataSource
             //int anotherIndex = 0;
             int[] lineNumber = { randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550) };
             //lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++
-            
+
+            //Initialize 10 buses (implementation is at the buttom).
+            initBus();
+
             //Initialize 10 lines.
             for (int i = 0; i < 10; i++)
             {
@@ -184,15 +187,43 @@ namespace I_DataSource
             //}
         }
 
-
-
-
-
-
-
-
-
-
+        /// <summary>
+        /// initializing 10 busses
+        /// </summary>
+        private static void initBus()
+        {
+            string[] licenseNum = { "5632357", "57643276", "9853435", "56623267", "8534356", "5452537", "57342125", "56745257", "9743247", "2378635" };
+            int[] mainten = new int[10];
+            Random rand = new Random();
+            for (int i = 0; i < 9; i++)
+            {
+                mainten[i] = rand.Next(20000);
+            }
+            mainten[9] = 19950;
+            DateTime[] lastTreat = { new DateTime(2020, 9, 23), new DateTime(2020, 7, 13), new DateTime(2020, 11, 9), new DateTime(2020, 10, 14), new DateTime(2020, 1, 8), new DateTime(2019, 12, 22),
+                new DateTime(2018, 6, 15),new DateTime(2020, 4, 27),new DateTime(2020, 8, 29),new DateTime(2020, 7, 4) };
+            DateTime[] dateBegin = { new DateTime(1996, 5, 7), new DateTime(2019, 12, 17), new DateTime(2015, 3, 26), new DateTime(2020, 5, 7), new DateTime(2010, 2, 16), new DateTime(2007, 6, 11),
+                new DateTime(2018, 3, 29),new DateTime(2019, 8, 23),new DateTime(2002, 4, 15),new DateTime(1999, 5, 17) };
+            int[] fuel = new int[10];
+            for (int i = 1; i < 10; i++)
+            {
+                fuel[i] = rand.Next(1000);
+            }
+            fuel[0] = 50;
+            for (int i = 0; i < 10; i++)
+            {
+                BussesList.Add(new BusDAO
+                {
+                    LicenseNumber = licenseNum[i],
+                    Maintnance = mainten[i],
+                    LastTreatment = lastTreat[i],
+                    TotalKms = rand.Next(500000),
+                    Fuel = fuel[i],
+                    StartOfWork = dateBegin[i],
+                    Deleted = false
+                });
+            }
+        }
 
         //this func is made for generating the random number of the station's location, (since it is a double type range).
         static double NextDouble(Random rand, double minValue, double maxValue)

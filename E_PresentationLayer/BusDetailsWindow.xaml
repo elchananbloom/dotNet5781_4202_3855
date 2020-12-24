@@ -5,8 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:E_PresentationLayer"
         mc:Ignorable="d"
-        Title="BusDetailsWindow" Height="450" Width="800">
-    <Grid>
+        Title="Bus Details" WindowStartupLocation="CenterScreen" Height="350" Width="430" Icon="programLogoUpdated.png">
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type local:BusDetailsWindow}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         
+        <Label Content="" Name="lTimer" HorizontalContentAlignment="Right" HorizontalAlignment="Left" FontSize="16" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Center" Grid.Row="1" Width="60"/>
+        <Label Content="" Name="RefuelTimer" HorizontalContentAlignment="Left" HorizontalAlignment="Right" FontSize="16" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Center" Grid.Row="1" Width="60"/>
+        <Button x:Name="btnTreatment" Grid.Row="1" Background="Orange" Foreground="White" FontSize="20" FontWeight="Bold" Content="Treatment" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="35" Margin="70, 3" Width="108"/>
+        <Button x:Name="btnRefuel" Grid.Row="1" Background="Orange" Foreground="White" FontSize="20" FontWeight="Bold" Content="Refuel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="35" Margin="70, 3" Width="108"/>
+        <Button x:Name="btnDelete" Grid.Row="1" Background="Orange" Foreground="White" FontSize="20" FontWeight="Bold" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Margin="70, 0, 0, 10" Width="108"/>
+        <Button x:Name="btnUpdate" Grid.Row="1" Background="Orange" Foreground="White" FontSize="20" FontWeight="Bold" Content="Update" HorizontalAlignment="Right" VerticalAlignment="Top" Height="35" Margin="70, 0, 70, 10" Width="108"/>
+        <Grid x:Name="grid1" Background="{x:Null}" DataContext="{StaticResource busViewSource}">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
+            <Label Content="License Number:" Grid.Column="0" FontWeight="Bold" FontSize="18" Foreground="White" HorizontalAlignment="Right" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <Label Content="{Binding Path=LicenseNumber}" x:Name="licenseNumberTextBox" Grid.Column="1" FontSize="16" Background="{x:Null}" Foreground="Orange" FontWeight="Bold" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Fuel Status:" Grid.Column="0" FontWeight="Bold" FontSize="18" Foreground="White" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label Content="{Binding Path=FuelStatus}" x:Name="fuelStatusTextBox" Grid.Column="1" FontSize="16" Background="{x:Null}" Foreground="Orange" FontWeight="Bold" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Maintenance:" Grid.Column="0" FontWeight="Bold" FontSize="18" Foreground="White" HorizontalAlignment="Right" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <Label Content="{Binding Path=Maintenance}" x:Name="maintenanceTextBox" Grid.Column="1" FontSize="16" Background="{x:Null}" Foreground="Orange" FontWeight="Bold" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Last Treatment:" Grid.Column="0" FontWeight="Bold" FontSize="18" Foreground="White" HorizontalAlignment="Right" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <Label Content="{Binding Path=LastTreatment}" x:Name="lastTreatmentTextBox" Grid.Column="1" FontSize="16" Background="{x:Null}" Foreground="Orange" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <Label Content="Started Date:" FontWeight="Bold" FontSize="18" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <Label Content="{Binding Path=DateBegin}" x:Name="dateBeginTextBox" FontSize="16" Background="{x:Null}" Foreground="Orange" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <Label Content="Total Mileage:" Grid.Column="0" FontWeight="Bold" FontSize="18" Foreground="White" HorizontalAlignment="Right" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <Label Content="{Binding Path=TotalMileage}" x:Name="totalMileageTextBox" Grid.Column="1" FontSize="16" Background="{x:Null}" Foreground="Orange" FontWeight="Bold" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center" Width="120"/>
+        </Grid>
     </Grid>
 </Window>
