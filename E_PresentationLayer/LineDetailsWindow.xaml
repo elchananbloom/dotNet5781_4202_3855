@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:E_PresentationLayer"
         mc:Ignorable="d"
-        Title="LineDetailsWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="LineDetailsWindow" Height="350" Width="430" WindowStartupLocation="CenterScreen">
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Line Number:" HorizontalAlignment="Right" FontSize="22" Foreground="White" FontWeight="Bold"/>
+            <Label Grid.Column="1" Content="{Binding Path=LineNumber}"/>
+        </Grid>
     </Grid>
 </Window>

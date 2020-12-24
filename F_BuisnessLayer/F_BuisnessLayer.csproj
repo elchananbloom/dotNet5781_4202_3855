@@ -43,8 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLimp.cs" />
+    <Compile Include="BO\BusBO.cs" />
+    <Compile Include="BO\BusInTravelBO.cs" />
+    <Compile Include="BO\BusLineBO.cs" />
+    <Compile Include="BO\CoupleStationInRowBO.cs" />
+    <Compile Include="BO\EnumsBO.cs" />
+    <Compile Include="BO\LineInServiceBO.cs" />
+    <Compile Include="BO\StationBO.cs" />
+    <Compile Include="BO\StationLineBO.cs" />
+    <Compile Include="BO\ToolsBO.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\G_DALAPI\G_DALAPI.csproj">
+      <Project>{fb2a4ac6-7e23-47b1-ba69-1d1a629e25f6}</Project>
+      <Name>G_DALAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

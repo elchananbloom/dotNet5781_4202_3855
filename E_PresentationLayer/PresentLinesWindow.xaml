@@ -6,7 +6,37 @@
         xmlns:local="clr-namespace:E_PresentationLayer"
         mc:Ignorable="d"
         Title="PresentLinesWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="UpGrid">
+            <Label Content="Lines: " HorizontalAlignment="Left" FontSize="35" FontWeight="Bold" Foreground="White"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="RightBottomGrid" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="btnAddLine" Content="Add Line" Background="Orange" Foreground="White" />
+            </Grid>
+            <ListBox x:Name="lbLines" Background="{x:Null}" ItemsSource="{Binding}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBox x:Name="tbLines" Text="{Binding LineNumber}" FontWeight="Bold" Width="500" FontSize="16" Foreground="Orange" Background="{x:Null}"/>
+                            <Button x:Name="btnUpdate" Content="Update" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70"/>
+                            <Button x:Name="btnDelete" Content="Delete" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 </Window>
