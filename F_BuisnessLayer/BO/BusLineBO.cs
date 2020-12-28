@@ -16,6 +16,6 @@ namespace BO
         public List<StationLineBO> StationLines { get; set; }
         //public List<int> LineStationNumbers { get; set; }
         //public List<StationLineDAO> LineStations { get; set; }
-        public bool Deleted { get; set; }
+        //public bool Deleted { get; set; }
     }
 }

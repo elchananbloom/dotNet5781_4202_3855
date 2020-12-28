@@ -10,5 +10,10 @@ namespace F_BuisnessLayer
     interface IBL
     {
         bool AddBus(BusBO bus);
+        bool RemoveBus(BusBO bus);
+        BusBO GetBusBO(string licenseNumber);
+        IEnumerable<BusBO> GetAllBusesBO();
+        bool UpdateBus(BusBO bus);
+            
     }
 }

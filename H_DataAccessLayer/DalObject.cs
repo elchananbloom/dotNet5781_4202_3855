@@ -46,9 +46,9 @@ namespace H_DataAccessLayer
                 throw new BusException("License exists allready.");
                 //return false;
             }
-            BusDAO cloned = bus.Cloned();
-            cloned.Deleted = false;
-            DataSource.BussesList.Add(cloned);
+            //BusDAO cloned = ;
+            //cloned.Deleted = false;
+            DataSource.BussesList.Add(bus.Cloned());
             return true;
         }
         /// <summary>
@@ -97,7 +97,6 @@ namespace H_DataAccessLayer
             {
                 if (currentBus.LicenseNumber == bus.LicenseNumber)
                 {
-                    currentBus.Deleted = true;
                     return true;
                 }
             }
@@ -177,7 +176,7 @@ namespace H_DataAccessLayer
         {
             if (!DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
             {
-                return false;
+                throw new BusException("The bus does not exist in the system.");
             }
             //delete
             DataSource.BussesList.RemoveAll(currentBus => currentBus.LicenseNumber == bus.LicenseNumber);

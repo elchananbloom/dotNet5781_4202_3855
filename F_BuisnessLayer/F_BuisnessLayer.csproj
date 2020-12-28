@@ -53,7 +53,8 @@
     <Compile Include="BO\StationBO.cs" />
     <Compile Include="BO\StationLineBO.cs" />
     <Compile Include="BO\ToolsBO.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="BusExeption.cs" />
+    <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

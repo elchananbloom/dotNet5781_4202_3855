@@ -17,7 +17,7 @@ namespace G_DALAPI
         IEnumerable<BusDAO> GetAllBusses();
         bool RemoveBus(BusDAO bus);
         BusDAO GetOneBus(string license);
-        public bool ActivateBus(string license);
+        bool ActivateBus(string license);
         bool UpdateBus(BusDAO bus);
         #endregion
 

@@ -36,7 +36,7 @@ namespace G_DALAPI
      </example>
      </summary>
     */
-    static class DALConfig
+    static class DalConfig
     {
         public class DALPackage
         {
@@ -52,13 +52,13 @@ namespace G_DALAPI
         /// Static constructor extracts Dal packages list and Dal type from
         /// Dal configuration file config.xml
         /// </summary>
-        static DALConfig()
+        static DalConfig()
         {
             XElement dlConfig = XElement.Load(@"config.xml");
             DLName = dlConfig.Element("dl").Value;
             DLPackages = (from pkg in dlConfig.Element("dl-packages").Elements()
                           let tmp1 = pkg.Attribute("namespace")
-                          let nameSpace = tmp1 == null ? "DL" : tmp1.Value
+                          let nameSpace = tmp1 == null ? "H_DataAccessLayer" : tmp1.Value
                           let tmp2 = pkg.Attribute("class")
                           let className = tmp2 == null ? pkg.Value : tmp2.Value
                           select new DALPackage()
