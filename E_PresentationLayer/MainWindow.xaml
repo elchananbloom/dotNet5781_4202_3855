@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Manager" Background="Orange" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Center" Height="60" Content="Manager" FontSize="18" Width="150"/>
+            <Button x:Name="Manager" Background="Orange" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Center" Height="60" Content="Manager" FontSize="18" Width="150" Click="Manager_Click"/>
             <Button x:Name="Passenger" Grid.Column="1" FontWeight="Bold" Content="Passenger" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" Height="60" HorizontalAlignment="Center" FontSize="18" Width="150"/>
 
         </Grid>

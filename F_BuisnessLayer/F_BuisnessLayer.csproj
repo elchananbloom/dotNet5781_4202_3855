@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLFactory.cs" />
     <Compile Include="BLimp.cs" />
     <Compile Include="BO\BusBO.cs" />
     <Compile Include="BO\BusInTravelBO.cs" />
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\G_DALAPI\G_DALAPI.csproj">
       <Project>{fb2a4ac6-7e23-47b1-ba69-1d1a629e25f6}</Project>
       <Name>G_DALAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\I_DataSource\I_DataSource.csproj">
+      <Project>{0711B2FB-ECD6-408F-9E13-B358CFF58DC0}</Project>
+      <Name>I_DataSource</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

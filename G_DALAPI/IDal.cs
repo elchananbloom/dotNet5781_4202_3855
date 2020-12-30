@@ -17,7 +17,7 @@ namespace G_DALAPI
         IEnumerable<BusDAO> GetAllBusses();
         bool RemoveBus(BusDAO bus);
         BusDAO GetOneBus(string license);
-        bool ActivateBus(string license);
+        //bool ActivateBus(string license);
         bool UpdateBus(BusDAO bus);
         #endregion
 
@@ -26,7 +26,7 @@ namespace G_DALAPI
         bool AddBusInTravel(BusInTravelDAO busInTravel);
         bool RemoveBusInTravel(BusInTravelDAO busInTravel);
         List<BusInTravelDAO> GetAllBusesInTravel();
-        List<StationLineDAO> GetAllStationsLineOfBusLine(int LineNumber);
+        IEnumerable<StationLineDAO> GetAllStationsLineOfBusLine(int LineNumber);
         bool UpdateBusInTravel(BusInTravelDAO busInTravel);
         #endregion
 
@@ -34,8 +34,9 @@ namespace G_DALAPI
         #region StationLineDAO functions
         bool AddStationLine(StationLineDAO stationLine);
         bool RemoveStationLine(StationLineDAO stationLine);
-        bool ActivateStationLine(int lineNumber, int stationNumber);
+        //bool ActivateStationLine(int lineNumber, int stationNumber);
         StationLineDAO GetOneStationLine(int lineNumber, int stationNumber);
+        IEnumerable<StationLineDAO> GetAllStationLines();
         bool UpdateStationLine(StationLineDAO stationLine);
         #endregion
 
@@ -45,7 +46,7 @@ namespace G_DALAPI
         bool RemoveStation(StationDAO station);
         StationDAO GetOneStation(int stationNumber);
         IEnumerable<StationDAO> GetAllStations();
-        List<BusLineDAO> GetAllBusLinesInStation(int stationNmber);
+        IEnumerable<BusLineDAO> GetBusLineInStation(int stationNmber);
         bool UpdateStation(StationDAO station);
         #endregion
 
@@ -65,8 +66,10 @@ namespace G_DALAPI
         #endregion
 
 
+        #region LineInServiceDAO functions
         bool AddLineInService(LineInServiceDAO lineInService);
         bool RemoveLineInService(LineInServiceDAO lineInService);
         bool UpdateLineInService(LineInServiceDAO lineInService);
+        #endregion
     }
 }

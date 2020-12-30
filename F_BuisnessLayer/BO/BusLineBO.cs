@@ -11,9 +11,9 @@ namespace BO
         //public int CurrentSerialNB { get; set; }
         public int LineNumber { get; set; }
         public Area Area { get; set; }
-        public StationBO FirstStation { get; set; }
-        public StationBO LastStation { get; set; }
-        public List<StationLineBO> StationLines { get; set; }
+        public IEnumerable<StationLineBO> StationLines { get; set; }
+        //public StationBO FirstStation { get; set; }
+        //public StationBO LastStation { get; set; }
         //public List<int> LineStationNumbers { get; set; }
         //public List<StationLineDAO> LineStations { get; set; }
         //public bool Deleted { get; set; }

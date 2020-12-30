@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="PresentBuses" Content="Present Buses" Background="Orange" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
+            <Button x:Name="PresentBuses" Content="Present Buses" Background="Orange" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150" Click="PresentBuses_Click_1"/>
             <Button x:Name="PresentLines" Grid.Column="1" Content="Present Lines" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
             <Button x:Name="PresentStations" Grid.Column="2" Content="Present Stations" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
 

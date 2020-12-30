@@ -179,5 +179,11 @@
   <ItemGroup>
     <Resource Include="programOnlyLogoUpdated.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\F_BuisnessLayer\F_BuisnessLayer.csproj">
+      <Project>{92fae735-d509-42fb-a106-e6acd6e4f5e2}</Project>
+      <Name>F_BuisnessLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
