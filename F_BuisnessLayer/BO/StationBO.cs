@@ -12,5 +12,9 @@ namespace BO
         public string StationName { get; set; }
         public bool Deleted { get; set; }
         public IEnumerable<BusLineBO> BusLinesInStation { get; set; }
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

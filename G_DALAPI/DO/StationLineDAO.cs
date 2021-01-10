@@ -14,5 +14,10 @@ namespace DO
         //מספר תחנה בקו
         public int NumberStationInLine { get; set; }
         public bool Deleted { get; set; }
+
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace E_PresentationLayer
+namespace PresentationLayer
 {
     /// <summary>
     /// Interaction logic for UpdateBusWindow.xaml

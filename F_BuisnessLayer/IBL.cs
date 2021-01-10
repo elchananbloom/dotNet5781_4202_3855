@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 
-namespace F_BuisnessLayer
+namespace BuisnessLayer
 {
     public interface IBL
     {
@@ -19,11 +19,11 @@ namespace F_BuisnessLayer
 
 
         #region BusLineBo
-        bool AddBusLine(BusLineBO busLine);
+        bool AddBusLine(BusLineBO busLine, StationLineBO firstStationLineBO, StationLineBO lastStationLineBO);
         bool RemoveBusLine(BusLineBO busLine);
         BusLineBO GetOneBusLine(int lineNumber);
         IEnumerable<BusLineBO> GetAllBusLines();
-        bool UpdateBusLine(BusLineBO busLine);
+        bool UpdateBusLine(BusLineBO busLine, StationLineBO firstStationLineBO, StationLineBO lastStationLineBO);
         #endregion
 
 

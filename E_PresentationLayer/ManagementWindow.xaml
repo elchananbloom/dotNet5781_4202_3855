@@ -1,9 +1,9 @@
-﻿<Window x:Class="E_PresentationLayer.ManagementWindow"
+﻿<Window x:Class="PresentationLayer.ManagementWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:E_PresentationLayer"
+        xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
         Title="Manager" WindowStartupLocation="CenterScreen" Height="450" Width="600">
 
@@ -29,8 +29,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="PresentBuses" Content="Present Buses" Background="Orange" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150" Click="PresentBuses_Click_1"/>
-            <Button x:Name="PresentLines" Grid.Column="1" Content="Present Lines" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
-            <Button x:Name="PresentStations" Grid.Column="2" Content="Present Stations" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150"/>
+            <Button x:Name="PresentLines" Grid.Column="1" Content="Present Lines" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150" Click="PresentLines_Click"/>
+            <Button x:Name="PresentStations" Grid.Column="2" Content="Present Stations" FontWeight="Bold" Foreground="White" BorderBrush="Blue" BorderThickness="3" Background="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" FontSize="19" Width="150" Click="PresentStations_Click"/>
 
         </Grid>
         <Grid Grid.Row="2">

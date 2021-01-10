@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace F_BuisnessLayer
+namespace BuisnessLayer
 {
     public static class DeepCopyUtilities
     {
@@ -27,12 +27,13 @@ namespace F_BuisnessLayer
             from.CopyPropertiesTo(to);
             return to;
         }
-        //public static BO.StudentCourse CopyToStudentCourse(this DO.Course course, DO.StudentInCourse sic)
-        //{
-        //    BO.StudentCourse result = (BO.StudentCourse)course.CopyPropertiesToNew(typeof(BO.StudentCourse));
-        //    // propertys' names changed? copy them here...
-        //    result.Grade = sic.Grade;
-        //    return result;
-        //}
+        public static DO.BusLineDAO CopyToNewBusLine(this BO.BusLineBO busLineBO)
+        {
+            DO.BusLineDAO result = (DO.BusLineDAO)busLineBO.CopyPropertiesToNew(typeof(DO.BusLineDAO));
+            // propertys' names changed? copy them here...
+            result.FirstStationNumber = busLineBO.StationLines.ElementAt(0).Station.StationNumber;
+            result.LastStationNumber = busLineBO.StationLines.ElementAt(busLineBO.StationLines.Count()-1).Station.StationNumber;
+            return result;
+        }
     }
 }

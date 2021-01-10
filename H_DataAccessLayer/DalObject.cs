@@ -1,14 +1,14 @@
 ﻿using DO;
-using G_DALAPI;
-using I_DataSource;
+using DALAPI;
+using DataSource;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace H_DataAccessLayer
+namespace DAL
 {
-    public sealed class DalObject : IDal, IEnumerable
+    sealed class DalObject : IDal
     {
         #region singleton implementaion
         private readonly static IDal mydal = new DalObject();
@@ -16,7 +16,7 @@ namespace H_DataAccessLayer
         {
             try
             {
-                I_DataSource.DataSource.init();
+                DataSource.DataSource.init();
             }
             catch (BusException be)
             {
@@ -40,14 +40,14 @@ namespace H_DataAccessLayer
         public bool AddBus(BusDAO bus)
         {
 
-            if (DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
+            if (DataSource.DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
             {
                 throw new BusException("License exists allready.");
                 //return false;
             }
             //BusDAO cloned = ;
             //cloned.Deleted = false;
-            DataSource.BussesList.Add(bus.Cloned());
+            DataSource.DataSource.BussesList.Add(bus.Cloned());
             return true;
         }
         /// <summary>
@@ -92,7 +92,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool RemoveBus(BusDAO bus)
         {
-            foreach (var currentBus in I_DataSource.DataSource.BussesList)
+            foreach (var currentBus in DataSource.DataSource.BussesList)
             {
                 if (currentBus.LicenseNumber == bus.LicenseNumber)
                 {
@@ -121,7 +121,7 @@ namespace H_DataAccessLayer
         public BusDAO GetOneBus(string license)
         {
             BusDAO result = default(BusDAO);
-            result = I_DataSource.DataSource.BussesList.FirstOrDefault(currentBus => currentBus.LicenseNumber == license);
+            result = DataSource.DataSource.BussesList.FirstOrDefault(currentBus => currentBus.LicenseNumber == license);
             if (result != null)
             {
                 return result.Cloned();
@@ -140,7 +140,7 @@ namespace H_DataAccessLayer
             //    if(bus.Deleted==false)
             //        result.Add(bus.Cloned());
             //}
-            IEnumerable<BusDAO> result = from currentBus in I_DataSource.DataSource.BussesList
+            IEnumerable<BusDAO> result = from currentBus in DataSource.DataSource.BussesList
                                          //where urrentBus.Deleted == false
                                          select currentBus.Cloned();
             return result;
@@ -175,14 +175,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateBus(BusDAO bus)
         {
-            if (!DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
+            if (!DataSource.DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
             {
                 throw new BusException("The bus does not exist in the system.");
             }
             //delete
-            DataSource.BussesList.RemoveAll(currentBus => currentBus.LicenseNumber == bus.LicenseNumber);
+            DataSource.DataSource.BussesList.RemoveAll(currentBus => currentBus.LicenseNumber == bus.LicenseNumber);
             //insert
-            DataSource.BussesList.Add(bus.Cloned());
+            DataSource.DataSource.BussesList.Add(bus.Cloned());
             return true;
         }
         #endregion
@@ -196,7 +196,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool AddBusInTravel(BusInTravelDAO bus)
         {
-            if (DataSource.BussesInTravelList.Exists(currentBusInTravel =>
+            if (DataSource.DataSource.BussesInTravelList.Exists(currentBusInTravel =>
                 currentBusInTravel.LicenseNumber == bus.LicenseNumber
                 && currentBusInTravel.CurrentSerialNB == bus.CurrentSerialNB
                 && currentBusInTravel.Start == bus.Start
@@ -209,7 +209,7 @@ namespace H_DataAccessLayer
             BusInTravelDAO cloned = bus.Cloned();
             cloned.CurrentSerialNB = Configuration.SerialBusInTravel;
             cloned.IsActive = true;
-            DataSource.BussesInTravelList.Add(cloned);
+            DataSource.DataSource.BussesInTravelList.Add(cloned);
             return true;
         }
         /// <summary>
@@ -219,9 +219,9 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool RemoveBusInTravel(BusInTravelDAO bus)
         {
-            foreach (var item in I_DataSource.DataSource.BussesInTravelList)
+            foreach (var item in DataSource.DataSource.BussesInTravelList)
             {
-                if (DataSource.BussesInTravelList.Exists(currentBusInTravel =>
+                if (DataSource.DataSource.BussesInTravelList.Exists(currentBusInTravel =>
                 currentBusInTravel.LicenseNumber == bus.LicenseNumber
                 && currentBusInTravel.CurrentSerialNB == bus.CurrentSerialNB
                 && currentBusInTravel.Start == bus.Start
@@ -241,7 +241,7 @@ namespace H_DataAccessLayer
         public List<BusInTravelDAO> GetAllBusesInTravel()
         {
             List<BusInTravelDAO> travels = new List<BusInTravelDAO>();
-            foreach (var busInTravel in I_DataSource.DataSource.BussesInTravelList)
+            foreach (var busInTravel in DataSource.DataSource.BussesInTravelList)
             {
                 travels.Add(busInTravel.Cloned());
             }
@@ -254,14 +254,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateBusInTravel(BusInTravelDAO busInTravel)
         {
-            if (!DataSource.BussesInTravelList.Exists(currentBusInTravel => currentBusInTravel.LicenseNumber == busInTravel.LicenseNumber))
+            if (!DataSource.DataSource.BussesInTravelList.Exists(currentBusInTravel => currentBusInTravel.LicenseNumber == busInTravel.LicenseNumber))
             {
                 return false;
             }
             //delete
-            DataSource.BussesInTravelList.RemoveAll(currentBusInTravel => currentBusInTravel.LicenseNumber == busInTravel.LicenseNumber);
+            DataSource.DataSource.BussesInTravelList.RemoveAll(currentBusInTravel => currentBusInTravel.LicenseNumber == busInTravel.LicenseNumber);
             //insert
-            DataSource.BussesInTravelList.Add(busInTravel.Cloned());
+            DataSource.DataSource.BussesInTravelList.Add(busInTravel.Cloned());
             return true;
         }
         /// <summary>
@@ -282,7 +282,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public IEnumerator GetEnumerator()
         {
-            return I_DataSource.DataSource.StationLinesList.GetEnumerator();
+            return DataSource.DataSource.StationLinesList.GetEnumerator();
         }
         #endregion
 
@@ -295,19 +295,19 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool AddStationLine(StationLineDAO stationLine)
         {
-            if (I_DataSource.DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.LineNumber == stationLine.LineNumber
+            if (DataSource.DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.LineNumber == stationLine.LineNumber
              && currentStationLine.StationNumber == stationLine.StationNumber))
             {
                 throw new BusException("The station line already exists in the system.");
             }
             //StationLineDAO cloned = stationLine.Cloned();
             //cloned.Deleted = false;
-            I_DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
+            DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
 
             int loc = stationLine.NumberStationInLine;
-            for (int i = stationLine.NumberStationInLine; i < I_DataSource.DataSource.StationLinesList.Count; i++)
+            for (int i = stationLine.NumberStationInLine; i < DataSource.DataSource.StationLinesList.Count; i++)
             {
-                I_DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = loc++;
+                DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = loc++;
             }
             return true;
         }
@@ -318,14 +318,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool RemoveStationLine(StationLineDAO stationLine)
         {
-            foreach (var currentStationLine in I_DataSource.DataSource.StationLinesList)
+            foreach (var currentStationLine in DataSource.DataSource.StationLinesList)
             {
                 if (currentStationLine.LineNumber == stationLine.LineNumber
                     && currentStationLine.StationNumber == stationLine.StationNumber)
                 {
-                    for (int i = I_DataSource.DataSource.StationLinesList.Count; i > stationLine.NumberStationInLine; i--)
+                    for (int i = DataSource.DataSource.StationLinesList.Count; i > stationLine.NumberStationInLine; i--)
                     {
-                        I_DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = i - 1;
+                        DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = i - 1;
                     }
                     //currentStationLine.Deleted = true;
                     return true;
@@ -362,7 +362,7 @@ namespace H_DataAccessLayer
         public StationLineDAO GetOneStationLine(int lineNumber, int stationNumber)
         {
             StationLineDAO result = default(StationLineDAO);
-            result = I_DataSource.DataSource.StationLinesList.FirstOrDefault(item => item.LineNumber == lineNumber
+            result = DataSource.DataSource.StationLinesList.FirstOrDefault(item => item.LineNumber == lineNumber
             && item.StationNumber == stationNumber);
             if (result != null)
             {
@@ -377,8 +377,8 @@ namespace H_DataAccessLayer
         /// <returns>all the stations in the bus line</returns>
         public IEnumerable<StationLineDAO> GetAllStationsLineOfBusLine(int lineNumber)
         {
-            IEnumerable<StationLineDAO> result = from currentStationLine in I_DataSource.DataSource.StationLinesList
-                                                // where currentStationLine.CurrentSerialNB == lineNumber && !currentStationLine.Deleted
+            IEnumerable<StationLineDAO> result = from currentStationLine in DataSource.DataSource.StationLinesList
+                                                where currentStationLine.LineNumber == lineNumber && !currentStationLine.Deleted
                                                  select currentStationLine.Cloned();
             //IEnumerable<StationLineDAO> result = new List<StationLineDAO>();
             //foreach (var s in I_DataSource.DataSource.Stations)
@@ -399,21 +399,21 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateStationLine(StationLineDAO stationLine)
         {
-            if (!DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.StationNumber == stationLine.StationNumber
+            if (!DataSource.DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.StationNumber == stationLine.StationNumber
             && currentStationLine.LineNumber == stationLine.LineNumber))
             {
                 return false;
             }
             //delete
-            DataSource.StationLinesList.RemoveAll(currentStationLine => currentStationLine.StationNumber == stationLine.StationNumber
+            DataSource.DataSource.StationLinesList.RemoveAll(currentStationLine => currentStationLine.StationNumber == stationLine.StationNumber
             && currentStationLine.LineNumber == stationLine.LineNumber);
             //insert
-            DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
+            DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
             return true;
         }
         public IEnumerable<StationLineDAO> GetAllStationLines()
         {
-            return from item in DataSource.StationLinesList
+            return from item in DataSource.DataSource.StationLinesList
                    select item;
         }
 
@@ -428,14 +428,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool AddStation(StationDAO station)
         {
-            if (DataSource.StationsList.Exists(currentStation => currentStation.StationNumber == station.StationNumber))
+            if (DataSource.DataSource.StationsList.Exists(currentStation => currentStation.StationNumber == station.StationNumber))
             {
                 throw new BusException("Station already exists.");
                 //return false;
             }
             //StationDAO cloned = station.Cloned();
             //cloned.Deleted = false;
-            DataSource.StationsList.Add(station.Cloned());
+            DataSource.DataSource.StationsList.Add(station.Cloned());
             return true;
         }
         /// <summary>
@@ -445,7 +445,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool RemoveStation(StationDAO station)
         {
-            foreach (var currentStation in I_DataSource.DataSource.StationsList)
+            foreach (var currentStation in DataSource.DataSource.StationsList)
             {
                 if (currentStation.StationNumber == station.StationNumber)
                 {
@@ -463,7 +463,7 @@ namespace H_DataAccessLayer
         public StationDAO GetOneStation(int stationNumber)
         {
             StationDAO result = default(StationDAO);
-            result = I_DataSource.DataSource.StationsList.FirstOrDefault(item => item.StationNumber == stationNumber);
+            result = DataSource.DataSource.StationsList.FirstOrDefault(item => item.StationNumber == stationNumber);
             if (result != null)
             {
                 return result.Cloned();
@@ -476,7 +476,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public IEnumerable<StationDAO> GetAllStations()
         {
-            IEnumerable<StationDAO> result = from currentStation in I_DataSource.DataSource.StationsList
+            IEnumerable<StationDAO> result = from currentStation in DataSource.DataSource.StationsList
                                              //where currentStation.Deleted == false
                                              select currentStation.Cloned();
             return result;
@@ -488,7 +488,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public IEnumerable<BusLineDAO> GetBusLineInStation(int stationNmber)
         {
-            IEnumerable<BusLineDAO> result = from currentStationLine in DataSource.StationLinesList
+            IEnumerable<BusLineDAO> result = from currentStationLine in DataSource.DataSource.StationLinesList
                                              where currentStationLine.StationNumber == stationNmber && !currentStationLine.Deleted
                                              select GetOneBusLine(currentStationLine.LineNumber);
             //List<BusLineDAO> busLinesInStation = result as List<BusLineDAO>;
@@ -505,14 +505,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateStation(StationDAO station)
         {
-            if (!DataSource.StationsList.Exists(currentStation => currentStation.StationNumber == station.StationNumber))
+            if (!DataSource.DataSource.StationsList.Exists(currentStation => currentStation.StationNumber == station.StationNumber))
             {
                 return false;
             }
             //delete
-            DataSource.StationsList.RemoveAll(currentStation => currentStation.StationNumber == station.StationNumber);
+            DataSource.DataSource.StationsList.RemoveAll(currentStation => currentStation.StationNumber == station.StationNumber);
             //insert
-            DataSource.StationsList.Add(station.Cloned());
+            DataSource.DataSource.StationsList.Add(station.Cloned());
             return true;
         }
         //public int CompareTo(StationLineDAO stationLine1, StationLineDAO stationLine2)
@@ -530,12 +530,15 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool AddBusLine(BusLineDAO busLine)
         {
-            if (DataSource.BusLinesList.Exists(currentBus => currentBus.CurrentSerialNB == busLine.CurrentSerialNB))
+            if (DataSource.DataSource.BusLinesList.Exists(currentBus => currentBus.LineNumber == busLine.LineNumber))
             {
                 throw new BusException("The bus line already exists.");
                 //return false;
             }
-            DataSource.BusLinesList.Add(busLine.Cloned());
+            BusLineDAO busLineDAO = busLine.Cloned();
+            busLineDAO.CurrentSerialNB = Configuration.SerialBusLine;
+
+            DataSource.DataSource.BusLinesList.Add(busLineDAO);
             return true;
         }
         /// <summary>
@@ -545,11 +548,11 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool RemoveBusLine(BusLineDAO busLine)
         {
-            foreach (var currentBusLine in I_DataSource.DataSource.BusLinesList)
+            foreach (var currentBusLine in DataSource.DataSource.BusLinesList)
             {
                 if (currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB)
                 {
-                    //currentBusLine.Deleted = true;
+                    currentBusLine.Deleted = true;
 
                     //foreach (StationLineDAO currentStationLine in DataSource.StationLinesList)
                     //{
@@ -571,7 +574,7 @@ namespace H_DataAccessLayer
         public BusLineDAO GetOneBusLine(int lineNumber)
         {
             BusLineDAO result = default(BusLineDAO);
-            result = I_DataSource.DataSource.BusLinesList.FirstOrDefault(currentBusLine => currentBusLine.CurrentSerialNB == lineNumber);
+            result = DataSource.DataSource.BusLinesList.FirstOrDefault(currentBusLine => currentBusLine.LineNumber == lineNumber);
             if (result != null)
             {
                 return result.Cloned();
@@ -584,7 +587,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public IEnumerable<BusLineDAO> GetAllBusLines()
         {
-            IEnumerable<BusLineDAO> result = from currentBusLine in I_DataSource.DataSource.BusLinesList
+            IEnumerable<BusLineDAO> result = from currentBusLine in DataSource.DataSource.BusLinesList
                                              //where currentBusLine.Deleted == false
                                              select currentBusLine.Cloned();
             return result;
@@ -596,14 +599,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateBusLine(BusLineDAO busLine)
         {
-            if (!DataSource.BusLinesList.Exists(currentBusLine => currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB))
+            if (!DataSource.DataSource.BusLinesList.Exists(currentBusLine => currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB))
             {
                 return false;
             }
             //delete
-            DataSource.BusLinesList.RemoveAll(currentBusLine => currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB);
+            DataSource.DataSource.BusLinesList.RemoveAll(currentBusLine => currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB);
             //insert
-            DataSource.BusLinesList.Add(busLine.Cloned());
+            DataSource.DataSource.BusLinesList.Add(busLine.Cloned());
             return true;
         }
         #endregion
@@ -616,28 +619,35 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public List<CoupleStationInRowDAO> GetAllCoupleStationInRow()
         {
-            Random rand = new Random();
             foreach (BusLineDAO busLine in GetAllBusLines())
             {
-                List<StationLineDAO> stationLines = GetAllStationsLineOfBusLine(busLine.CurrentSerialNB) as List<StationLineDAO>;
-                for (int i = 0; i < stationLines.Count - 1; i++)
+                GetCoupleStationInRowOfOneBusLine(busLine);
+            }
+            return DataSource.DataSource.CoupleStationInRowList;
+        }
+
+        public void GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine)
+        {
+            Random rand = new Random();
+            IEnumerable<StationLineDAO> stationLines = GetAllStationsLineOfBusLine(busLine.LineNumber);
+            for (int i = 0; i < stationLines.Count() - 1; i++)
+            {
+                CoupleStationInRowDAO stationInRow = new CoupleStationInRowDAO
                 {
-                    CoupleStationInRowDAO stationInRow = new CoupleStationInRowDAO
-                    {
-                        StationNumberOne = stationLines[i].StationNumber,
-                        StationNumberTwo = stationLines[i + 1].StationNumber,
-                        AverageTravelTime = new TimeSpan(rand.Next(0), rand.Next(10), rand.Next(59)),
-                        Distance = rand.Next(2000)
-                    };
-                    if (!DataSource.CoupleStationInRowList.Exists(s => s.StationNumberOne == stationInRow.StationNumberOne
-                     && s.StationNumberTwo == stationInRow.StationNumberTwo))
-                    {
-                        DataSource.CoupleStationInRowList.Add(stationInRow.Cloned());
-                    }
+                    StationNumberOne = stationLines.ElementAt(i).StationNumber,
+                    StationNumberTwo = stationLines.ElementAt(i + 1).StationNumber,
+                    AverageTravelTime = new TimeSpan(rand.Next(0), rand.Next(10), rand.Next(59)),
+                    Distance = rand.Next(2000)
+                };
+                if (!DataSource.DataSource.CoupleStationInRowList.Exists(s => s.StationNumberOne == stationInRow.StationNumberOne
+                 && s.StationNumberTwo == stationInRow.StationNumberTwo))
+                {
+                    DataSource.DataSource.CoupleStationInRowList.Add(stationInRow.Cloned());
                 }
             }
-            return DataSource.CoupleStationInRowList;
+
         }
+
         /// <summary>
         /// couple station in a row update
         /// </summary>
@@ -648,7 +658,7 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow)
         {
-            if (!DataSource.CoupleStationInRowList.Exists(currentCoupleStation => currentCoupleStation.StationNumberOne == coupleStationInRow.StationNumberOne
+            if (!DataSource.DataSource.CoupleStationInRowList.Exists(currentCoupleStation => currentCoupleStation.StationNumberOne == coupleStationInRow.StationNumberOne
              && currentCoupleStation.StationNumberTwo == coupleStationInRow.StationNumberTwo))
             {
                 throw new BusException("This couple stations in row does not exists in the system.");
@@ -660,10 +670,10 @@ namespace H_DataAccessLayer
             //    AverageTravelTime = coupleStationInRow.AverageTravelTime,
             //    Distance = coupleStationInRow.Distance
             //};
-            DataSource.CoupleStationInRowList.RemoveAll(currentCoupleStation => currentCoupleStation.StationNumberOne == coupleStationInRow.StationNumberOne
+            DataSource.DataSource.CoupleStationInRowList.RemoveAll(currentCoupleStation => currentCoupleStation.StationNumberOne == coupleStationInRow.StationNumberOne
             && currentCoupleStation.StationNumberTwo == coupleStationInRow.StationNumberTwo);
 
-            DataSource.CoupleStationInRowList.Add(coupleStationInRow.Cloned());
+            DataSource.DataSource.CoupleStationInRowList.Add(coupleStationInRow.Cloned());
             return true;
         }
         #endregion
@@ -677,14 +687,14 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool AddLineInService(LineInServiceDAO lineInService)
         {
-            if (DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
+            if (DataSource.DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
             {
                 throw new BusException("Line in service already exists in the system.");
                 //return false;
             }
             LineInServiceDAO cloned = lineInService.Cloned();
             cloned.LineInServiceSerialNB = Configuration.SerialLineInService;
-            DataSource.LineInServicesList.Add(cloned);
+            DataSource.DataSource.LineInServicesList.Add(cloned);
             return true;
         }
         /// <summary>
@@ -694,12 +704,12 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool RemoveLineInService(LineInServiceDAO lineInService)
         {
-            if (!DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
+            if (!DataSource.DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
             {
                 return false;
             }
             //delete
-            DataSource.LineInServicesList.RemoveAll(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber);
+            DataSource.DataSource.LineInServicesList.RemoveAll(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber);
             return true;
         }
         /// <summary>
@@ -709,13 +719,13 @@ namespace H_DataAccessLayer
         /// <returns></returns>
         public bool UpdateLineInService(LineInServiceDAO lineInService)
         {
-            if (!DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
+            if (!DataSource.DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
             {
                 return false;
             }
             //delete
-            DataSource.LineInServicesList.RemoveAll(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber);
-            DataSource.LineInServicesList.Add(lineInService.Cloned());
+            DataSource.DataSource.LineInServicesList.RemoveAll(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber);
+            DataSource.DataSource.LineInServicesList.Add(lineInService.Cloned());
             return true;
         }
         #endregion

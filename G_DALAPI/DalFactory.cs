@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace G_DALAPI
+namespace DALAPI
 {
     /// <summary>
     /// Static Factory class for creating Dal tier implementation object according to
     /// configuration in file config.xml
     /// </summary>
-    public static class DalFactory
+    public static class DLFactory
     {
         /// <summary>
         /// The function creates Dal tier implementation object according to Dal type
@@ -24,12 +24,12 @@ namespace G_DALAPI
         public static IDal GetDL()
         {
             // get dal implementation name from config.xml according to <data> element
-            string dlType = DalConfig.DLName;
+            string dlType = DLConfig.DLName;
             // bring package name (dll file name) for the dal name (above) from the list of packages in config.xml
-            DalConfig.DALPackage dlPackage;
+            DLConfig.DLPackage dlPackage;
             try // get dal package info according to <dal> element value in config file
             {
-                dlPackage = DalConfig.DLPackages[dlType];
+                dlPackage = DLConfig.DLPackages[dlType];
             }
             catch (KeyNotFoundException ex)
             {

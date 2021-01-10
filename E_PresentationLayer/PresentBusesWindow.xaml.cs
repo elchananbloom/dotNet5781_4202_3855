@@ -1,5 +1,5 @@
 ﻿using BO;
-using F_BuisnessLayer;
+using BuisnessLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace E_PresentationLayer
+namespace PresentationLayer
 {
     /// <summary>
     /// Interaction logic for PresentBuses.xaml
@@ -23,21 +23,25 @@ namespace E_PresentationLayer
     public partial class PresentBusesWindow : Window
     {
         public ObservableCollection<BusBO> Busses { get; }
-        public IBL Bl { get; }
-
-        public PresentBusesWindow(ObservableCollection<BusBO> busses, IBL bl)
-        {
-            Busses = busses;
-            Bl = bl;
-        }
-
+        IBL bl = BLFactory.BlInstance;
 
         public PresentBusesWindow()
         {
+            Busses = new ObservableCollection<BO.BusBO>(bl.GetAllBusesBO());
+
             InitializeComponent();
             lbBusDetails.ItemsSource = Busses;
         }
 
-       
+
+        
+
+        private void tbMyBus_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TextBox tbBus = sender as TextBox;
+            BusBO busBO = (BusBO)tbBus.DataContext;
+            BusDetailsWindow details = new BusDetailsWindow(busBO, tbBus);
+            details.ShowDialog();
+        }
     }
 }

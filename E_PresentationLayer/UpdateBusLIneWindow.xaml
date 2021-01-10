@@ -1,0 +1,36 @@
+﻿<Window x:Class="PresentationLayer.UpdateBusLIneWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PresentationLayer"
+        mc:Ignorable="d"
+        Title="UpdateBusLIneWindow" Height="250" Width="300" WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbLineNumber}">
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="grid1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Line Number" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <Label x:Name="lblLineNumber" Grid.Column="1" HorizontalContentAlignment="Center" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalAlignment="Left" Margin="3" Grid.Row="0" Width="120" Height="23" VerticalAlignment="Center"/>
+            <Label Content="Area" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbArea" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="120"/>
+            <Label Content="First Station" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbFirstStation" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="3" Grid.Row="2" Width="120" Height="23" VerticalAlignment="Center" SelectionChanged="cbFirstStation_SelectionChanged" />
+            <Label Content="Last Station" FontWeight="Bold" FontSize="16" Foreground="White" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbLastStation" Grid.Column="1" Background="{x:Null}" FontSize="12" FontWeight="Bold" Foreground="Orange" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" VerticalAlignment="Center" Width="120" SelectionChanged="cbLastStation_SelectionChanged"/>
+        </Grid>
+        <Button x:Name="btnUpdateLine" Grid.Row="1" Content="Update" Background="Orange" Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" IsDefault="True" Margin="3" Width="60" Click="btnUpdateLine_Click"/>
+    </Grid>
+</Window>

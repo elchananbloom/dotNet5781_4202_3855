@@ -14,6 +14,9 @@ namespace DO
         public TimeSpan Frequency { get; set; }
         public TimeSpan EndLineTime { get; set; }
 
-
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

@@ -13,6 +13,9 @@ namespace DO
         public int Distance { get; set; }
         public TimeSpan AverageTravelTime { get; set; }
 
-
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

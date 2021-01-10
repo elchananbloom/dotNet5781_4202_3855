@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace G_DALAPI
+namespace DALAPI
 {
     /**
      <summary>
@@ -36,9 +36,9 @@ namespace G_DALAPI
      </example>
      </summary>
     */
-    static class DalConfig
+    static class DLConfig
     {
-        public class DALPackage
+        public class DLPackage
         {
             public string Name;
             public string PkgName;
@@ -46,22 +46,22 @@ namespace G_DALAPI
             public string ClassName;
         }
         internal static string DLName;
-        internal static Dictionary<string, DALPackage> DLPackages;
+        internal static Dictionary<string, DLPackage> DLPackages;
 
         /// <summary>
         /// Static constructor extracts Dal packages list and Dal type from
         /// Dal configuration file config.xml
         /// </summary>
-        static DalConfig()
+        static DLConfig()
         {
             XElement dlConfig = XElement.Load(@"config.xml");
             DLName = dlConfig.Element("dl").Value;
             DLPackages = (from pkg in dlConfig.Element("dl-packages").Elements()
                           let tmp1 = pkg.Attribute("namespace")
-                          let nameSpace = tmp1 == null ? "H_DataAccessLayer" : tmp1.Value
+                          let nameSpace = tmp1 == null ? "DL" : tmp1.Value
                           let tmp2 = pkg.Attribute("class")
                           let className = tmp2 == null ? pkg.Value : tmp2.Value
-                          select new DALPackage()
+                          select new DLPackage()
                           {
                               Name = "" + pkg.Name,
                               PkgName = pkg.Value,

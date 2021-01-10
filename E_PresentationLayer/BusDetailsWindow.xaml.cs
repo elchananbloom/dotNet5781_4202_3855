@@ -1,27 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace E_PresentationLayer
+namespace PresentationLayer
 {
     /// <summary>
     /// Interaction logic for BusDetailsWindow.xaml
     /// </summary>
     public partial class BusDetailsWindow : Window
     {
+        public BusBO BusBO { get; }
+        public TextBox TbBus { get; }
+        public BusDetailsWindow(BusBO busBO, TextBox tbBus)
+        {
+            BusBO = busBO;
+            TbBus = tbBus;
+            InitializeComponent();
+            dateBeginTextBox.Content = BusBO.StartOfWork.ToString();
+            fuelStatusTextBox.Content = BusBO.Fuel.ToString();
+            lastTreatmentTextBox.Content = BusBO.LastTreatment.ToString();
+            licenseNumberTextBox.Content = BusBO.LicenseNumber;
+            maintenanceTextBox.Content = BusBO.Maintnance.ToString();
+            totalMileageTextBox.Content = BusBO.TotalKms.ToString();
+        }
         public BusDetailsWindow()
         {
-            InitializeComponent();
         }
     }
 }

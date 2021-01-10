@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
-namespace I_DataSource
+namespace DataSource
 {
     public static class Configuration
     {

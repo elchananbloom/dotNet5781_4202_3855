@@ -10,6 +10,7 @@ namespace BO
     {
         public string LicenseNumber { get; set; }
         public DateTime StartOfWork { get; set; }
+        public DateTime LastTreatment { get; set; }
         public int TotalKms { get; set; }
         public int Fuel { get; set; }
         public int Maintnance { get; set; }

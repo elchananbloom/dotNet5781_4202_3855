@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 
-namespace G_DALAPI
+namespace DALAPI
 {
     public interface IDal
     {
@@ -62,6 +62,7 @@ namespace G_DALAPI
 
         #region CoupleStationInRowDAO functions
         List<CoupleStationInRowDAO> GetAllCoupleStationInRow();
+        void  GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine);
         bool UpdateCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow);
         #endregion
 

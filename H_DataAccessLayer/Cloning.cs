@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using DO;
 
 
-namespace H_DataAccessLayer
+namespace DAL
 {
     /// <summary>
     /// doesn't work with nested classes. It meshachpel the objects that comes from the BL for saving or updating them before saving them in the DS.

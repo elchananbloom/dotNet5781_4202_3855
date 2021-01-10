@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace F_BuisnessLayer
+namespace BuisnessLayer
 {
     [Serializable]
     internal class BusExeption : Exception

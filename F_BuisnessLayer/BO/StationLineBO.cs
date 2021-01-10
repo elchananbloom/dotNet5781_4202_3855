@@ -12,6 +12,12 @@ namespace BO
         public StationBO Station { get; set; }
         //מספר תחנה בקו
         public int NumberStationInLine { get; set; }
+        public int Distance { get; set; }
+        public TimeSpan Time { get; set; }
         public bool Deleted { get; set; }
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

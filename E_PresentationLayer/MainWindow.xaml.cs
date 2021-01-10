@@ -1,4 +1,4 @@
-﻿using F_BuisnessLayer;
+﻿using BuisnessLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,25 +15,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace E_PresentationLayer
+namespace PresentationLayer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        static ObservableCollection<BO.BusBO> busses = new ObservableCollection<BO.BusBO>();
+        
         IBL bl = BLFactory.BlInstance;
 
         public MainWindow()
         {
             InitializeComponent();
-            busses = new ObservableCollection<BO.BusBO>(bl.GetAllBusesBO());
+            
+            //PresentBusesWindow presentBuses = new PresentBusesWindow(busses, bl);
+            //presentBuses.ShowDialog();
         }
 
         private void Manager_Click(object sender, RoutedEventArgs e)
         {
-            ManagementWindow managementWindow = new ManagementWindow(busses, bl);
+            ManagementWindow managementWindow = new ManagementWindow();
             managementWindow.ShowDialog();
 
 

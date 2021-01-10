@@ -29,5 +29,9 @@ namespace DO
         public bool IsActive { get; set; }
         public string DriverID { get; set; }
 
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

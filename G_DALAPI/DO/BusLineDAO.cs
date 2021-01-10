@@ -1,4 +1,4 @@
-﻿using G_DALAPI;
+﻿using DALAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +21,9 @@ namespace DO
         //public List<StationLineDAO> LineStations { get; set; }
         public bool Deleted { get; set; }
 
+        public override string ToString()
+        {
+            return this.ToStringProperty();
+        }
     }
 }

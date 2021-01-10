@@ -1,12 +1,47 @@
-﻿<Window x:Class="E_PresentationLayer.PresentStationsWindow"
+﻿<Window x:Class="PresentationLayer.PresentStationsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:E_PresentationLayer"
+        xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
-        Title="PresentStationsWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="PresentStationsWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        <Grid Background="Blue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="UpGrid">
+                <Label Content="Stations: " HorizontalAlignment="Left" FontSize="35" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid x:Name="RightBottomGrid" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="4*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnAddStation" Content="Add Station" FontWeight="Bold" FontSize="22" Background="Orange" Foreground="White" />
+                </Grid>
+                <ListBox x:Name="lbStation" Background="{x:Null}" ItemsSource="{Binding}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="tbStations" Text="{Binding StationNumber}" FontWeight="Bold" Width="600" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8" MouseDoubleClick="tbStations_MouseDoubleClick"/>
+                                <Button x:Name="btnUpdate" Content="Update" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="1"/>
+                                <Button x:Name="btnDelete" Content="Delete" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="2"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
 </Window>

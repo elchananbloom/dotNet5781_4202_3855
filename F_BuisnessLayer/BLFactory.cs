@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace F_BuisnessLayer
+namespace BuisnessLayer
 {
     public static class BLFactory
     {

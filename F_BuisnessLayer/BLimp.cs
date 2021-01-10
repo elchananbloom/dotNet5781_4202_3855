@@ -1,15 +1,17 @@
 ﻿using BO;
-using G_DALAPI;
-using I_DataSource;
+using BuisnessLayer;
+using DALAPI;
+using DataSource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 
-namespace F_BuisnessLayer
+namespace BuisnessLayer
 {
     class BLimp : IBL
     {
-        IDal dal = DalFactory.GetDL();
+        IDal dal = DLFactory.GetDL();
 
         #region singleton parts
         private static IBL instance = new BLimp();
@@ -135,7 +137,7 @@ namespace F_BuisnessLayer
         {
             BusLineBO busLineBO = new BusLineBO();
             //DO.Person personDO;
-            int lineNumber = busLineDAO.LineNumber;
+            //int lineNumber = busLineDAO.LineNumber;
             //try
             //{
             //    personDO = dl.GetPerson(licenseNumber);
@@ -145,30 +147,36 @@ namespace F_BuisnessLayer
             //    throw new BO.BadStudentIdException("Student ID is illegal", ex);
             //}
             busLineDAO.CopyPropertiesTo(busLineBO);
+            busLineBO.StationLines = from item in dal.GetAllStationsLineOfBusLine(busLineBO.LineNumber)
+                                     select StationLineDoBoAdapter(item);
             //busDAO.CopyPropertiesTo(busBO);
             //busBO.ListOfCourses = from sic in dl.GetStudentInCourseList(sic => sic.PersonId == licenseNumber)
             //                          let course = dl.GetCourse(sic.CourseId)
             //                          select course.CopyToStudentCourse(sic);
             return busLineBO;
         }
-        public bool AddBusLine(BusLineBO busLine)
+        public bool AddBusLine(BusLineBO busLine,StationLineBO firstStationLineBO,StationLineBO lastStationLineBO)
         {
             DO.BusLineDAO busLineDAO = new DO.BusLineDAO();
+            //busLineDAO.FirstStationNumber = busLine.StationLines.ElementAt(0).Station.StationNumber;
+            //busLineDAO.LastStationNumber = busLine.StationLines.ElementAt(busLine.StationLines.Count()).Station.StationNumber;
             busLine.CopyPropertiesTo(busLineDAO);
             try
             {
                 if (dal.AddBusLine(busLineDAO))
                 {
                     busLineDAO.Deleted = false;
-                    busLineDAO.CurrentSerialNB = Configuration.SerialBusLine;
+                    AddStationLine(firstStationLineBO);
+                    AddStationLine(lastStationLineBO);
+                    busLine.StationLines = from item in GetAllStationLines(busLine.LineNumber)
+                                             select item;
+                    //StationLineBO firstStation = busLine.StationLines.ElementAt(0);
+                    //firstStation.NumberStationInLine = 0;
+                    //StationLineBO lastStation = busLine.StationLines.ElementAt(1);
+                    //lastStation.NumberStationInLine = 1;
 
-                    StationLineBO firstStation = busLine.StationLines.ElementAt(0);
-                    firstStation.NumberStationInLine = 0;
-                    StationLineBO lastStation = busLine.StationLines.ElementAt(1);
-                    lastStation.NumberStationInLine = 1;
-
-                    AddStationLine(firstStation);
-                    AddStationLine(lastStation);
+                    //AddStationLine(firstStation);
+                    //AddStationLine(lastStation);
                     return true;
                 }
             }
@@ -188,12 +196,16 @@ namespace F_BuisnessLayer
         public bool RemoveBusLine(BusLineBO busLine)
         {
             DO.BusLineDAO busLineDAO = new DO.BusLineDAO();
-            busLine.CopyPropertiesTo(busLineDAO);
+            busLineDAO = dal.GetOneBusLine(busLine.LineNumber);
+            //GetOneBusLine(busLine.LineNumber).CopyPropertiesTo(busLineDAO);
+            //busLineDAO.FirstStationNumber = busLine.StationLines.ElementAt(0).Station.StationNumber;
+            //busLineDAO.LastStationNumber = busLine.StationLines.ElementAt(busLine.StationLines.Count()-1).Station.StationNumber;
+            //busLine.CopyPropertiesTo(busLineDAO);
             try
             {
                 if (dal.RemoveBusLine(busLineDAO))
                 {
-                    busLineDAO.Deleted = true;
+                    //busLineDAO.Deleted = true;
                     return true;
                 }
             }
@@ -211,8 +223,29 @@ namespace F_BuisnessLayer
             {
                 busLineDAO = dal.GetOneBusLine(lineNumber);
                 busLine = busLineDoBoAdapter(busLineDAO);
-                busLine.StationLines = from item in dal.GetAllStationsLineOfBusLine(busLine.LineNumber)
-                                       select StationLineDoBoAdapter(item);
+                busLine.StationLines = from item in GetAllStationLines(busLine.LineNumber)
+                                       select item;
+                int i = 0;
+                foreach (var item in dal.GetAllCoupleStationInRow())
+                {
+                    if (item.StationNumberOne == busLine.StationLines.ElementAt(i).Station.StationNumber
+                        && item.StationNumberTwo == busLine.StationLines.ElementAt(i+1).Station.StationNumber)
+                    {
+                        //busLine.StationLines.ElementAt(i).LineNumber = item.Distance;
+                        StationLineBO stationLineBO = StationLineDoBoAdapter(dal.GetOneStationLine(busLine.LineNumber, busLine.StationLines.ElementAt(i).Station.StationNumber));
+                        stationLineBO.Distance = item.Distance;
+                        stationLineBO.Time = item.AverageTravelTime;
+                        UpdateStationLine(stationLineBO);
+
+                        //busLine.StationLines.ElementAt(i).Distance = item.Distance;
+                        //busLine.StationLines.ElementAt(i).Time = item.AverageTravelTime;
+                        i++;
+                        if(busLine.StationLines.Count()-1==i)
+                        {
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception be)
             {
@@ -227,12 +260,22 @@ namespace F_BuisnessLayer
                        select GetOneBusLine(item.LineNumber);
             return list.OrderBy(s => s.LineNumber);
         }
-        public bool UpdateBusLine(BusLineBO busLine)
+        public bool UpdateBusLine(BusLineBO busLine, StationLineBO firstStationLineBO, StationLineBO lastStationLineBO)
         {
             DO.BusLineDAO busLineDAO = new DO.BusLineDAO();
             busLine.CopyPropertiesTo(busLineDAO);
             try
             {
+                if (!DataSource.DataSource.StationLinesList.Exists(s => s.StationNumber == firstStationLineBO.Station.StationNumber
+                && s.LineNumber==firstStationLineBO.LineNumber))
+                {
+                    AddStationLine(firstStationLineBO);
+                }
+                if (!DataSource.DataSource.StationLinesList.Exists(s => s.StationNumber == lastStationLineBO.Station.StationNumber
+                && s.LineNumber==lastStationLineBO.LineNumber))
+                {
+                    AddStationLine(lastStationLineBO);
+                }
                 if (dal.UpdateBusLine(busLineDAO))
                 {
                     foreach (var item in dal.GetAllStationsLineOfBusLine(busLineDAO.LineNumber))
@@ -265,6 +308,7 @@ namespace F_BuisnessLayer
             //{
             //    throw new BO.BadStudentIdException("Student ID is illegal", ex);
             //}
+            stationLineBO.Station = StationDoBoAdapter(dal.GetOneStation(stationLineDAO.StationNumber));
             stationLineDAO.CopyPropertiesTo(stationLineBO);
             //busDAO.CopyPropertiesTo(busBO);
             //busBO.ListOfCourses = from sic in dl.GetStudentInCourseList(sic => sic.PersonId == licenseNumber)
@@ -275,6 +319,7 @@ namespace F_BuisnessLayer
         public bool AddStationLine(StationLineBO stationLine)
         {
             DO.StationLineDAO stationLineDAO = new DO.StationLineDAO();
+            stationLineDAO.StationNumber = stationLine.Station.StationNumber;
             stationLine.CopyPropertiesTo(stationLineDAO);
             try
             {
@@ -330,6 +375,10 @@ namespace F_BuisnessLayer
             IEnumerable<StationLineBO> list = from item in dal.GetAllStationsLineOfBusLine(num)
                        where item.LineNumber == num && !item.Deleted
                        select StationLineDoBoAdapter(item);
+            //foreach (var item in list)
+            //{
+            //    item.Station=GetOneStation()
+            //}
             return list.OrderBy(s => s.NumberStationInLine);
         }
         #endregion

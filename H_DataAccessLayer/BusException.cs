@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace H_DataAccessLayer
+namespace DAL
 {
     [Serializable]
     internal class BusException : Exception
