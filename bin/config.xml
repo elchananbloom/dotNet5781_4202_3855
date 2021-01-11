@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<dl>data</dl>
+	<dl-packages>
+		<oldfashion>DLObject</oldfashion>
+		<data namespace="DAL" class="DalObject">H_DataAccessLayer</data>
+		<xml namespace="DL" class="DLXML">DLXml</xml>
+		<oracle namespace="DL_O" class="DLDbOracle">DLOracle</oracle>
+	</dl-packages>
+</config>
