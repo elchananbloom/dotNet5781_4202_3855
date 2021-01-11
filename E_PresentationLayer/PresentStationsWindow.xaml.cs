@@ -22,12 +22,12 @@ namespace PresentationLayer
     /// </summary>
     public partial class PresentStationsWindow : Window
     {
-        public ObservableCollection<StationBO> Stations { get; }
+        public ObservableCollection<StationBO> Stations { get; set; }
         IBL bl = BLFactory.BlInstance;
 
         public PresentStationsWindow()
         {
-            Stations = new ObservableCollection<BO.StationBO>(bl.GetAllStations());
+            Stations = new ObservableCollection<StationBO>(bl.GetAllStations());
             InitializeComponent();
             lbStation.ItemsSource = Stations;
         }
@@ -43,8 +43,62 @@ namespace PresentationLayer
         //{
         //}
 
+        private void btnAddStation_Click(object sender, RoutedEventArgs e)
+        {
+            AddStationWindow addStationWindow = new AddStationWindow();
+            bool? result = addStationWindow.ShowDialog();
+            if(result==true)
+            {
+                Stations = new ObservableCollection<StationBO>(bl.GetAllStations());
+                lbStation.ItemsSource = Stations;
+                lbStation.Items.Refresh();
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var currentStation = sender as FrameworkElement;
+            var station = currentStation.DataContext as StationBO;
+            if (MessageBox.Show("Are you sure you want to delete station: " + station.StationNumber + '?', "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                bl.RemoveStation(station);
+                Stations.Remove(station);
+            }
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            var currentStation = sender as FrameworkElement;
+            var station = currentStation.DataContext as StationBO;
+
+        }
+
+        //private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var currentBus = sender as FrameworkElement;
+        //    var busLineBO = currentBus.DataContext as BusLineBO;
+        //    UpdateBusLIneWindow updateBusLIneWindow = new UpdateBusLIneWindow(Stations, busLineBO);
+        //    bool? result = updateBusLIneWindow.ShowDialog();
+        //    if (result == true)
+        //    {
+        //        BusLines = new ObservableCollection<BO.BusLineBO>(bl.GetAllBusLines());
+        //        lbLines.ItemsSource = BusLines;
+        //        lbLines.Items.Refresh();
+        //        //BusLines.Add(addBusLineWindow.BusLine);
+        //    }
+        //}
+
+
+
+
+        //public PresentLinesWindow()
+        //{
+        //}
+
 
 
 
     }
+
 }
+

@@ -449,7 +449,7 @@ namespace DAL
             {
                 if (currentStation.StationNumber == station.StationNumber)
                 {
-                    //currentStation.Deleted = true;
+                    currentStation.Deleted = true;
                     return true;
                 }
             }

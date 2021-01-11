@@ -24,7 +24,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="4*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="btnAddStation" Content="Add Station" FontWeight="Bold" FontSize="22" Background="Orange" Foreground="White" />
+                    <Button x:Name="btnAddStation" Content="Add Station" FontWeight="Bold" FontSize="22" Background="Orange" Foreground="White" Click="btnAddStation_Click" />
                 </Grid>
                 <ListBox x:Name="lbStation" Background="{x:Null}" ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
@@ -36,8 +36,8 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="tbStations" Text="{Binding StationNumber}" FontWeight="Bold" Width="600" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8" MouseDoubleClick="tbStations_MouseDoubleClick"/>
-                                <Button x:Name="btnUpdate" Content="Update" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="1"/>
-                                <Button x:Name="btnDelete" Content="Delete" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="2"/>
+                                <Button x:Name="btnUpdate" Content="Update" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="1" Click="btnUpdate_Click"/>
+                                <Button x:Name="btnDelete" Content="Delete" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="2" Click="btnDelete_Click" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

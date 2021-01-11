@@ -63,6 +63,9 @@
     <Compile Include="AddLineWindow.xaml.cs">
       <DependentUpon>AddLineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddStationWindow.xaml.cs">
+      <DependentUpon>AddStationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StationDetailsWindow.xaml.cs">
       <DependentUpon>StationDetailsWindow.xaml</DependentUpon>
     </Compile>
@@ -80,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddLineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddStationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +194,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\DataSources\BO.BusLineBO.datasource" />
+    <None Include="Properties\DataSources\BO.StationBO.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

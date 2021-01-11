@@ -413,7 +413,7 @@ namespace BuisnessLayer
             {
                 if (dal.AddStation(stationDAO))
                 {
-                    stationDAO.Deleted = false;
+                    //stationDAO.Deleted = false;
                     return true;
                 }
             }
@@ -426,7 +426,8 @@ namespace BuisnessLayer
         public bool RemoveStation(StationBO station)
         {
             DO.StationDAO stationDAO = new DO.StationDAO();
-            station.CopyPropertiesTo(stationDAO);
+            stationDAO = dal.GetOneStation(station.StationNumber);
+            //station.CopyPropertiesTo(stationDAO);
             try
             {
                 if (dal.RemoveStation(stationDAO))
@@ -477,7 +478,7 @@ namespace BuisnessLayer
         {
             var list = from item in dal.GetAllStations()
                        where item.Deleted == false
-                       select StationDoBoAdapter(item);
+                       select GetOneStation(item.StationNumber);
             return list.OrderBy(s => s.StationNumber);
         }
         public IEnumerable<BusLineBO> GetAllBusLinesInStation(int stationNumber)
