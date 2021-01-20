@@ -46,7 +46,14 @@ namespace PresentationLayer
 
         private void btnUpdateStationLine_Click(object sender, RoutedEventArgs e)
         {
-
+            var s = sender as FrameworkElement;
+            var stationLine = s.DataContext as StationLineBO;
+            UpdateStationLineWindow updateStationLine = new UpdateStationLineWindow(stationLine);
+            updateStationLine.ShowDialog();
+            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLines(stationLine.LineNumber));
+            //StationLines.Remove(stationLine);
+            lbStationLines.ItemsSource = StationLines;
+            lbStationLines.Items.Refresh();
         }
 
         private void btnDeleteStationLine_Click(object sender, RoutedEventArgs e)

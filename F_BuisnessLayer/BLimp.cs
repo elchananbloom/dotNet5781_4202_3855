@@ -401,6 +401,7 @@ namespace BuisnessLayer
             {
                 if (dal.UpdateStationLine(stationLineDAO))
                 {
+                    AddStationLine(stationLine);
                     return true;
                 }
             }

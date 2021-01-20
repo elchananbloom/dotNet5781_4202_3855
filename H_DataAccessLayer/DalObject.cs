@@ -327,7 +327,6 @@ namespace DAL
                 UpdateStationLine(item);
             }
             DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
-
             return true;
             //int loc = stationLine.NumberStationInLine;
             //for (int i = stationLine.NumberStationInLine; i < DataSource.DataSource.StationLinesList.Count; i++)
