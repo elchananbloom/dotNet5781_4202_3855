@@ -13,15 +13,17 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Station Number:" HorizontalAlignment="Left" FontSize="22" Foreground="White" FontWeight="Bold"/>
-            <Label x:Name="lblStationNumber" Grid.Column="1" VerticalAlignment="Bottom" FontSize="18" Foreground="Orange" FontWeight="Bold"/>
-            <Label Content="Station Name: " HorizontalAlignment="Left" FontSize="22" Foreground="White" FontWeight="Bold" Grid.Column="2"/>
-            <Label x:Name="lblStationName" Grid.Column="3" VerticalAlignment="Bottom" FontSize="18" Foreground="Orange" FontWeight="Bold"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Station Number:" HorizontalAlignment="Right" FontSize="22" Foreground="White" FontWeight="Bold"/>
+            <Label x:Name="lblStationNumber" Grid.Column="1" FontSize="18" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Orange" FontWeight="Bold"/>
+            <Label Content="Station Name: " Grid.Row="1" HorizontalAlignment="Right" FontSize="22" Foreground="White" FontWeight="Bold"/>
+            <Label x:Name="lblStationName" Grid.Column="1" Grid.Row="1" FontSize="18" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Orange" FontWeight="Bold"/>
         </Grid>
         <Grid Grid.Row="1">
             <ListBox x:Name="lbBusLinesInStation" Background="{x:Null}" ItemsSource="{Binding}">
@@ -29,19 +31,18 @@
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="White">
                             <Grid>
-                                <!--<Grid.RowDefinitions>
+                                <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>-->
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Label x:Name="lblLineNumber" Content="{Binding Path=LineNumber}" Grid.Column="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
-                                <!--<Label x:Name="lblStationNumber" Content="{Binding Path=StationNumber}" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>-->
                                 <Label Content="Line Number: " FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
-                                <!--<Label Content="Station Number: " Grid.Row="1" FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>-->
+                                <Label Content="Last Station Name: " Grid.Row="1" FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
+                                <Label x:Name="lblStationName" Content="{Binding Path=LastStationName}" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="3"/>
                             </Grid>
                         </Border>
                     </DataTemplate>

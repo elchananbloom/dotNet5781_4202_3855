@@ -18,25 +18,30 @@ using System.Windows.Shapes;
 namespace PresentationLayer
 {
     /// <summary>
-    /// Interaction logic for AddStationWindow.xaml
+    /// Interaction logic for UpdateStationWindow.xaml
     /// </summary>
-    public partial class AddStationWindow : Window
+    public partial class UpdateStationWindow : Window
     {
-        StationBO station;
+        //StationBO stationBO;
         IBL bl = BLFactory.BlInstance;
+
         public StationBO Station { get; set; }
-        public AddStationWindow()
+        public UpdateStationWindow(StationBO station)
         {
+            Station = station;
             InitializeComponent();
-
-
+            tbLatitude.Text = string.Format("" + station.Latitude);
+            tbLongtitude.Text = string.Format("" + station.Longtitude);
+            tbStationName.Text = station.StationName;
+            tbStationNumber.Content = string.Format("" + station.StationNumber);
         }
+        
 
-        private void btnAddStation_Click(object sender, RoutedEventArgs e)
+        private void btnUpdateStation_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (tbLatitude.Text == null || tbLongtitude.Text == null || tbStationName.Text == null || tbStationNumber.Text == null)
+                if (tbLatitude.Text == null || tbLongtitude.Text == null || tbStationName.Text == null)
                 {
                     MessageBox.Show("Error. At least one field has not been filled.");
                 }
@@ -50,16 +55,19 @@ namespace PresentationLayer
                 }
                 else
                 {
-                    Station = new StationBO
-                    {
-                        Deleted = false,
-                        Latitude = float.Parse(tbLatitude.Text),
-                        Longtitude = float.Parse(tbLongtitude.Text),
-                        StationName = tbStationName.Text,
-                        StationNumber = int.Parse(tbStationNumber.Text),
-                        BusLinesInStation = bl.GetAllBusLinesInStation(int.Parse(tbStationNumber.Text))
-                    };
-                    bl.AddStation(Station);
+                    //Station = new StationBO
+                    //{
+                    //    Deleted = false,
+                    //    Latitude = int.Parse(tbLatitude.Text),
+                    //    Longtitude = int.Parse(tbLongtitude.Text),
+                    //    StationName = tbStationName.Text,
+                    //    StationNumber = int.Parse(tbStationNumber.Text),
+                    //    BusLinesInStation = bl.GetAllBusLinesInStation(int.Parse(tbStationNumber.Text))
+                    //};
+                    Station.StationName = tbStationName.Text;
+                    Station.Longtitude = float.Parse(tbLongtitude.Text);
+                    Station.Latitude = float.Parse(tbLatitude.Text);
+                    bl.UpdateStation(Station);
                     DialogResult = true;
                     this.Close();
                 }
@@ -69,10 +77,12 @@ namespace PresentationLayer
                 MessageBox.Show(error.Message);
             }
         }
+        
         /// <summary>
         /// the 3 following functions are making sure that the input from the user are numbers. 
         /// </summary>
         private static readonly Regex _regex = new Regex("[^0-9.]+");
+        //private static readonly Regex _regex = new Regex(@"^[-+][0-9]+\.[0-9]+$");
 
         private static bool IsTextAllowed(string text)
         {

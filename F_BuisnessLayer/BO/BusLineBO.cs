@@ -12,6 +12,7 @@ namespace BO
         public int LineNumber { get; set; }
         public Area Area { get; set; }
         public IEnumerable<StationLineBO> StationLines { get; set; }
+        public string LastStationName { get => StationLines.ToList().Last().Station.StationName; }
         //public StationBO FirstStation { get; set; }
         //public StationBO LastStation { get; set; }
         //public List<int> LineStationNumbers { get; set; }

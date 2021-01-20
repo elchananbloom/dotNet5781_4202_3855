@@ -27,43 +27,54 @@
             <ListBox x:Name="lbStationLines" Background="{x:Null}" ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="White">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Station Name: " FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
-                                <Label x:Name="lblStationName" Content="{Binding Path=Station.StationName}" Grid.Column="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
-                                <Label Content="Station Number: " Grid.Row="1" FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
-                                <Label x:Name="lblStationNumber" Content="{Binding Path=Station.StationNumber}" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
-                            </Grid>
-                                <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="1" BorderBrush="White">
+                                <Grid Width="380">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Content="Distance: " FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
-                                    <Label x:Name="lblDistance" Content="{Binding Path=Distance}" Grid.Column="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
-                                    <Label Content="Travel Time: " Grid.Row="1" FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
-                                    <Label x:Name="lblTravelTime" Content="{Binding Path=Time}" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
-
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Station Name: " FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
+                                        <Label x:Name="lblStationName" Content="{Binding Path=Station.StationName}" Grid.Column="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
+                                        <Label Content="Station Number: " Grid.Row="1" FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
+                                        <Label x:Name="lblStationNumber" Content="{Binding Path=Station.StationNumber}" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
+                                        <Button x:Name="btnUpdateStationLine" Content="Update" Grid.Row="2" FontSize="18" FontWeight="Bold" Foreground="White" Background="Orange" Width="100" Height="30" Click="btnUpdateStationLine_Click"/>
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Distance: " FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
+                                        <Label x:Name="lblDistance" Content="{Binding Path=Distance}" Grid.Column="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
+                                        <Label Content="Travel Time: " Grid.Row="1" FontWeight="Bold" FontSize="16" Foreground="White" Background="{x:Null}"/>
+                                        <Label x:Name="lblTravelTime" Content="{Binding Path=Time}" Grid.Column="1" Grid.Row="1" FontWeight="Bold" Width="200" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8"/>
+                                        <Button x:Name="btnDeleteStationLine" Content="Delete" Grid.Row="2" FontSize="18" FontWeight="Bold" Foreground="White" Background="Orange" Width="100" Height="30" Click="btnDeleteStationLine_Click"/>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Border>
+                            </Border>
+                            <Button x:Name="btnAddStationLine" Content="Add Station Line" Grid.Row="1" FontSize="18" FontWeight="Bold" Foreground="White" Background="Orange" Width="150" Height="30" Click="btnAddStationLine_Click"/>
+
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

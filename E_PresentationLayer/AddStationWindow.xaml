@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PresentationLayer"
         xmlns:BO="clr-namespace:BO;assembly=F_BuisnessLayer" x:Class="PresentationLayer.AddStationWindow"
         mc:Ignorable="d"
-        Title="AddStationWindow" Height="300" Width="400">
+        Title="AddStationWindow" Height="300" Width="400" WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbStationName}">
    
     <Grid>
         <Grid x:Name="grid1" Background="Blue">
@@ -19,15 +19,17 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Content="Latitude:" Grid.Column="0" FontSize="22" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <TextBox x:Name="latitudeTextBox" Grid.Column="1" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="tbLatitude" Grid.Column="1" HorizontalContentAlignment="Center" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="120" PreviewTextInput="tbLatitude_PreviewTextInput"/>
             <Label Content="Longtitude:" Grid.Column="0" FontSize="22" Foreground="White" FontWeight="Bold"  HorizontalAlignment="Right" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-            <TextBox x:Name="longtitudeTextBox" Grid.Column="1" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="tbLongtitude" Grid.Column="1" HorizontalContentAlignment="Center" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" VerticalAlignment="Center" Width="120" PreviewTextInput="tbLongtitude_PreviewTextInput"/>
             <Label Content="Station Name:" Grid.Column="0" FontSize="22" Foreground="White" FontWeight="Bold"  HorizontalAlignment="Right" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-            <TextBox x:Name="stationNameTextBox"  Grid.Column="1" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="tbStationName"  Grid.Column="1" HorizontalContentAlignment="Center" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120"/>
             <Label Content="Station Number:" Grid.Column="0" FontSize="22" Foreground="White" FontWeight="Bold"  HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-            <TextBox x:Name="stationNumberTextBox" Grid.Column="1" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="tbStationNumber" Grid.Column="1" HorizontalContentAlignment="Center" FontSize="18" Foreground="Orange" FontWeight="Bold" Background="{x:Null}"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="120"/>
+            <Button x:Name="btnAddStation" Content="Add" HorizontalContentAlignment="Center" Grid.Row="4" Height="40" Grid.ColumnSpan="2" Width="100" Background="Orange" Foreground="White" FontSize="22" FontWeight="Bold" Click="btnAddStation_Click"/>
         </Grid>
 
 

@@ -296,20 +296,45 @@ namespace DAL
         public bool AddStationLine(StationLineDAO stationLine)
         {
             if (DataSource.DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.LineNumber == stationLine.LineNumber
-             && currentStationLine.StationNumber == stationLine.StationNumber))
+             && currentStationLine.StationNumber == stationLine.StationNumber
+             &&!currentStationLine.Deleted))
             {
                 throw new BusException("The station line already exists in the system.");
             }
             //StationLineDAO cloned = stationLine.Cloned();
             //cloned.Deleted = false;
+            IEnumerable<StationLineDAO> list = new List<StationLineDAO>(GetAllStationsLineOfBusLine(stationLine.LineNumber));
+            for (int i = stationLine.NumberStationInLine; i < GetAllStationsLineOfBusLine(stationLine.LineNumber).Count(); i++)
+            {
+                list.ToList()[i].NumberStationInLine = i + 1;
+                //DataSource.DataSource.StationLinesList[i].NumberStationInLine = i - 1;
+            }
+            //CoupleStationInRowDAO coupleStation1 = GetOneCoupleStationInRow(list.ToList()[stationLine.NumberStationInLine - 1].StationNumber, stationLine.StationNumber);
+            //CoupleStationInRowDAO coupleStation2 = GetOneCoupleStationInRow(stationLine.StationNumber, list.ToList()[stationLine.NumberStationInLine].StationNumber);
+            //CoupleStationInRowDAO coupleStation = new CoupleStationInRowDAO
+            //{
+            //    StationNumberOne = coupleStation1.StationNumberOne,
+            //    StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].StationNumber,
+            //    Distance = coupleStation1.Distance + coupleStation2.Distance,
+            //    AverageTravelTime = coupleStation1.AverageTravelTime + coupleStation2.AverageTravelTime
+            //};
+            //if (!DataSource.DataSource.CoupleStationInRowList.Exists(s => s == coupleStation))
+            //{
+            //    DataSource.DataSource.CoupleStationInRowList.Add(coupleStation);
+            //}
+            foreach (var item in list)
+            {
+                UpdateStationLine(item);
+            }
             DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
 
-            int loc = stationLine.NumberStationInLine;
-            for (int i = stationLine.NumberStationInLine; i < DataSource.DataSource.StationLinesList.Count; i++)
-            {
-                DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = loc++;
-            }
             return true;
+            //int loc = stationLine.NumberStationInLine;
+            //for (int i = stationLine.NumberStationInLine; i < DataSource.DataSource.StationLinesList.Count; i++)
+            //{
+            //    DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = loc++;
+            //}
+            //return true;
         }
         /// <summary>
         /// Delete a station line by updating his delete field.
@@ -323,11 +348,42 @@ namespace DAL
                 if (currentStationLine.LineNumber == stationLine.LineNumber
                     && currentStationLine.StationNumber == stationLine.StationNumber)
                 {
-                    for (int i = DataSource.DataSource.StationLinesList.Count; i > stationLine.NumberStationInLine; i--)
+                    currentStationLine.Deleted = true;
+                    IEnumerable<StationLineDAO> list = new List<StationLineDAO>(GetAllStationsLineOfBusLine(stationLine.LineNumber));
+                    for (int i = GetAllStationsLineOfBusLine(stationLine.LineNumber).Count()-1; i >= stationLine.NumberStationInLine; i--)
                     {
-                        DataSource.DataSource.StationLinesList[i].Cloned().NumberStationInLine = i - 1;
+                        list.ToList()[i].NumberStationInLine = i;
+                        //DataSource.DataSource.StationLinesList[i].NumberStationInLine = i - 1;
                     }
-                    //currentStationLine.Deleted = true;
+
+                    if (stationLine.NumberStationInLine > 0 && stationLine.NumberStationInLine < list.Count())
+                    {
+                        CoupleStationInRowDAO coupleStation1 = GetOneCoupleStationInRow(list.ToList()[stationLine.NumberStationInLine - 1].StationNumber, stationLine.StationNumber);
+                        CoupleStationInRowDAO coupleStation2 = GetOneCoupleStationInRow(stationLine.StationNumber, list.ToList()[stationLine.NumberStationInLine].StationNumber);
+                        CoupleStationInRowDAO coupleStation = new CoupleStationInRowDAO
+                        {
+                            StationNumberOne = coupleStation1.StationNumberOne,
+                            StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].StationNumber,
+                            Distance = coupleStation1.Distance + coupleStation2.Distance,
+                            AverageTravelTime = coupleStation1.AverageTravelTime + coupleStation2.AverageTravelTime
+                        };
+                        if (!DataSource.DataSource.CoupleStationInRowList.Exists(s => s == coupleStation))
+                        {
+                            DataSource.DataSource.CoupleStationInRowList.Add(coupleStation);
+                        } 
+                    }
+                    
+                    //DataSource.DataSource.CoupleStationInRowList.Add(new CoupleStationInRowDAO
+                    //{
+                    //    StationNumberOne = coupleStation1.StationNumberOne,
+                    //    StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].StationNumber,
+                    //    Distance = coupleStation1.Distance + coupleStation2.Distance,
+                    //    AverageTravelTime = coupleStation1.AverageTravelTime + coupleStation2.AverageTravelTime
+                    //});
+                    foreach (var item in list)
+                    {
+                        UpdateStationLine(item);
+                    }
                     return true;
                 }
             }
@@ -408,6 +464,7 @@ namespace DAL
             DataSource.DataSource.StationLinesList.RemoveAll(currentStationLine => currentStationLine.StationNumber == stationLine.StationNumber
             && currentStationLine.LineNumber == stationLine.LineNumber);
             //insert
+            //AddStationLine(stationLine);
             DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
             return true;
         }
@@ -450,6 +507,13 @@ namespace DAL
                 if (currentStation.StationNumber == station.StationNumber)
                 {
                     currentStation.Deleted = true;
+                    foreach (var item in DataSource.DataSource.StationLinesList)
+                    {
+                        if(item.StationNumber==station.StationNumber)
+                        {
+                            RemoveStationLine(item);
+                        }
+                    }
                     return true;
                 }
             }
@@ -530,7 +594,8 @@ namespace DAL
         /// <returns></returns>
         public bool AddBusLine(BusLineDAO busLine)
         {
-            if (DataSource.DataSource.BusLinesList.Exists(currentBus => currentBus.LineNumber == busLine.LineNumber))
+            if (DataSource.DataSource.BusLinesList.Exists(currentBus => currentBus.LineNumber == busLine.LineNumber
+            &&!currentBus.Deleted))
             {
                 throw new BusException("The bus line already exists.");
                 //return false;
@@ -552,6 +617,10 @@ namespace DAL
             {
                 if (currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB)
                 {
+                    foreach (var item in GetAllStationsLineOfBusLine(busLine.LineNumber))
+                    {
+                        RemoveStationLine(item);
+                    }
                     currentBusLine.Deleted = true;
 
                     //foreach (StationLineDAO currentStationLine in DataSource.StationLinesList)
@@ -617,36 +686,76 @@ namespace DAL
         /// gets list of all the couple stations in a row
         /// </summary>
         /// <returns></returns>
-        public List<CoupleStationInRowDAO> GetAllCoupleStationInRow()
+        public IEnumerable<CoupleStationInRowDAO> GetAllCoupleStationInRow()
         {
-            foreach (BusLineDAO busLine in GetAllBusLines())
-            {
-                GetCoupleStationInRowOfOneBusLine(busLine);
-            }
-            return DataSource.DataSource.CoupleStationInRowList;
+            //foreach (BusLineDAO busLine in GetAllBusLines())
+            //{
+            //    GetCoupleStationInRowOfOneBusLine(busLine);
+            //}
+            return from item in DataSource.DataSource.CoupleStationInRowList
+                   select item.Cloned();
         }
-
-        public void GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine)
+        public CoupleStationInRowDAO GetOneCoupleStationInRow(int stationNumberOne,int stationNumberTwo)
         {
-            Random rand = new Random();
-            IEnumerable<StationLineDAO> stationLines = GetAllStationsLineOfBusLine(busLine.LineNumber);
-            for (int i = 0; i < stationLines.Count() - 1; i++)
+            foreach (var item in DataSource.DataSource.CoupleStationInRowList)
             {
-                CoupleStationInRowDAO stationInRow = new CoupleStationInRowDAO
+                if (item.StationNumberOne == stationNumberOne
+                    && item.StationNumberTwo == stationNumberTwo)
                 {
-                    StationNumberOne = stationLines.ElementAt(i).StationNumber,
-                    StationNumberTwo = stationLines.ElementAt(i + 1).StationNumber,
-                    AverageTravelTime = new TimeSpan(rand.Next(0), rand.Next(10), rand.Next(59)),
-                    Distance = rand.Next(2000)
-                };
-                if (!DataSource.DataSource.CoupleStationInRowList.Exists(s => s.StationNumberOne == stationInRow.StationNumberOne
-                 && s.StationNumberTwo == stationInRow.StationNumberTwo))
-                {
-                    DataSource.DataSource.CoupleStationInRowList.Add(stationInRow.Cloned());
+                    return item;
                 }
             }
-
+            return null;
         }
+        public bool AddCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow)
+        {
+            if(!DataSource.DataSource.CoupleStationInRowList.Exists(s=>s.StationNumberOne==coupleStationInRow.StationNumberOne
+            && s.StationNumberTwo==coupleStationInRow.StationNumberTwo))
+            {
+                DataSource.DataSource.CoupleStationInRowList.Add(coupleStationInRow);
+                return true;
+            }
+            return false;
+        }
+        public IEnumerable<CoupleStationInRowDAO> GetCoupleStationInRowDAOInBusLine(BusLineDAO busLine)
+        {
+            var w = GetAllStationsLineOfBusLine(busLine.LineNumber);
+            IEnumerable<CoupleStationInRowDAO> list = new List<CoupleStationInRowDAO>();
+            foreach (var item in GetAllCoupleStationInRow())
+            {
+                for (int i = 0; i < w.Count() - 1; i++)
+                {
+                    if (w.ToList()[i].StationNumber == item.StationNumberOne
+                        && w.ToList()[i + 1].StationNumber == item.StationNumberTwo)
+                    {
+                        list.ToList().Add(item);
+                    }
+                }
+            }
+            return list;
+        }
+
+        //public void GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine)
+        //{
+        //    //Random rand = new Random();
+        //    IEnumerable<StationLineDAO> stationLines = GetAllStationsLineOfBusLine(busLine.LineNumber);
+        //    //for (int i = 0; i < stationLines.Count() - 1; i++)
+        //    //{
+        //    //    CoupleStationInRowDAO stationInRow = new CoupleStationInRowDAO
+        //    //    {
+        //    //        StationNumberOne = stationLines.ElementAt(i).StationNumber,
+        //    //        StationNumberTwo = stationLines.ElementAt(i + 1).StationNumber,
+        //    //        AverageTravelTime = new TimeSpan(rand.Next(0), rand.Next(20), rand.Next(59)),
+        //    //        Distance = rand.Next(6000)
+        //    //    };
+        //    //    if (!DataSource.DataSource.CoupleStationInRowList.Exists(s => s.StationNumberOne == stationInRow.StationNumberOne
+        //    //     && s.StationNumberTwo == stationInRow.StationNumberTwo))
+        //    //    {
+        //    //        DataSource.DataSource.CoupleStationInRowList.Add(stationInRow.Cloned());
+        //    //    }
+        //    }
+
+        //}
 
         /// <summary>
         /// couple station in a row update

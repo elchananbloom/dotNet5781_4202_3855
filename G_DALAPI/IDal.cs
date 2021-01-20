@@ -61,9 +61,12 @@ namespace DALAPI
 
 
         #region CoupleStationInRowDAO functions
-        List<CoupleStationInRowDAO> GetAllCoupleStationInRow();
-        void  GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine);
+        IEnumerable<CoupleStationInRowDAO> GetAllCoupleStationInRow();
+        IEnumerable<CoupleStationInRowDAO> GetCoupleStationInRowDAOInBusLine(BusLineDAO busLine);
+        //void  GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine);
         bool UpdateCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow);
+        bool AddCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow);
+        CoupleStationInRowDAO GetOneCoupleStationInRow(int stationNumberOne, int stationNumberTwo);
         #endregion
 
 

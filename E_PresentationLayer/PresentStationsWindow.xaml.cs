@@ -55,7 +55,7 @@ namespace PresentationLayer
             }
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void btnDeleteStation_Click(object sender, RoutedEventArgs e)
         {
             var currentStation = sender as FrameworkElement;
             var station = currentStation.DataContext as StationBO;
@@ -66,10 +66,18 @@ namespace PresentationLayer
             }
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void btnUpdateStation_Click(object sender, RoutedEventArgs e)
         {
             var currentStation = sender as FrameworkElement;
             var station = currentStation.DataContext as StationBO;
+            UpdateStationWindow updateStationWindow = new UpdateStationWindow(station);
+            bool? result = updateStationWindow.ShowDialog();
+            if (result == true)
+            {
+                Stations = new ObservableCollection<StationBO>(bl.GetAllStations());
+                lbStation.ItemsSource = Stations;
+                lbStation.Items.Refresh();
+            }
 
         }
 

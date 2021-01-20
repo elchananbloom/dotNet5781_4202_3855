@@ -36,8 +36,8 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="tbStations" Text="{Binding StationNumber}" FontWeight="Bold" Width="600" FontSize="16" Foreground="Orange" Background="{x:Null}" Grid.ColumnSpan="8" MouseDoubleClick="tbStations_MouseDoubleClick"/>
-                                <Button x:Name="btnUpdate" Content="Update" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="1" Click="btnUpdate_Click"/>
-                                <Button x:Name="btnDelete" Content="Delete" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="2" Click="btnDelete_Click" />
+                                <Button x:Name="btnUpdate" Content="Update" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="1" Click="btnUpdateStation_Click"/>
+                                <Button x:Name="btnDelete" Content="Delete" Background="Orange" Foreground="White" Height="auto" FontSize="16" Width="70" Grid.Column="2" Click="btnDeleteStation_Click" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

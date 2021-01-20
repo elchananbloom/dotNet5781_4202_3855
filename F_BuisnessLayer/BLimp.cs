@@ -205,6 +205,10 @@ namespace BuisnessLayer
             {
                 if (dal.RemoveBusLine(busLineDAO))
                 {
+                    //foreach (var item in busLine.StationLines)
+                    //{
+                    //    RemoveStationLine(item);
+                    //}
                     //busLineDAO.Deleted = true;
                     return true;
                 }
@@ -225,27 +229,27 @@ namespace BuisnessLayer
                 busLine = busLineDoBoAdapter(busLineDAO);
                 busLine.StationLines = from item in GetAllStationLines(busLine.LineNumber)
                                        select item;
-                int i = 0;
-                foreach (var item in dal.GetAllCoupleStationInRow())
-                {
-                    if (item.StationNumberOne == busLine.StationLines.ElementAt(i).Station.StationNumber
-                        && item.StationNumberTwo == busLine.StationLines.ElementAt(i+1).Station.StationNumber)
-                    {
-                        //busLine.StationLines.ElementAt(i).LineNumber = item.Distance;
-                        StationLineBO stationLineBO = StationLineDoBoAdapter(dal.GetOneStationLine(busLine.LineNumber, busLine.StationLines.ElementAt(i).Station.StationNumber));
-                        stationLineBO.Distance = item.Distance;
-                        stationLineBO.Time = item.AverageTravelTime;
-                        UpdateStationLine(stationLineBO);
+                //int i = 0;
+                //foreach (var item in dal.GetAllCoupleStationInRow())
+                //{
+                //    if (item.StationNumberOne == busLine.StationLines.ElementAt(i).Station.StationNumber
+                //        && item.StationNumberTwo == busLine.StationLines.ElementAt(i+1).Station.StationNumber)
+                //    {
+                //        //busLine.StationLines.ElementAt(i).LineNumber = item.Distance;
+                //        StationLineBO stationLineBO = StationLineDoBoAdapter(dal.GetOneStationLine(busLine.LineNumber, busLine.StationLines.ElementAt(i).Station.StationNumber));
+                //        stationLineBO.Distance = item.Distance;
+                //        stationLineBO.Time = item.AverageTravelTime;
+                //        UpdateStationLine(stationLineBO);
 
-                        //busLine.StationLines.ElementAt(i).Distance = item.Distance;
-                        //busLine.StationLines.ElementAt(i).Time = item.AverageTravelTime;
-                        i++;
-                        if(busLine.StationLines.Count()-1==i)
-                        {
-                            break;
-                        }
-                    }
-                }
+                //        //busLine.StationLines.ElementAt(i).Distance = item.Distance;
+                //        //busLine.StationLines.ElementAt(i).Time = item.AverageTravelTime;
+                //        i++;
+                //        if(busLine.StationLines.Count()-1==i)
+                //        {
+                //            break;
+                //        }
+                //    }
+                //}
             }
             catch (Exception be)
             {
@@ -323,8 +327,25 @@ namespace BuisnessLayer
             stationLine.CopyPropertiesTo(stationLineDAO);
             try
             {
+                IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLines(stationLine.LineNumber));
                 if (dal.AddStationLine(stationLineDAO))
                 {
+                    Random rand = new Random();
+                    int distance = rand.Next(1000, 20000);
+                    dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                    {
+                        Distance = distance,
+                        AverageTravelTime = new TimeSpan(0, distance / 1000, rand.Next(59)),
+                        StationNumberOne = list.ToList()[stationLine.NumberStationInLine - 1].Station.StationNumber,
+                        StationNumberTwo = stationLine.Station.StationNumber
+                    });
+                    dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                    {
+                        AverageTravelTime = stationLine.Time,
+                        Distance = stationLine.Distance,
+                        StationNumberOne = stationLine.Station.StationNumber,
+                        StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].Station.StationNumber
+                    });
                     stationLineDAO.Deleted = false;
                     return true;
                 }
@@ -339,11 +360,30 @@ namespace BuisnessLayer
         {
             DO.StationLineDAO stationLineDAO = new DO.StationLineDAO();
             stationLine.CopyPropertiesTo(stationLineDAO);
+            stationLineDAO.StationNumber = stationLine.Station.StationNumber;
             try
             {
                 if (dal.RemoveStationLine(stationLineDAO))
                 {
-                    stationLineDAO.Deleted = true;
+                    //stationLineDAO.Deleted = true;
+                    if (stationLine.NumberStationInLine > 0)
+                    {
+                        foreach (var item in GetAllStationLines(stationLine.LineNumber))
+                        {
+                            if (stationLine.NumberStationInLine == GetAllStationLines(stationLine.LineNumber).Count()
+                                && item.NumberStationInLine + 1 == stationLine.NumberStationInLine)
+                            {
+                                item.Time = new TimeSpan(0, 0, 0);
+                                item.Distance = 0;
+                            }
+                            else if (item.NumberStationInLine + 1 == stationLine.NumberStationInLine)
+                            {
+                                item.Time += stationLine.Time;
+                                item.Distance += stationLine.Distance;
+                            }
+                        }
+                    }
+                    
                     return true;
                 }
             }
@@ -373,13 +413,43 @@ namespace BuisnessLayer
         public IEnumerable<StationLineBO> GetAllStationLines(int num)
         {
             IEnumerable<StationLineBO> list = from item in dal.GetAllStationsLineOfBusLine(num)
-                       where item.LineNumber == num && !item.Deleted
-                       select StationLineDoBoAdapter(item);
-            //foreach (var item in list)
-            //{
-            //    item.Station=GetOneStation()
-            //}
-            return list.OrderBy(s => s.NumberStationInLine);
+                                              where item.LineNumber == num && !item.Deleted
+                                              select StationLineDoBoAdapter(item);
+            //int i = 0; i < list.Count() - 1; i++
+            List<StationLineBO> list1 = new List<StationLineBO>();
+            int i = 0;
+            for (; i < list.Count() - 1; i++)
+            {
+                foreach (var item in dal.GetAllCoupleStationInRow())
+                {
+                    if (list.ToList()[i].Station.StationNumber == item.StationNumberOne
+                        && list.ToList()[i + 1].Station.StationNumber == item.StationNumberTwo)
+                    {
+                        //list.ToList()[i].Distance = item.Distance;
+                        //list.ToList()[i].Time = item.AverageTravelTime;
+                        StationLineBO stationLineBO = new StationLineBO
+                        {
+                            Distance = item.Distance,
+                            Time = item.AverageTravelTime,
+                            Deleted = false,
+                            LineNumber = list.ToList()[i].LineNumber,
+                            NumberStationInLine = list.ToList()[i].NumberStationInLine,
+                            Station = list.ToList()[i].Station
+                        };
+                        //UpdateStationLine(stationLineBO);
+                        if (!list1.Exists(s => s.Station.StationNumber == stationLineBO.Station.StationNumber))
+                        {
+                            list1.Add(stationLineBO);
+                        }
+                    }
+                }
+                // i++;
+            }
+            list1.Add(list.ToList()[i]);
+            list1.OrderBy(s => s.NumberStationInLine);
+            list1.Last().Distance = 0;
+            list1.Last().Time = new TimeSpan(0, 0, 0);
+            return list1;
         }
         #endregion
 

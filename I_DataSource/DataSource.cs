@@ -76,9 +76,7 @@ namespace DataSource
         /// </summary>
         public static void init()
         {
-            //int num = 0;
             string userChoice = string.Empty;
-            //BusLinesCollection busLines = new BusLinesCollection();
             int[] stationKeys = new int[50];
             string[] addres = { "Malissa", "Barton", "Heide", "Quintin", "Lula", "Ione", "Larhonda", "Yuko", "Wendolyn", "Willene", "Mitsue", "Ellsworth", "Angla", "Scarlet", "Xiao", "Khalilah", "Charlsie", "Norbert", "Ria", "Ladonna", "Jama", "Earlene", "Sylvia", "Ellie", "Loyce", "Meagan", "Oretha", "Corina", "Joelle", "Arthur", "Larita", "Dillon", "Beulah", "Fritz", "Danyelle", "Kerstin", "Deirdre", "Kathi", "Dodie", "Angelika", "Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "William", "Sophia",
                 "Elijah","Isabella" }; 
@@ -89,6 +87,7 @@ namespace DataSource
             TimeSpan travelTime;
 
             //Initialize 50 stations.
+            #region init 50 stations
             for (int i = 0; i < 50; i++)
             {
                 stationKeys[i] = i + 25487 - 15 * i;
@@ -106,17 +105,12 @@ namespace DataSource
                     Deleted=false
                 });
             }
-
-            //the line num
+            #endregion
             Random randLineNum = new Random();
             int[] area = { 2, 3, 4, 1, 5, 1, 3, 2, 4, 5 };
             int index = 0;
-            //int anotherIndex = 0;
-            int[] lineNumber = { randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550), randLineNum.Next(550) };
-            //lineNumber[anotherIndex], stations[index++], stations[index++], area[anotherIndex++
+            int[] lineNumber = { randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550) };
 
-            //Initialize 10 buses (implementation is at the buttom).
-            //initBus();
             string[] licenseNum = { "5632357", "57643276", "9853435", "56623267", "8534356", "5452537", "57342125", "56745257", "9743247", "2378635" };
             int[] mainten = new int[10];
             //Random rand = new Random();
@@ -135,6 +129,7 @@ namespace DataSource
                 fuel[i] = rand.Next(1000);
             }
             fuel[0] = 50;
+            #region init 10 buses
             for (int i = 0; i < 10; i++)
             {
                 BussesList.Add(new BusDAO
@@ -148,7 +143,9 @@ namespace DataSource
                     Deleted = false
                 });
             }
+            #endregion
             //Initialize 10 lines.
+            #region init 10 lines
             for (int i = 0; i < 10; i++)
             {
                 BusLinesList.Add(new BusLineDAO
@@ -161,8 +158,9 @@ namespace DataSource
                     CurrentSerialNB = Configuration.SerialBusLine
                 }); 
             }
-
+            #endregion
             //initialize 10 station lines to 10 bus lines.
+            #region init 10 station in 10 lines
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -174,9 +172,6 @@ namespace DataSource
                         NumberStationInLine = j,
                         Deleted = false
                     };
-                    //if (!(StationLinesList.Exists(currentStationLine => (currentStationLine.LineNumber == newStationLine.LineNumber)
-                    // && (currentStationLine.StationNumber != newStationLine.StationNumber))))
-                    //{
                     bool exist = false;
                     foreach (var item in StationLinesList)
                     {
@@ -191,16 +186,29 @@ namespace DataSource
                     }
                     else
                     {
+
+                        if (!(i+j==0))
+                        {
+                            if (!coupleStationInRowList.Exists(s => s.StationNumberOne == StationLinesList.Last().StationNumber
+                                           && s.StationNumberTwo == newStationLine.StationNumber
+                                           && StationLinesList.Last().LineNumber == newStationLine.LineNumber))
+                            {
+                                int distance = rand.Next(1000,20000);
+                                int num = StationLinesList.Last().StationNumber;
+                                coupleStationInRowList.Add(new CoupleStationInRowDAO
+                                {
+                                    Distance = distance,
+                                    AverageTravelTime = new TimeSpan(0, distance / 1000, rand.Next(59)),
+                                    StationNumberOne = num,
+                                    StationNumberTwo = newStationLine.StationNumber
+                                });
+                            } 
+                        }
                         StationLinesList.Add(newStationLine);
                     }
-                    //}
-                    //else
-                    //{
-                    //    j--;
-                    //}
                 }
             }
-
+            #endregion
             for (int i = 0; i < 10; i++)
             {
                 LineInServicesList.Add(new LineInServiceDAO
@@ -212,29 +220,44 @@ namespace DataSource
                     EndLineTime = new TimeSpan(rand.Next(23), 0, 0)
                 });
             }
-            //index = 10;
-            //int stationsIndex = 0;
-            //int lineNumIndex = 0;
-
-            //for (int i = 0; i < 9; i++)
+            //for (int i = 0; i < stationLinesList.Count() - 1; i++)
             //{
-            //    busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
-            //    stationsIndex += 2;
-            //}
-            //busLines[lineNumber[9], stations[stationsIndex]].AddStationToLineRoute(stations[9], 1);
-            //lineNumIndex = 0;
-            //stationsIndex = 0;
-            //for (int i = 0; i < 20; i++)
-            //{
-            //    busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
-            //    stationsIndex += 2;
-            //    if (lineNumIndex == 10)
+            //    CoupleStationInRowDAO stationInRow = new CoupleStationInRowDAO
             //    {
-            //        lineNumIndex = 0;
-            //        stationsIndex = 0;
+            //        StationNumberOne = stationLinesList.ElementAt(i).StationNumber,
+            //        StationNumberTwo = stationLinesList.ElementAt(i + 1).StationNumber,
+            //        AverageTravelTime = new TimeSpan(rand.Next(0), rand.Next(20), rand.Next(59)),
+            //        Distance = rand.Next(6000)
+            //    };
+            //    if (!CoupleStationInRowList.Exists(s => s.StationNumberOne == stationInRow.StationNumberOne
+            //     && s.StationNumberTwo == stationInRow.StationNumberTwo))
+            //    {
+            //        CoupleStationInRowList.Add(stationInRow);
             //    }
             //}
-        }
+                //index = 10;
+                //int stationsIndex = 0;
+                //int lineNumIndex = 0;
+
+                //for (int i = 0; i < 9; i++)
+                //{
+                //    busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
+                //    stationsIndex += 2;
+                //}
+                //busLines[lineNumber[9], stations[stationsIndex]].AddStationToLineRoute(stations[9], 1);
+                //lineNumIndex = 0;
+                //stationsIndex = 0;
+                //for (int i = 0; i < 20; i++)
+                //{
+                //    busLines[lineNumber[lineNumIndex++], stations[stationsIndex]].AddStationToLineRoute(stations[index++], 1);
+                //    stationsIndex += 2;
+                //    if (lineNumIndex == 10)
+                //    {
+                //        lineNumIndex = 0;
+                //        stationsIndex = 0;
+                //    }
+                //}
+            }
 
         /// <summary>
         /// initializing 10 busses
