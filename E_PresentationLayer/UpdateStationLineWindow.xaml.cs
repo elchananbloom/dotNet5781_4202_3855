@@ -29,8 +29,24 @@ namespace PresentationLayer
             StationLine = stationLine;
             InitializeComponent();
             lblStations.Content = stationLine.Station.StationName + " " + stationLine.Station.StationNumber;
-            timeTextBox.Text = stationLine.Time.ToString();
+            //timeTextBox.Text = stationLine.Time.ToString();
             distanceTextBox.Text = stationLine.Distance.ToString();
+            for (int i = 0; i <= 24; i++)
+            {
+                cbHours.Items.Add(i);
+            }
+            for (int i = 0; i <= 59; i++)
+            {
+                cbMinutes.Items.Add(i);
+            }
+            for (int i = 0; i <= 59; i++)
+            {
+                cbSeconds.Items.Add(i);
+            }
+            //int a = int.Parse(stationLine.Time.Hours.ToString());
+            cbHours.SelectedIndex = int.Parse(stationLine.Time.Hours.ToString());
+            cbMinutes.SelectedIndex = int.Parse(stationLine.Time.Minutes.ToString());
+            cbSeconds.SelectedIndex = int.Parse(stationLine.Time.Seconds.ToString());
         }
 
         private void btnUpdateStationLine_Click(object sender, RoutedEventArgs e)
@@ -44,7 +60,7 @@ namespace PresentationLayer
                     LineNumber = StationLine.LineNumber,
                     NumberStationInLine = StationLine.NumberStationInLine,
                     Station = bl.GetOneStation(int.Parse(String.Join("", lblStations.Content.ToString().Where(char.IsDigit)))),
-                    Time = new TimeSpan(0, 10, 0)
+                    Time = new TimeSpan(int.Parse(cbHours.SelectedItem.ToString()), int.Parse(cbMinutes.SelectedItem.ToString()), int.Parse(cbSeconds.SelectedItem.ToString()))
                 });
             }
             catch (Exception error)

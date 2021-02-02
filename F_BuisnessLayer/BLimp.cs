@@ -332,20 +332,26 @@ namespace BuisnessLayer
                 {
                     Random rand = new Random();
                     int distance = rand.Next(1000, 20000);
-                    dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                    if (list.Count() != 0)
                     {
-                        Distance = distance,
-                        AverageTravelTime = new TimeSpan(0, distance / 1000, rand.Next(59)),
-                        StationNumberOne = list.ToList()[stationLine.NumberStationInLine - 1].Station.StationNumber,
-                        StationNumberTwo = stationLine.Station.StationNumber
-                    });
-                    dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
-                    {
-                        AverageTravelTime = stationLine.Time,
-                        Distance = stationLine.Distance,
-                        StationNumberOne = stationLine.Station.StationNumber,
-                        StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].Station.StationNumber
-                    });
+                        dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                        {
+                            Distance = distance,
+                            AverageTravelTime = new TimeSpan(0, distance / 1000, rand.Next(59)),
+                            StationNumberOne = list.ToList()[stationLine.NumberStationInLine - 1].Station.StationNumber,
+                            StationNumberTwo = stationLine.Station.StationNumber
+                        });
+                        if (list.Count() != 1)
+                        {
+                            dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                            {
+                                AverageTravelTime = stationLine.Time,
+                                Distance = stationLine.Distance,
+                                StationNumberOne = stationLine.Station.StationNumber,
+                                StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].Station.StationNumber
+                            });
+                        }
+                    }
                     stationLineDAO.Deleted = false;
                     return true;
                 }
@@ -397,12 +403,37 @@ namespace BuisnessLayer
         {
             DO.StationLineDAO stationLineDAO = new DO.StationLineDAO();
             stationLine.CopyPropertiesTo(stationLineDAO);
+            stationLineDAO.StationNumber = stationLine.Station.StationNumber;
             try
             {
+                IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLines(stationLine.LineNumber));
                 if (dal.UpdateStationLine(stationLineDAO))
                 {
-                    AddStationLine(stationLine);
-                    return true;
+                    if (stationLine.NumberStationInLine < list.Count())
+                    {
+                        //Random rand = new Random();
+                        //int distance = rand.Next(1000, 20000);
+                        //dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                        //{
+                        //    Distance = distance,
+                        //    AverageTravelTime = new TimeSpan(0, distance / 1000, rand.Next(59)),
+                        //    StationNumberOne = list.ToList()[stationLine.NumberStationInLine - 1].Station.StationNumber,
+                        //    StationNumberTwo = stationLine.Station.StationNumber
+                        //});
+                        var a= new DO.CoupleStationInRowDAO
+                        {
+                            AverageTravelTime = stationLine.Time,
+                            Distance = stationLine.Distance,
+                            StationNumberOne = stationLine.Station.StationNumber,
+                            StationNumberTwo = list.ToList()[stationLine.NumberStationInLine+1].Station.StationNumber
+                        };
+                        dal.RemoveCoupleStationIRow(a);
+                        dal.AddCoupleStationInRow(a);
+                        stationLineDAO.Deleted = false;
+                        return true;
+                        //AddStationLine(stationLine);
+                        //return true;
+                    }
                 }
             }
             catch (Exception be)
@@ -446,10 +477,13 @@ namespace BuisnessLayer
                 }
                 // i++;
             }
-            list1.Add(list.ToList()[i]);
-            list1.OrderBy(s => s.NumberStationInLine);
-            list1.Last().Distance = 0;
-            list1.Last().Time = new TimeSpan(0, 0, 0);
+            if (list.Count() != 0)
+            {
+                list1.Add(list.ToList()[i]);
+                list1.OrderBy(s => s.NumberStationInLine);
+                list1.Last().Distance = 0;
+                list1.Last().Time = new TimeSpan(0, 0, 0);
+            }
             return list1;
         }
         #endregion

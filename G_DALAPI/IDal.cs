@@ -65,6 +65,7 @@ namespace DALAPI
         IEnumerable<CoupleStationInRowDAO> GetCoupleStationInRowDAOInBusLine(BusLineDAO busLine);
         //void  GetCoupleStationInRowOfOneBusLine(BusLineDAO busLine);
         bool UpdateCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow);
+        bool RemoveCoupleStationIRow(CoupleStationInRowDAO coupleStationInRow);
         bool AddCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow);
         CoupleStationInRowDAO GetOneCoupleStationInRow(int stationNumberOne, int stationNumberTwo);
         #endregion

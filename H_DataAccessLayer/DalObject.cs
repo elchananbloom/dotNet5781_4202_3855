@@ -501,14 +501,16 @@ namespace DAL
         /// <returns></returns>
         public bool RemoveStation(StationDAO station)
         {
-            foreach (var currentStation in DataSource.DataSource.StationsList)
+            for(int i=0;i< DataSource.DataSource.StationsList.Count;i++)
             {
+                var currentStation = DataSource.DataSource.StationsList[i];
                 if (currentStation.StationNumber == station.StationNumber)
                 {
                     currentStation.Deleted = true;
-                    foreach (var item in DataSource.DataSource.StationLinesList)
+                    for(int j=0;j< DataSource.DataSource.StationLinesList.Count;j++)
                     {
-                        if(item.StationNumber==station.StationNumber)
+                        var item = DataSource.DataSource.StationLinesList[j];
+                        if (item.StationNumber == station.StationNumber)
                         {
                             RemoveStationLine(item);
                         }
@@ -516,6 +518,21 @@ namespace DAL
                     return true;
                 }
             }
+            //foreach (var currentStation in DataSource.DataSource.StationsList)
+            //{
+            //    if (currentStation.StationNumber == station.StationNumber)
+            //    {
+            //        currentStation.Deleted = true;
+            //        foreach (var item in DataSource.DataSource.StationLinesList)
+            //        {
+            //            if(item.StationNumber==station.StationNumber)
+            //            {
+            //                RemoveStationLine(item);
+            //            }
+            //        }
+            //        return true;
+            //    }
+            //}
             throw new BusException("The station does not exists in the system.");
         }
         /// <summary>
@@ -714,6 +731,20 @@ namespace DAL
                 DataSource.DataSource.CoupleStationInRowList.Add(coupleStationInRow);
                 return true;
             }
+            return false;
+        }
+        public bool RemoveCoupleStationIRow(CoupleStationInRowDAO coupleStationInRow)
+        {
+                for (int i = 0; i < DataSource.DataSource.CoupleStationInRowList.Count; i++)
+                {
+                    var item = DataSource.DataSource.CoupleStationInRowList[i];
+                    if (item.StationNumberOne == coupleStationInRow.StationNumberOne
+                        && item.StationNumberTwo == coupleStationInRow.StationNumberTwo)
+                    {
+                        DataSource.DataSource.CoupleStationInRowList.RemoveAt(i);
+                        return true;
+                    }
+                }
             return false;
         }
         public IEnumerable<CoupleStationInRowDAO> GetCoupleStationInRowDAOInBusLine(BusLineDAO busLine)

@@ -34,6 +34,22 @@ namespace PresentationLayer
             InitializeComponent();
             cbStations.ItemsSource = from item in Stations
                                      select item.StationNumber + ", " + item.StationName;
+            for (int i = 0; i <= 24; i++)
+            {
+                cbHours.Items.Add(i);
+            }
+            for (int i = 0; i <= 59; i++)
+            {
+                cbMinutes.Items.Add(i);
+            }
+            for (int i = 0; i <= 59; i++)
+            {
+                cbSeconds.Items.Add(i);
+            }
+            cbHours.SelectedIndex = 0;
+            cbMinutes.SelectedIndex = 0;
+            cbSeconds.SelectedIndex = 0;
+
         }
 
         private void btnAddStationLine_Click(object sender, RoutedEventArgs e)
@@ -47,7 +63,7 @@ namespace PresentationLayer
                     LineNumber = StationLine.LineNumber,
                     NumberStationInLine = StationLine.NumberStationInLine + 1,
                     Station = bl.GetOneStation(int.Parse(String.Join("", cbStations.SelectedItem.ToString().Where(char.IsDigit)))),
-                    Time = new TimeSpan(0, 10, 0)
+                    Time = new TimeSpan(int.Parse(cbHours.SelectedItem.ToString()), int.Parse(cbMinutes.SelectedItem.ToString()), int.Parse(cbSeconds.SelectedItem.ToString()))
                 });
             }
             catch (Exception error)
