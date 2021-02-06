@@ -109,8 +109,13 @@ namespace DataSource
             Random randLineNum = new Random();
             int[] area = { 2, 3, 4, 1, 5, 1, 3, 2, 4, 5 };
             int index = 0;
-            int[] lineNumber = { randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550), randLineNum.Next(1,550) };
-
+            int[] lineNumber = new int[10];
+            int fixNumber = 1;
+            for (int i=0; i<10; i++)
+            {
+                lineNumber[i] = randLineNum.Next(fixNumber, fixNumber + 50);
+                fixNumber += 50;
+            }
             string[] licenseNum = { "5632357", "57643276", "9853435", "56623267", "8534356", "5452537", "57342125", "56745257", "9743247", "2378635" };
             int[] mainten = new int[10];
             //Random rand = new Random();

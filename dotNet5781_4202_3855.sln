@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H_DataAccessLayer", "H_Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "I_DataSource", "I_DataSource\I_DataSource.csproj", "{0711B2FB-ECD6-408F-9E13-B358CFF58DC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLXML", "DLXML\DLXML.csproj", "{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{0711B2FB-ECD6-408F-9E13-B358CFF58DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0711B2FB-ECD6-408F-9E13-B358CFF58DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0711B2FB-ECD6-408F-9E13-B358CFF58DC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

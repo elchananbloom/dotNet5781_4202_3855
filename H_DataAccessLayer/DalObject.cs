@@ -629,26 +629,42 @@ namespace DAL
         /// <returns></returns>
         public bool RemoveBusLine(BusLineDAO busLine)
         {
-            foreach (var currentBusLine in DataSource.DataSource.BusLinesList)
+            for (int i=0; i< DataSource.DataSource.BusLinesList.Count; i++)
             {
+                var currentBusLine = DataSource.DataSource.BusLinesList[i];
                 if (currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB)
                 {
-                    foreach (var item in GetAllStationsLineOfBusLine(busLine.LineNumber))
+                    var list = GetAllStationsLineOfBusLine(busLine.LineNumber);
+                    for (int j=0; j < list.Count(); j++)
                     {
+                        var item = list.ToList()[j];
                         RemoveStationLine(item);
                     }
                     currentBusLine.Deleted = true;
-
-                    //foreach (StationLineDAO currentStationLine in DataSource.StationLinesList)
-                    //{
-                    //    if(currentStationLine.LineNumber == currentBusLine.LineNumber)
-                    //    {
-                    //        currentStationLine.Deleted = true;
-                    //    }
-                    //}
                     return true;
                 }
             }
+
+            //foreach (var currentBusLine in DataSource.DataSource.BusLinesList)
+            //{
+            //    if (currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB)
+            //    {
+            //        foreach (var item in GetAllStationsLineOfBusLine(busLine.LineNumber))
+            //        {
+            //            RemoveStationLine(item);
+            //        }
+            //        currentBusLine.Deleted = true;
+
+            //        //foreach (StationLineDAO currentStationLine in DataSource.StationLinesList)
+            //        //{
+            //        //    if(currentStationLine.LineNumber == currentBusLine.LineNumber)
+            //        //    {
+            //        //        currentStationLine.Deleted = true;
+            //        //    }
+            //        //}
+            //        return true;
+            //    }
+            //}
             throw new BusException("The bus line does not exists in the system.");
         }
         /// <summary>
