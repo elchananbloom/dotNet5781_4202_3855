@@ -8,7 +8,7 @@ using DO;
 
 namespace DAL 
 {
-    sealed class DLXML : IDal
+    sealed class DLXML 
     {
         #region singelton
         static readonly DLXML instance = new DLXML();

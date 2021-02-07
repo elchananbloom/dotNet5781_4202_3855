@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "I_DataSource", "I_DataSourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLXML", "DLXML\DLXML.csproj", "{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectToXml", "ObjectToXml\ObjectToXml.csproj", "{9E5BF131-89A6-4612-B578-2F130F0BECF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDF7F150-DD9F-45AA-B938-07D3EAB4D84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5BF131-89A6-4612-B578-2F130F0BECF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5BF131-89A6-4612-B578-2F130F0BECF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5BF131-89A6-4612-B578-2F130F0BECF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5BF131-89A6-4612-B578-2F130F0BECF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

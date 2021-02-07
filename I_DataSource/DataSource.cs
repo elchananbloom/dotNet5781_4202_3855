@@ -8,7 +8,7 @@ using DO;
 // שומר את כל הנתונים של כל הישויות של הDALAPI ומאתחל אותם.
 namespace DataSource
 {
-    public class DataSource
+    public static class DataSource
     {
         /// <summary>
         /// Bus repository.
@@ -30,8 +30,11 @@ namespace DataSource
         public static List<StationLineDAO> StationLinesList { get => stationLinesList; }
         public static List<CoupleStationInRowDAO> CoupleStationInRowList { get => coupleStationInRowList; }
         public static List<LineInServiceDAO> LineInServicesList { get => lineInServicesList; }
-
-
+        
+        static DataSource()
+        {
+            init();
+        }
         /// <summary>
         /// Initializing the BusDAO Yeshot.
         /// </summary>

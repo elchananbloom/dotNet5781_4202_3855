@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9E5BF131-89A6-4612-B578-2F130F0BECF0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ObjectToXml</RootNamespace>
+    <AssemblyName>ObjectToXml</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DLXML\DLXML.csproj">
+      <Project>{ddf7f150-dd9f-45aa-b938-07d3eab4d84e}</Project>
+      <Name>DLXML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\E_PresentationLayer\E_PresentationLayer.csproj">
+      <Project>{679d46ce-c346-46f6-b833-3ded0d60ff22}</Project>
+      <Name>E_PresentationLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\F_BuisnessLayer\F_BuisnessLayer.csproj">
+      <Project>{92fae735-d509-42fb-a106-e6acd6e4f5e2}</Project>
+      <Name>F_BuisnessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\G_DALAPI\G_DALAPI.csproj">
+      <Project>{fb2a4ac6-7e23-47b1-ba69-1d1a629e25f6}</Project>
+      <Name>G_DALAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\H_DataAccessLayer\H_DataAccessLayer.csproj">
+      <Project>{7a9d1600-e9e3-4ffd-bca9-a25e758ddbd3}</Project>
+      <Name>H_DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\I_DataSource\I_DataSource.csproj">
+      <Project>{0711b2fb-ecd6-408f-9e13-b358cff58dc0}</Project>
+      <Name>I_DataSource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

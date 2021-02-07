@@ -12,7 +12,8 @@ namespace DAL
     {
         #region singleton implementaion
         private readonly static IDal mydal = new DalObject();
-        private DalObject()
+        
+        /*private DalObject()
         {
             try
             {
@@ -23,7 +24,8 @@ namespace DAL
                 //throw new BusException(be.Message);
                 //TODO
             }
-        }
+        }*/
+
         static DalObject() { }
         public static IDal Instance { get => mydal; }
         #endregion singleton
