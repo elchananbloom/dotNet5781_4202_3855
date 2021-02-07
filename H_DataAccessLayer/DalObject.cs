@@ -729,6 +729,7 @@ namespace DAL
             return from item in DataSource.DataSource.CoupleStationInRowList
                    select item.Cloned();
         }
+
         public CoupleStationInRowDAO GetOneCoupleStationInRow(int stationNumberOne,int stationNumberTwo)
         {
             foreach (var item in DataSource.DataSource.CoupleStationInRowList)
@@ -741,6 +742,7 @@ namespace DAL
             }
             return null;
         }
+
         public bool AddCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow)
         {
             if(!DataSource.DataSource.CoupleStationInRowList.Exists(s=>s.StationNumberOne==coupleStationInRow.StationNumberOne
@@ -751,6 +753,7 @@ namespace DAL
             }
             return false;
         }
+
         public bool RemoveCoupleStationIRow(CoupleStationInRowDAO coupleStationInRow)
         {
                 for (int i = 0; i < DataSource.DataSource.CoupleStationInRowList.Count; i++)
@@ -765,6 +768,7 @@ namespace DAL
                 }
             return false;
         }
+
         public IEnumerable<CoupleStationInRowDAO> GetCoupleStationInRowDAOInBusLine(BusLineDAO busLine)
         {
             var w = GetAllStationsLineOfBusLine(busLine.LineNumber);
