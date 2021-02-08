@@ -449,6 +449,11 @@ namespace DAL
             //stationLines.Sort();
             return result;
         }
+        public IEnumerable<StationLineDAO> GetAllStationLines()
+        {
+            return from item in DataSource.DataSource.StationLinesList
+                   select item.Cloned();
+        }
         /// <summary>
         /// station line update
         /// </summary>
@@ -469,11 +474,7 @@ namespace DAL
             DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
             return true;
         }
-        public IEnumerable<StationLineDAO> GetAllStationLines()
-        {
-            return from item in DataSource.DataSource.StationLinesList
-                   select item;
-        }
+        
 
         #endregion
 

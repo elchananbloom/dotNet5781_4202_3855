@@ -24,7 +24,8 @@ namespace ObjectToXml
             XElement myElement = new XElement("CoupleStationInRowList");
             foreach (var item in DataSource.DataSource.CoupleStationInRowList)
             {
-                XElement coupleStation = new XElement("CoupleStationInRow", new XElement("StationNumberOne", item.StationNumberOne),
+                XElement coupleStation = new XElement("CoupleStationInRow",
+                                   new XElement("StationNumberOne", item.StationNumberOne),
                                    new XElement("StationNumberTwo", item.StationNumberTwo),
                                    new XElement("Distance", item.Distance),
                                    new XElement("AverageTravelTime", XmlConvert.ToString(item.AverageTravelTime)));
