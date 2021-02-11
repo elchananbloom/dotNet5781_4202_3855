@@ -267,25 +267,25 @@ namespace DAL
             return true;
         }
         /// <summary>
-        /// this funp overrides the original CompareTo function.
+        /// this func overrides the original CompareTo function.
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="obj1"></param>
         /// <returns></returns>
-        public int CompareTo(Object obj, Object obj1)
-        {
-            int stationLine1 = ((StationLineDAO)obj).NumberStationInLine;
-            int stationLine2 = ((StationLineDAO)obj1).NumberStationInLine;
-            return stationLine1.CompareTo(stationLine2);
-        }
-        /// <summary>
-        /// implement IEnumerator 
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator GetEnumerator()
-        {
-            return DataSource.DataSource.StationLinesList.GetEnumerator();
-        }
+        //public int CompareTo(Object obj, Object obj1)
+        //{
+        //    int stationLine1 = ((StationLineDAO)obj).NumberStationInLine;
+        //    int stationLine2 = ((StationLineDAO)obj1).NumberStationInLine;
+        //    return stationLine1.CompareTo(stationLine2);
+        //}
+        ///// <summary>
+        ///// implement IEnumerator 
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerator GetEnumerator()
+        //{
+        //    return DataSource.DataSource.StationLinesList.GetEnumerator();
+        //}
         #endregion
 
 
@@ -410,7 +410,7 @@ namespace DAL
         //    throw new BusException("The station line does not exists in the system.");
         //}
 
-        /// <summary>
+      /// <summary>
         /// this func gets a station line by his line number and his station number.
         /// </summary>
         /// <param name="lineNumber"></param>
@@ -474,8 +474,6 @@ namespace DAL
             DataSource.DataSource.StationLinesList.Insert(stationLine.NumberStationInLine, stationLine.Cloned());
             return true;
         }
-        
-
         #endregion
 
 
@@ -756,7 +754,7 @@ namespace DAL
             return false;
         }
 
-        public bool RemoveCoupleStationIRow(CoupleStationInRowDAO coupleStationInRow)
+        public bool RemoveCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow)
         {
                 for (int i = 0; i < DataSource.DataSource.CoupleStationInRowList.Count; i++)
                 {

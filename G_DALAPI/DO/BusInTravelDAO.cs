@@ -16,15 +16,15 @@ namespace DO
         //מזהה קו שבביצוע
         public int LineNumber { get; set; }
         //שעת יציאה לקו הפורמלי
-        public DateTime Start { get; set; }
+        public TimeSpan Start { get; set; }
         //שעת יציאה בפועל
-        public DateTime ActualStart { get; set; }
+        public TimeSpan ActualStart { get; set; }
         //מספר תחנה אחרונה בקו שהאוטובוס עבר
         public int LastStationNumberPassedThrough { get; set; }
         //זמן מעבר בתחנה האחרונה הנ"ל
-        public DateTime LastStationTimePassedThrough { get; set; }
+        public TimeSpan LastStationTimePassedThrough { get; set; }
         //זמן הגעה לתחנה הבאה
-        public DateTime NextStationTimePassedThrough { get; set; }
+        public TimeSpan NextStationTimePassedThrough { get; set; }
         //האם האוטובוס באמצע נסיעה או לא
         public bool IsActive { get; set; }
         public string DriverID { get; set; }

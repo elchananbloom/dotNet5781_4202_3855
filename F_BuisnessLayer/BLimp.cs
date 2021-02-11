@@ -427,7 +427,7 @@ namespace BuisnessLayer
                             StationNumberOne = stationLine.Station.StationNumber,
                             StationNumberTwo = list.ToList()[stationLine.NumberStationInLine+1].Station.StationNumber
                         };
-                        dal.RemoveCoupleStationIRow(a);
+                        dal.RemoveCoupleStationInRow(a);
                         dal.AddCoupleStationInRow(a);
                         stationLineDAO.Deleted = false;
                         return true;

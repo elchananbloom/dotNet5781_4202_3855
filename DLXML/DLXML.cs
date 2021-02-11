@@ -24,7 +24,9 @@ namespace DAL
         string stationLinePath = @"StationLine.xml";
         string coupleStationInRowPath = @"CoupleStation.xml";
         string busLinePath = @"BusLine.xml";
-
+        string busInTravelPath = @"BusInTravel.xml";
+        string lineinServicePath = @"LineInService.xml";
+        string bus = @"Bus.xml";
         #endregion
 
 
@@ -50,11 +52,11 @@ namespace DAL
             return true;
         }
 
-        public bool RemoveStation(int stationNumber)
+        public bool RemoveStation(StationDAO station)
         {
             XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
             XElement sta1 = (from sta in stationsRootElem.Elements()
-                             where int.Parse(sta.Element("StationNumber").Value) == stationNumber
+                             where int.Parse(sta.Element("StationNumber").Value) == station.StationNumber
                              select sta).FirstOrDefault();
             if (sta1 != null)
             {
@@ -63,7 +65,7 @@ namespace DAL
                 for (int i = 0; i < stationLinesElem.Elements().Count(); i++)
                 {
                     var currentStationLine = stationLinesElem.Elements().ElementAt(i);
-                    if (int.Parse(currentStationLine.Element("StationNumber").Value) == stationNumber)
+                    if (int.Parse(currentStationLine.Element("StationNumber").Value) == station.StationNumber)
                     {
                         RemoveStationLine(new StationLineDAO
                         {
@@ -305,77 +307,6 @@ namespace DAL
 
 
         #region Station Line
-        public DO.StationLineDAO GetOneStationLine(int lineNumber, int stationNumber)
-        {
-            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
-            StationLineDAO stationLine = (from sta in stationLineRootElem.Elements()
-                                          where int.Parse(sta.Element("StationNumber").Value) == stationNumber
-                                          && int.Parse(sta.Element("lineNumber").Value) == lineNumber
-                                          select new StationLineDAO()
-                                          {
-                                              LineNumber = Int32.Parse(sta.Element("LineNumber").Value),
-                                              StationNumber = Int32.Parse(sta.Element("StationNumber").Value),
-                                              NumberStationInLine = Int32.Parse(sta.Element("NumberStationInLine").Value),
-                                              Deleted = bool.Parse(sta.Element("Deleted").Value)
-                                          }).FirstOrDefault();
-            if (stationLine == null)
-            {
-                //throw new DO.BadPersonIdException(stationNumber, $"bad person id: {stationNumber}");
-                return null;
-            }
-            return stationLine;
-        }
-
-        public IEnumerable<DO.StationLineDAO> GetAllStationLines()
-        {
-            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
-            return from sta in stationLineRootElem.Elements()
-                   select new StationLineDAO()
-                   {
-                       LineNumber = Int32.Parse(sta.Element("LineNumber").Value),
-                       StationNumber = Int32.Parse(sta.Element("StationNumber").Value),
-                       NumberStationInLine = Int32.Parse(sta.Element("NumberStationInLine").Value),
-                       Deleted = bool.Parse(sta.Element("Deleted").Value)
-                   };
-        }
-
-        public IEnumerable<DO.StationLineDAO> GetAllStationsLineOfBusLine(int lineNumber)
-        {
-            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
-            return from sta in stationLineRootElem.Elements()
-                   where int.Parse(sta.Element("lineNumber").Value) == lineNumber
-                   && !bool.Parse(sta.Element("Deleted").Value)
-                   select new StationLineDAO()
-                   {
-                       LineNumber = Int32.Parse(sta.Element("LineNumber").Value),
-                       StationNumber = Int32.Parse(sta.Element("StationNumber").Value),
-                       NumberStationInLine = Int32.Parse(sta.Element("NumberStationInLine").Value),
-                       Deleted = bool.Parse(sta.Element("Deleted").Value)
-                   };
-        }
-
-        public bool UpdateStationLine(DO.StationLineDAO stationLine)
-        {
-            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
-            XElement sta1 = (from sta in stationLineRootElem.Elements()
-                             where int.Parse(sta.Element("StationNumber").Value) == stationLine.StationNumber
-                             select sta).FirstOrDefault();
-            if (sta1 != null)
-            {
-                sta1.Element("StationNumber").Value = stationLine.StationNumber.ToString();
-                sta1.Element("LineNumber").Value = stationLine.LineNumber.ToString();
-                sta1.Element("NumberStationInLine").Value = stationLine.NumberStationInLine.ToString();
-                sta1.Element("Deleted").Value = stationLine.Deleted.ToString();
-                XMLTools.SaveListToXMLElement(stationLineRootElem, stationPath);
-            }
-            else
-            {
-                //throw new DO.BadPersonIdException(station.ID, $"bad person id: {station.stationNumber}");
-                return true;
-            }
-            return true;
-        }
-
         public bool AddStationLine(DO.StationLineDAO stationLine)
         {
             XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
@@ -468,10 +399,142 @@ namespace DAL
             }
             return true;
         }
+
+        public DO.StationLineDAO GetOneStationLine(int lineNumber, int stationNumber)
+        {
+            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
+            StationLineDAO stationLine = (from sta in stationLineRootElem.Elements()
+                                          where int.Parse(sta.Element("StationNumber").Value) == stationNumber
+                                          && int.Parse(sta.Element("lineNumber").Value) == lineNumber
+                                          select new StationLineDAO()
+                                          {
+                                              LineNumber = Int32.Parse(sta.Element("LineNumber").Value),
+                                              StationNumber = Int32.Parse(sta.Element("StationNumber").Value),
+                                              NumberStationInLine = Int32.Parse(sta.Element("NumberStationInLine").Value),
+                                              Deleted = bool.Parse(sta.Element("Deleted").Value)
+                                          }).FirstOrDefault();
+            if (stationLine == null)
+            {
+                //throw new DO.BadPersonIdException(stationNumber, $"bad person id: {stationNumber}");
+                return null;
+            }
+            return stationLine;
+        }
+
+        public IEnumerable<DO.StationLineDAO> GetAllStationsLineOfBusLine(int lineNumber)
+        {
+            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
+            return from sta in stationLineRootElem.Elements()
+                   where int.Parse(sta.Element("lineNumber").Value) == lineNumber
+                   && !bool.Parse(sta.Element("Deleted").Value)
+                   select new StationLineDAO()
+                   {
+                       LineNumber = Int32.Parse(sta.Element("LineNumber").Value),
+                       StationNumber = Int32.Parse(sta.Element("StationNumber").Value),
+                       NumberStationInLine = Int32.Parse(sta.Element("NumberStationInLine").Value),
+                       Deleted = bool.Parse(sta.Element("Deleted").Value)
+                   };
+        }
+
+        public IEnumerable<DO.StationLineDAO> GetAllStationLines()
+        {
+            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
+            return from sta in stationLineRootElem.Elements()
+                   select new StationLineDAO()
+                   {
+                       LineNumber = Int32.Parse(sta.Element("LineNumber").Value),
+                       StationNumber = Int32.Parse(sta.Element("StationNumber").Value),
+                       NumberStationInLine = Int32.Parse(sta.Element("NumberStationInLine").Value),
+                       Deleted = bool.Parse(sta.Element("Deleted").Value)
+                   };
+        }
+
+        public bool UpdateStationLine(DO.StationLineDAO stationLine)
+        {
+            XElement stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
+            XElement sta1 = (from sta in stationLineRootElem.Elements()
+                             where int.Parse(sta.Element("StationNumber").Value) == stationLine.StationNumber
+                             select sta).FirstOrDefault();
+            if (sta1 != null)
+            {
+                for(int i=0; i< stationLineRootElem.Elements().Count();i++)
+                {
+                    var currentStationLine = stationLineRootElem.Elements().ElementAt(i);
+                    if(Int32.Parse(currentStationLine.Element("StationNumber").Value)==stationLine.StationNumber
+                        && Int32.Parse(currentStationLine.Element("LineNumber").Value) == stationLine.LineNumber)
+                    {
+                        currentStationLine.Remove();
+                    }
+                }
+                XElement stationLineElem = new XElement("StationLineDAO",
+                new XElement("LineNumber", stationLine.LineNumber),
+                new XElement("StationNumber", stationLine.StationNumber),
+                new XElement("NumberStationInLine", stationLine.NumberStationInLine),
+                new XElement("Deleted", stationLine.Deleted));
+                stationLineRootElem.Add(stationLineElem);
+                XMLTools.SaveListToXMLElement(stationLineRootElem, stationLinePath);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+       
         #endregion
 
 
         #region BusLine
+        public bool AddBusLine(DO.BusLineDAO busLine)
+        {
+            XElement busLineRootElem = XMLTools.LoadListFromXMLElement(busLinePath);
+            XElement busLine1 = (from busLin in busLineRootElem.Elements()
+                                 where int.Parse(busLin.Element("LineNumber").Value) == busLine.LineNumber
+                                 && !bool.Parse(busLin.Element("Deleted").Value)
+                                 select busLin).FirstOrDefault();
+            if (busLine1 != null)
+            {
+                //throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
+                return true;
+            }
+            XElement busLineElem = new XElement("BusLineDAO", new XElement("LineNumber", Int32.Parse(busLine1.Element("LineNumber").Value)),
+                new XElement("CurrentSerialNB", Int32.Parse(busLine1.Element("CurrentSerialNB").Value)),
+                new XElement("FirstStationNumber", Int32.Parse(busLine1.Element("FirstStationNumber").Value)),
+                new XElement("LastStationNumber", Int32.Parse(busLine1.Element("LastStationNumber").Value)),
+                new XElement("Area", (Area)Enum.Parse(typeof(Area), busLine1.Element("Area").Value)),
+                new XElement("Deleted", bool.Parse(busLine1.Element("Deleted").Value)));
+            busLineRootElem.Add(busLineElem);
+            XMLTools.SaveListToXMLElement(busLineRootElem, busLinePath);
+            return true;
+        }
+
+        public bool RemoveBusLine(BusLineDAO busLine)
+        {
+            XElement busLineRootElem = XMLTools.LoadListFromXMLElement(busLinePath);
+            for (int i = 0; i < busLineRootElem.Elements().Count(); i++)
+            {
+                XElement currentBusLine = busLineRootElem.Elements().ElementAt(i);
+
+                if (int.Parse(currentBusLine.Element("CurrentSerialNB").Value) == busLine.CurrentSerialNB)
+                {
+                    var list = GetAllStationsLineOfBusLine(busLine.LineNumber);
+                    for (int j = 0; j < list.Count(); j++)
+                    {
+                        var item = list.ToList()[j];
+                        RemoveStationLine(item);
+                    }
+                    currentBusLine.Element("Deleted").Value = true.ToString();
+
+                    XMLTools.SaveListToXMLElement(busLineRootElem, busLinePath);
+                    return true;
+                }
+            }
+            //throw new BusException("The bus line does not exists in the system.");
+
+            return true;
+        }
+
         public DO.BusLineDAO GetOneBusLine(int lineNumber)
         {
             XElement busLineRootElem = XMLTools.LoadListFromXMLElement(busLinePath);
@@ -510,58 +573,150 @@ namespace DAL
                    };
         }
 
-        public bool AddBusLine(DO.BusLineDAO busLine)
+        public bool UpdateBusLine(BusLineDAO busLine)
         {
             XElement busLineRootElem = XMLTools.LoadListFromXMLElement(busLinePath);
             XElement busLine1 = (from busLin in busLineRootElem.Elements()
-                             where int.Parse(busLin.Element("LineNumber").Value) == busLine.LineNumber
-                             && !bool.Parse(busLin.Element("Deleted").Value)
-                             select busLin).FirstOrDefault();
-            if (busLine1 != null)
+                                 where int.Parse(busLin.Element("LineNumber").Value) == busLine.LineNumber
+                                 select busLin).FirstOrDefault();
+            if(busLine1!=null)
             {
-                //throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
+                for(int i=0; i<busLineRootElem.Elements().Count();i++)
+                {
+                    XElement currentBusLine = busLineRootElem.Elements().ElementAt(i);
+                    if(Int32.Parse(currentBusLine.Element("currentSerialNB").Value)== Int32.Parse(busLine1.Element("currentSerialNB").Value))
+                    {
+                        busLine1.Remove();
+                    }
+                }
+                XElement busLineElem = new XElement("BusLineDAO", new XElement("LineNumber", Int32.Parse(busLine1.Element("LineNumber").Value)),
+              new XElement("CurrentSerialNB", Int32.Parse(busLine1.Element("CurrentSerialNB").Value)),
+              new XElement("FirstStationNumber", Int32.Parse(busLine1.Element("FirstStationNumber").Value)),
+              new XElement("LastStationNumber", Int32.Parse(busLine1.Element("LastStationNumber").Value)),
+              new XElement("Area", (Area)Enum.Parse(typeof(Area), busLine1.Element("Area").Value)),
+              new XElement("Deleted", bool.Parse(busLine1.Element("Deleted").Value)));
+                busLineRootElem.Add(busLineElem);
+                XMLTools.SaveListToXMLElement(busLineRootElem, busLinePath);
                 return true;
             }
-            XElement busLineElem = new XElement("BusLineDAO", new XElement("LineNumber", Int32.Parse(busLine1.Element("LineNumber").Value)),
-                new XElement("CurrentSerialNB", Int32.Parse(busLine1.Element("CurrentSerialNB").Value)),
-                new XElement("FirstStationNumber", Int32.Parse(busLine1.Element("FirstStationNumber").Value)),
-                new XElement("LastStationNumber", Int32.Parse(busLine1.Element("LastStationNumber").Value)),
-                new XElement("Area", (Area)Enum.Parse(typeof(Area), busLine1.Element("Area").Value)),
-                new XElement("Deleted", bool.Parse(busLine1.Element("Deleted").Value)));
-            busLineRootElem.Add(busLineElem);
-            XMLTools.SaveListToXMLElement(busLineRootElem, busLinePath);
-            return true;
+            return false;
         }
-
-        public bool RemoveBusLine(BusLineDAO busLine)
-        {
-            XElement busLineRootElem = XMLTools.LoadListFromXMLElement(busLinePath);
-            for (int i = 0; i < busLineRootElem.Elements().Count(); i++)
-            {
-                XElement currentBusLine = busLineRootElem.Elements().ElementAt(i);
-                                          
-                if (int.Parse(currentBusLine.Element("CurrentSerialNB").Value) == busLine.CurrentSerialNB)
-                {
-                    var list = GetAllStationsLineOfBusLine(busLine.LineNumber);
-                    for (int j = 0; j < list.Count(); j++)
-                    {
-                        var item = list.ToList()[j];
-                        RemoveStationLine(item);
-                    }
-                    currentBusLine.Element("Deleted").Value = true.ToString();
-
-                    XMLTools.SaveListToXMLElement(busLineRootElem, busLinePath);
-                    return true;
-                }
-            }
-            //throw new BusException("The bus line does not exists in the system.");
-
-            return true;
-        }
-
-
-        
         #endregion
+
+
+        #region BusInTravel
+        public bool AddBusInTravel(DO.BusInTravelDAO busInTravel)
+        {
+            XElement busInTravelRootElem = XMLTools.LoadListFromXMLElement(busInTravelPath);
+            XElement busInTravel1 = (from busInTra in busInTravelRootElem.Elements()
+                                     where busInTra.Element("LicenseNumber").Value.ToString() == busInTravel.LicenseNumber
+                                     && int.Parse(busInTra.Element("CurrentSerialNB").Value) == busInTravel.CurrentSerialNB
+                                     && TimeSpan.Parse(busInTra.Element("Start").Value) == busInTravel.Start
+                                     && bool.Parse(busInTra.Element("IsActive").Value)
+                                     select busInTra).FirstOrDefault();
+            if (busInTravel1 != null)
+            {
+                //throw;
+                return false;
+            }
+            XElement busInTravelElem = new XElement("BusInTravelDAO", new XElement("CurrentSerialNB", Int32.Parse(busInTravel1.Element("CurrentSerialNB").Value)),
+                new XElement("LicenseNumber", busInTravel1.Element("LicenseNumber").Value).ToString(),
+                new XElement("LineNumber", int.Parse(busInTravel1.Element("LineNumber").Value)),
+                new XElement("Start", TimeSpan.Parse(busInTravel1.Element("Start").Value)),
+                new XElement("ActualStart", TimeSpan.Parse(busInTravel1.Element("ActualStart").Value)),
+               new XElement("LastStationTimePassedThrough", TimeSpan.Parse(busInTravel1.Element("LastStationTimePassedThrough").Value)),
+               new XElement("NextStationTimePassedThrough", TimeSpan.Parse(busInTravel1.Element("NextStationTimePassedThrough").Value)),
+               new XElement("LastStationNumberPassedThrough", int.Parse(busInTravel1.Element("LastStationNumberPassedThrough").Value)),
+               new XElement("IsActive", bool.Parse(busInTravel1.Element("IsActive").Value)),
+                new XElement("DriverID", TimeSpan.Parse(busInTravel1.Element("DriverID").Value).ToString()));
+            busInTravelRootElem.Add(busInTravelElem);
+            XMLTools.SaveListToXMLElement(busInTravelRootElem, busInTravelPath);
+            return true;
+        }
+
+        public bool RemoveBusInTravel(BusInTravelDAO busInTravel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BusInTravelDAO> GetAllBusesInTravel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateBusInTravel(BusInTravelDAO busInTravel)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        #endregion
+
+        public bool AddBus(BusDAO bus)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ChooseBusForDrive(BusDAO bus)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RefuelBus(BusDAO bus)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Treatment(BusDAO bus)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BusDAO> GetAllBusses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveBus(BusDAO bus)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BusDAO GetOneBus(string license)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateBus(BusDAO bus)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IEnumerable<BusLineDAO> GetBusLineInStation(int stationNmber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BusLineDAO> GetAllBusLines()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddLineInService(LineInServiceDAO lineInService)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveLineInService(LineInServiceDAO lineInService)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateLineInService(LineInServiceDAO lineInService)
+        {
+            throw new NotImplementedException();
+        }
 
 
     }
