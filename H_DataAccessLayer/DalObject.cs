@@ -738,9 +738,10 @@ namespace DAL
                 if (item.StationNumberOne == stationNumberOne
                     && item.StationNumberTwo == stationNumberTwo)
                 {
-                    return item;
+                    return item.Cloned();
                 }
             }
+            //throw;
             return null;
         }
 

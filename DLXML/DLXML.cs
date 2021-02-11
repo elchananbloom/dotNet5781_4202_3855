@@ -29,6 +29,61 @@ namespace DAL
 
 
         #region StationDAO
+        public bool AddStation(DO.StationDAO stations)
+        {
+            XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
+            XElement sta1 = (from st in stationsRootElem.Elements()
+                             where int.Parse(st.Element("StationNumber").Value) == stations.StationNumber
+                             select st).FirstOrDefault();
+            if (sta1 != null)
+            {
+                //throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
+                return true;
+            }
+            XElement stationElem = new XElement("StationDAO", new XElement("StationNumber", Int32.Parse(sta1.Element("StationNumber").Value)),
+                new XElement("StationName", sta1.Element("StationName").Value),
+                new XElement("Longtitude", double.Parse(sta1.Element("Longtitude").Value)),
+                new XElement("Latitude", double.Parse(sta1.Element("Latitude").Value)),
+                new XElement("Deleted", bool.Parse(sta1.Element("Deleted").Value)));
+            stationsRootElem.Add(stationElem);
+            XMLTools.SaveListToXMLElement(stationsRootElem, stationPath);
+            return true;
+        }
+
+        public bool RemoveStation(int stationNumber)
+        {
+            XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
+            XElement sta1 = (from sta in stationsRootElem.Elements()
+                             where int.Parse(sta.Element("StationNumber").Value) == stationNumber
+                             select sta).FirstOrDefault();
+            if (sta1 != null)
+            {
+                sta1.Element("Deleted").Value = true.ToString();
+                XElement stationLinesElem = XMLTools.LoadListFromXMLElement(stationLinePath);
+                for (int i = 0; i < stationLinesElem.Elements().Count(); i++)
+                {
+                    var currentStationLine = stationLinesElem.Elements().ElementAt(i);
+                    if (int.Parse(currentStationLine.Element("StationNumber").Value) == stationNumber)
+                    {
+                        RemoveStationLine(new StationLineDAO
+                        {
+                            StationNumber = int.Parse(currentStationLine.Element("StationNumber").Value),
+                            LineNumber = int.Parse(currentStationLine.Element("LineNumber").Value),
+                            NumberStationInLine = int.Parse(currentStationLine.Element("NumberStationInLine").Value),
+                            Deleted = bool.Parse(currentStationLine.Element("Deleted").Value)
+
+                        });
+                    }
+                }
+                XMLTools.SaveListToXMLElement(stationsRootElem, stationPath);
+            }
+            else
+            {
+                //throw new DO.BadPersonIdException(StationNumber, $"bad person id: {StationNumber}");
+            }
+            return true;
+        }
+
         public DO.StationDAO GetOneStation(int stationNumber)
         {
             XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
@@ -65,6 +120,39 @@ namespace DAL
                    };
         }
 
+        public bool UpdateStation(DO.StationDAO station)
+        {
+            XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
+            XElement sta1 = (from sta in stationsRootElem.Elements()
+                             where int.Parse(sta.Element("StationNumber").Value) == station.StationNumber
+                             select sta).FirstOrDefault();
+            if (sta1 != null)
+            {
+                for (int i = 0; i < stationsRootElem.Elements().Count(); i++)
+                {
+                    var currentStation = stationsRootElem.Elements().ElementAt(i);
+                    if (int.Parse(sta1.Element("StationNumber").Value) == int.Parse(currentStation.Element("StationNumber").Value))
+                    {
+                        currentStation.Remove();
+                    }
+                }
+                XElement stationElem = new XElement("StationDAO", new XElement("StationNumber", Int32.Parse(sta1.Element("StationNumber").Value)),
+               new XElement("StationName", sta1.Element("StationName").Value),
+               new XElement("Longtitude", double.Parse(sta1.Element("Longtitude").Value)),
+               new XElement("Latitude", double.Parse(sta1.Element("Latitude").Value)),
+               new XElement("Deleted", bool.Parse(sta1.Element("Deleted").Value)));
+                stationsRootElem.Add(stationElem);
+                
+                XMLTools.SaveListToXMLElement(stationsRootElem, stationPath);
+            }
+            else
+            {
+                //throw new DO.BadPersonIdException(station.ID, $"bad person id: {station.stationNumber}");
+                return true;
+            }
+            return true;
+        }
+
         //public IEnumerable<DO.Person> GetAllPersonsBy(Predicate<DO.Person> predicate)
         //{
         //    XElement personsRootElem = XMLTools.LoadListFromXMLElement(stationsPath);
@@ -85,81 +173,6 @@ namespace DAL
         //           select p1;
         //}
 
-        public bool AddStation(DO.StationDAO stations)
-        {
-            XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
-            XElement sta1 = (from st in stationsRootElem.Elements()
-                             where int.Parse(st.Element("StationNumber").Value) == stations.StationNumber
-                             select st).FirstOrDefault();
-            if (sta1 != null)
-            {
-                //throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
-                return true;
-            }
-            XElement stationElem = new XElement("StationDAO", new XElement("StationNumber", Int32.Parse(sta1.Element("StationNumber").Value),
-                new XElement("StationName", sta1.Element("StationName").Value),
-                new XElement("Longtitude", double.Parse(sta1.Element("Longtitude").Value)),
-                new XElement("Latitude", double.Parse(sta1.Element("Latitude").Value)),
-                new XElement("Deleted", bool.Parse(sta1.Element("Deleted").Value))));
-            stationsRootElem.Add(stationElem);
-            XMLTools.SaveListToXMLElement(stationsRootElem, stationPath);
-            return true;
-        }
-
-        public bool RemoveStation(int stationNumber)
-        {
-            XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
-            XElement sta1 = (from sta in stationsRootElem.Elements()
-                             where int.Parse(sta.Element("StationNumber").Value) == stationNumber
-                             select sta).FirstOrDefault();
-            if (sta1 != null)
-            {
-                sta1.Element("Deleted").Value = true.ToString();
-                //for (int j = 0; j < DataSource.DataSource.StationLinesList.Count; j++)
-                //{
-                //    var item = DataSource.DataSource.StationLinesList[j];
-                //    if (item.StationNumber == station.StationNumber)
-                //    {
-                //        RemoveStationLine(item);
-                //    }
-                XMLTools.SaveListToXMLElement(stationsRootElem, stationPath);
-            }
-            else
-            {
-                //throw new DO.BadPersonIdException(StationNumber, $"bad person id: {StationNumber}");
-            }
-            return true;
-        }
-
-        public bool UpdateStation(DO.StationDAO station)
-        {
-            XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationPath);
-            XElement sta1 = (from sta in stationsRootElem.Elements()
-                             where int.Parse(sta.Element("StationNumber").Value) == station.StationNumber
-                             select sta).FirstOrDefault();
-            if (sta1 != null)
-            {
-                //foreach (var item in stationsRootElem.Elements())
-                //{
-                //    if (int.Parse(sta1.Element("StationNumber").Value) == item.StationNumber)
-                //    {
-                //        stationsRootElem.Remove();
-                //    }
-                //}
-                sta1.Element("StationNumber").Value = station.StationNumber.ToString();
-                sta1.Element("StationName").Value = station.StationName;
-                sta1.Element("Longtitude").Value = station.Longtitude.ToString();
-                sta1.Element("Latitude").Value = station.Latitude.ToString();
-                sta1.Element("Deleted").Value = station.Deleted.ToString();
-                XMLTools.SaveListToXMLElement(stationsRootElem, stationPath);
-            }
-            else
-            {
-                //throw new DO.BadPersonIdException(station.ID, $"bad person id: {station.stationNumber}");
-                return true;
-            }
-            return true;
-        }
         #endregion
 
 
@@ -208,13 +221,12 @@ namespace DAL
                                             select coupleSta).FirstOrDefault();
             if (coupleStationInRow1 != null)
             {
-                //throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
-                return true;
+                return false;
             }
-            XElement coupleStationElem = new XElement("CoupleStationInRowDAO", new XElement("StationNumberOne", Int32.Parse(coupleStationInRow1.Element("StationNumberOne").Value),
+            XElement coupleStationElem = new XElement("CoupleStationInRowDAO", new XElement("StationNumberOne", Int32.Parse(coupleStationInRow1.Element("StationNumberOne").Value)),
                 new XElement("StationNumberTwo", coupleStationInRow1.Element("StationNumberTwo").Value),
                 new XElement("Distance", Int32.Parse(coupleStationInRow1.Element("Distance").Value)),
-                new XElement("AverageTravelTime", TimeSpan.Parse(coupleStationInRow1.Element("AverageTravelTime").Value))));
+                new XElement("AverageTravelTime", TimeSpan.Parse(coupleStationInRow1.Element("AverageTravelTime").Value)));
             coupleStationInRowRootElem.Add(coupleStationElem);
             XMLTools.SaveListToXMLElement(coupleStationInRowRootElem, stationPath);
             return true;
@@ -223,31 +235,37 @@ namespace DAL
         public bool RemoveCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow)
         {
             XElement coupleStationInRowRootElem = XMLTools.LoadListFromXMLElement(coupleStationInRowPath);
-            XElement coupleStation1 = (from coupleSta in coupleStationInRowRootElem.Elements()
+            XElement coupleStation = (from coupleSta in coupleStationInRowRootElem.Elements()
                                        where int.Parse(coupleSta.Element("StationNumberOne").Value) == coupleStationInRow.StationNumberOne
                                        && int.Parse(coupleSta.Element("StationNumberTwo").Value) == coupleStationInRow.StationNumberTwo
                                        select coupleSta).FirstOrDefault();
 
-            if (coupleStation1 != null)
+            if (coupleStation != null)
             {
-                coupleStation1.Element("Deleted").Value = true.ToString();
-                //for (int j = 0; j < DataSource.DataSource.StationLinesList.Count; j++)
-                //{
-                //    var item = DataSource.DataSource.StationLinesList[j];
-                //    if (item.StationNumber == station.StationNumber)
-                //    {
-                //        RemoveStationLine(item);
-                //    }
+                coupleStation.Remove();
                 XMLTools.SaveListToXMLElement(coupleStationInRowRootElem, coupleStationInRowPath);
-            }
-            else
-            {
-                //throw new DO.BadPersonIdException(StationNumber, $"bad person id: {StationNumber}");
                 return true;
             }
-            return true;
+            return false;
         }
 
+        public IEnumerable<CoupleStationInRowDAO> GetCoupleStationInRowDAOInBusLine(BusLineDAO busLine)
+        {
+            var stationLines = GetAllStationsLineOfBusLine(busLine.LineNumber);
+            IEnumerable<CoupleStationInRowDAO> list = new List<CoupleStationInRowDAO>();
+            foreach (var item in GetAllCoupleStationInRow())
+            {
+                for (int i = 0; i < stationLines.Count() - 1; i++)
+                {
+                    if (stationLines.ToList()[i].StationNumber == item.StationNumberOne
+                        && stationLines.ToList()[i + 1].StationNumber == item.StationNumberTwo)
+                    {
+                        list.ToList().Add(item);
+                    }
+                }
+            }
+            return list;
+        }
         public bool UpdateCoupleStationInRow(DO.CoupleStationInRowDAO coupleStation)
         {
             XElement coupleStationInRowRootElem = XMLTools.LoadListFromXMLElement(coupleStationInRowPath);
@@ -257,18 +275,31 @@ namespace DAL
                                        select coupleSta).FirstOrDefault();
             if (coupleStation1 != null)
             {
-                coupleStation1.Element("StationNumberOne").Value = coupleStation.StationNumberOne.ToString();
-                coupleStation1.Element("StationNumberTwo").Value = coupleStation.StationNumberTwo.ToString();
-                coupleStation1.Element("Distance").Value = coupleStation.Distance.ToString();
-                coupleStation1.Element("AverageTravelTime").Value = coupleStation.AverageTravelTime.ToString();
+                for (int i = 0; i < coupleStationInRowRootElem.Elements().Count(); i++)
+                {
+                    var currentCoupleStation = coupleStationInRowRootElem.Elements().ElementAt(i);
+                    if (int.Parse(currentCoupleStation.Element("StationNumberOne").Value) == coupleStation.StationNumberOne &&
+                        int.Parse(currentCoupleStation.Element("StationNumberTwo").Value) == coupleStation.StationNumberTwo)
+                    {
+                        currentCoupleStation.Remove();
+                    }
+                }
+                XElement coupleStationElem = new XElement("CoupleStationInRowDAO",
+                    new XElement("StationNumberOne", Int32.Parse(coupleStation1.Element("StationNumberOne").Value)),
+                    new XElement("StationNumberTwo", coupleStation1.Element("StationNumberTwo").Value),
+                    new XElement("Distance", Int32.Parse(coupleStation1.Element("Distance").Value)),
+                    new XElement("AverageTravelTime", TimeSpan.Parse(coupleStation1.Element("AverageTravelTime").Value)));
+                
+                coupleStationInRowRootElem.Add(coupleStationElem);
+
                 XMLTools.SaveListToXMLElement(coupleStationInRowRootElem, stationPath);
+                return true;
             }
             else
             {
                 //throw new DO.BadPersonIdException(station.ID, $"bad person id: {station.stationNumber}");
-                return true;
+                return false;
             }
-            return true;
         }
         #endregion
 
@@ -452,8 +483,7 @@ namespace DAL
                                               LineNumber = Int32.Parse(busLin.Element("LineNumber").Value),
                                               FirstStationNumber = Int32.Parse(busLin.Element("FirstStationNumber").Value),
                                               LastStationNumber = Int32.Parse(busLin.Element("LastStationNumber").Value),
-                                              /////////////////////////////////////////////////////////////////////////////////
-                                              Area = Enum.Parse(Area, busLin.Element("Area").Value),
+                                              Area = (Area)Enum.Parse(typeof(Area) ,busLin.Element("Area").Value),
                                               Deleted = bool.Parse(busLin.Element("Deleted").Value)
                                           }).FirstOrDefault();
             if (busLine == null)
@@ -475,7 +505,7 @@ namespace DAL
                        FirstStationNumber = Int32.Parse(busLin.Element("FirstStationNumber").Value),
                        LastStationNumber = Int32.Parse(busLin.Element("LastStationNumber").Value),
                        /////////////////////////////////////////////////////////////////////////////////
-                       Area = Enum.Parse(Area, busLin.Element("Area").Value),
+                       Area = (Area)Enum.Parse(typeof(Area), busLin.Element("Area").Value),
                        Deleted = bool.Parse(busLin.Element("Deleted").Value)
                    };
         }
@@ -492,13 +522,12 @@ namespace DAL
                 //throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
                 return true;
             }
-            XElement busLineElem = new XElement("BusLineDAO", new XElement("LineNumber", Int32.Parse(busLine1.Element("LineNumber").Value),
+            XElement busLineElem = new XElement("BusLineDAO", new XElement("LineNumber", Int32.Parse(busLine1.Element("LineNumber").Value)),
                 new XElement("CurrentSerialNB", Int32.Parse(busLine1.Element("CurrentSerialNB").Value)),
                 new XElement("FirstStationNumber", Int32.Parse(busLine1.Element("FirstStationNumber").Value)),
                 new XElement("LastStationNumber", Int32.Parse(busLine1.Element("LastStationNumber").Value)),
-                ////////////////////////////////////////////////////////////////////////////
-                new XElement("Area", Enum.Parse(busLine1.Element("Area").Value)),
-                new XElement("Deleted", bool.Parse(busLine1.Element("Deleted").Value))));
+                new XElement("Area", (Area)Enum.Parse(typeof(Area), busLine1.Element("Area").Value)),
+                new XElement("Deleted", bool.Parse(busLine1.Element("Deleted").Value)));
             busLineRootElem.Add(busLineElem);
             XMLTools.SaveListToXMLElement(busLineRootElem, busLinePath);
             return true;
@@ -507,16 +536,16 @@ namespace DAL
         public bool RemoveBusLine(BusLineDAO busLine)
         {
             XElement busLineRootElem = XMLTools.LoadListFromXMLElement(busLinePath);
-            IEnumerable<BusLineDAO> list = new List<BusLineDAO> (GetAllBusLine());
-            for (int i = 0; i < GetAllBusLine().Count(); i++)
+            for (int i = 0; i < busLineRootElem.Elements().Count(); i++)
             {
-                XElement currentBusLine = list.ElementAt(i);
-                if (currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB)
+                XElement currentBusLine = busLineRootElem.Elements().ElementAt(i);
+                                          
+                if (int.Parse(currentBusLine.Element("CurrentSerialNB").Value) == busLine.CurrentSerialNB)
                 {
-                    var list1 = GetAllStationsLineOfBusLine(busLine.LineNumber);
-                    for (int j = 0; j < list1.Count(); j++)
+                    var list = GetAllStationsLineOfBusLine(busLine.LineNumber);
+                    for (int j = 0; j < list.Count(); j++)
                     {
-                        var item = list1.ToList()[j];
+                        var item = list.ToList()[j];
                         RemoveStationLine(item);
                     }
                     currentBusLine.Element("Deleted").Value = true.ToString();
@@ -525,29 +554,13 @@ namespace DAL
                     return true;
                 }
             }
+            //throw new BusException("The bus line does not exists in the system.");
+
             return true;
         }
 
 
-        public bool RemoveBusLine(BusLineDAO busLine)
-        {
-            for (int i = 0; i < DataSource.DataSource.BusLinesList.Count; i++)
-            {
-                var currentBusLine = DataSource.DataSource.BusLinesList[i];
-                if (currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB)
-                {
-                    var list = GetAllStationsLineOfBusLine(busLine.LineNumber);
-                    for (int j = 0; j < list.Count(); j++)
-                    {
-                        var item = list.ToList()[j];
-                        RemoveStationLine(item);
-                    }
-                    currentBusLine.Deleted = true;
-                    return true;
-                }
-            }
-            throw new BusException("The bus line does not exists in the system.");
-        }
+        
         #endregion
 
 
