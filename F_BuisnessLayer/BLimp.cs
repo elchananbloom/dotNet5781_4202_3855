@@ -655,6 +655,18 @@ namespace BuisnessLayer
         }
         #endregion
 
+        public IEnumerable<LineInServiceBO> GetAllLineInService()
+        {
+            return from item in dal.GetAllLineInService()
+                   select new LineInServiceBO()
+                   {
+                       LineNumber = item.LineNumber,
+                       StartLineTime = item.StartLineTime,
+                       Frequency = item.Frequency,
+                       EndLineTime = item.EndLineTime,
+                        ArrivalTime=item.ArrivalTime
+                   };
+        }
 
     }
 }

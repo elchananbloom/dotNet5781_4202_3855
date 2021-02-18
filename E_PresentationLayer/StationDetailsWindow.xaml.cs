@@ -34,12 +34,18 @@ namespace PresentationLayer
             lbBusLinesInStation.ItemsSource = Bl.GetAllBusLinesInStation(StationBO.StationNumber);
         }
 
+        private void btSimulation_Click(object sender, RoutedEventArgs e)
+        {
+            SimulationWindow simulationWindow = new SimulationWindow(StationBO,Bl);
+            simulationWindow.ShowDialog();
+        }
+
         //public StationDetailsWindow()
         //{
         //}
 
-       
 
-        
+
+
     }
 }

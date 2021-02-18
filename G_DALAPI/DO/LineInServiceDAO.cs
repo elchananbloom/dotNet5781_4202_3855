@@ -13,6 +13,7 @@ namespace DO
         public TimeSpan StartLineTime { get; set; }
         public TimeSpan Frequency { get; set; }
         public TimeSpan EndLineTime { get; set; }
+        public TimeSpan ArrivalTime { get; set; }
 
         public override string ToString()
         {

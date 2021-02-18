@@ -22,6 +22,19 @@ namespace ObjectToXml
             XMLTools.SaveListToXMLSerializer<StationLineDAO>(DataSource.DataSource.StationLinesList, @"StationLines.xml");
             XMLTools.SaveListToXMLSerializer<StationDAO>(DataSource.DataSource.StationsList, @"Stations.xml");
             XMLTools.SaveListToXMLSerializer<BusDAO>(DataSource.DataSource.BussesList, @"Busses.xml");
+            //XMLTools.SaveListToXMLSerializer<LineInServiceDAO>(DataSource.DataSource.LineInServicesList, @"LineInService.xml");
+            XElement myLineInElement = new XElement("LineInService");
+            foreach (var item in DataSource.DataSource.LineInServicesList)
+            {
+                XElement lineInService = new XElement("LineInService",
+                                   new XElement("LineInServiceSerialNB", item.LineInServiceSerialNB),
+                                   new XElement("StartLineTime", XmlConvert.ToString(item.StartLineTime)),
+                                   new XElement("Frequency", XmlConvert.ToString(item.Frequency)),
+                                   new XElement("EndLineTime", XmlConvert.ToString(item.EndLineTime)));
+                myLineInElement.Add(lineInService);
+            }
+            XMLTools.SaveListToXMLElement(myLineInElement, @"LineInService.xml");
+
             XElement myElement = new XElement("CoupleStationInRowList");
             foreach (var item in DataSource.DataSource.CoupleStationInRowList)
             {

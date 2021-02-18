@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BO;
+using BuisnessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +14,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace E_PresentationLayer
+namespace PresentationLayer
 {
     /// <summary>
     /// Interaction logic for SimulationWindow.xaml
     /// </summary>
     public partial class SimulationWindow : Window
     {
-        public SimulationWindow()
+        public StationBO StationBO { get; }
+        public IBL Bl { get; }
+        public SimulationWindow(StationBO stationBO,IBL bl)
         {
+            StationBO = stationBO;
+            Bl = bl;
             InitializeComponent();
+            lblStationNumber.Content = StationBO.StationNumber;
+            lblStationName.Content = StationBO.StationName;
+            lbLineInService.ItemsSource = Bl.GetAllBusLinesInStation(StationBO.StationNumber);
         }
     }
 }

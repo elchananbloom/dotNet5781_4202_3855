@@ -20,6 +20,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Button x:Name="btSimulation" Grid.Column="1" Content="Sim" HorizontalAlignment="Right" Click="btSimulation_Click"/>
             <Label Content="Station Number:" HorizontalAlignment="Right" FontSize="22" Foreground="White" FontWeight="Bold"/>
             <Label x:Name="lblStationNumber" Grid.Column="1" FontSize="18" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Orange" FontWeight="Bold"/>
             <Label Content="Station Name: " Grid.Row="1" HorizontalAlignment="Right" FontSize="22" Foreground="White" FontWeight="Bold"/>

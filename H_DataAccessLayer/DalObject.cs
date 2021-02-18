@@ -745,6 +745,11 @@ namespace DAL
             DataSource.DataSource.LineInServicesList.Add(lineInService.Cloned());
             return true;
         }
+
+        public IEnumerable<LineInServiceDAO> GetAllLineInService()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
 

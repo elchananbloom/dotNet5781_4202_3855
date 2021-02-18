@@ -210,6 +210,8 @@ namespace DALAPI
 
 
         #region LineInServiceDAO functions
+        IEnumerable<LineInServiceDAO> GetAllLineInService();
+
         /// <summary>
         /// Adds a new line in service to the line in service list.
         /// </summary>

@@ -790,6 +790,22 @@ namespace DAL
         }
 
         #endregion
+
+        #region LineInService
+        public IEnumerable<LineInServiceDAO> GetAllLineInService()
+        {
+            XElement lineInServiceRootElem = XMLTools.LoadListFromXMLElement(lineinServicePath);
+            return from item in lineInServiceRootElem.Elements()
+                   select new LineInServiceDAO()
+                   {
+                       LineInServiceSerialNB = int.Parse(item.Element("LineInServiceSerialNB").Value),
+                       LineNumber = int.Parse(item.Element("LineNumber").Value),
+                       StartLineTime = XmlConvert.ToTimeSpan(item.Element("StartLineTime").Value),
+                       Frequency = XmlConvert.ToTimeSpan(item.Element("Frequency").Value),
+                       EndLineTime = XmlConvert.ToTimeSpan(item.Element("EndLineTime").Value),
+                        ArrivalTime= XmlConvert.ToTimeSpan(item.Element("ArrivalTime").Value)
+                   };
+        }
         public IEnumerable<BusLineDAO> GetBusLineInStation(int stationNmber)
         {
             throw new NotImplementedException();
@@ -814,7 +830,7 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
-
+        #endregion
 
     }
 

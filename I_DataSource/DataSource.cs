@@ -34,45 +34,21 @@ namespace DataSource
         static DataSource()
         {
             init();
+            Random rand = new Random();
+            foreach (var item in BusLinesList)
+            {
+                LineInServicesList.Add(new LineInServiceDAO
+                {
+                    LineNumber = item.LineNumber,
+                    LineInServiceSerialNB = Configuration.SerialLineInService,
+                    StartLineTime = new TimeSpan(rand.Next(13, 17), 0, 0),
+                    Frequency = new TimeSpan(0, 30, 0),
+                    EndLineTime = new TimeSpan(22, 0, 0)
+                });
+            }
         }
-        /// <summary>
-        /// Initializing the BusDAO Yeshot.
-        /// </summary>
-        //public static void initBuses()
-        //{
-        //    BussesList.Add(new BusDAO
-        //    {
-        //        LicenseNumber = "1234567",
-        //        StartOfWork = DateTime.Today.AddYears(-3),
-        //        TotalKms = 5000,
-        //        Fuel = 1200,
-        //        Status = Status.READY_TO_DRIVE
-        //    });
-        //    BussesList.Add(new BusDAO
-        //    {
-        //        LicenseNumber = "3333333",
-        //        StartOfWork = DateTime.Today.AddYears(-20),
-        //        TotalKms = 9999999,
-        //        Fuel = 500,
-        //        Status = Status.READY_TO_DRIVE
-        //    });
-        //    BussesList.Add(new BusDAO
-        //    {
-        //        LicenseNumber = "77745617",
-        //        StartOfWork = DateTime.Today.AddYears(-2),
-        //        TotalKms = 5000,
-        //        Fuel = 1200,
-        //        Status = Status.READY_TO_DRIVE
-        //    });
-        //    BussesList.Add(new BusDAO
-        //    {
-        //        LicenseNumber = "6666666",
-        //        StartOfWork = DateTime.Today.AddYears(-100),
-        //        TotalKms = 5000,
-        //        Fuel = 1200,
-        //        Status = Status.READY_TO_DRIVE
-        //    });
-        //}
+        
+   
         
         /// <summary>
         /// this func initialize the 50 stations, 10 lines with at least 10 stations, 20 buses etc...
@@ -217,17 +193,17 @@ namespace DataSource
                 }
             }
             #endregion
-            for (int i = 0; i < 10; i++)
-            {
-                LineInServicesList.Add(new LineInServiceDAO
-                {
-                    LineInServiceSerialNB = Configuration.SerialLineInService,
-                    LineNumber = lineNumber[i],
-                    StartLineTime = new TimeSpan(rand.Next(23), 0, 0),
-                    Frequency = new TimeSpan(rand.Next(1), rand.Next(59), 0),
-                    EndLineTime = new TimeSpan(rand.Next(23), 0, 0)
-                });
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    LineInServicesList.Add(new LineInServiceDAO
+            //    {
+            //        LineInServiceSerialNB = Configuration.SerialLineInService,
+            //        LineNumber = lineNumber[i],
+            //        StartLineTime = new TimeSpan(rand.Next(23), 0, 0),
+            //        Frequency = new TimeSpan(rand.Next(1), rand.Next(59), 0),
+            //        EndLineTime = new TimeSpan(rand.Next(23), 0, 0)
+            //    });
+            //}
             //for (int i = 0; i < stationLinesList.Count() - 1; i++)
             //{
             //    CoupleStationInRowDAO stationInRow = new CoupleStationInRowDAO
