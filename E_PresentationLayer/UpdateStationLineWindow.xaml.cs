@@ -65,7 +65,7 @@ namespace PresentationLayer
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                MessageBox.Show(error.Message + error.InnerException);
             }
             this.Close();
         }

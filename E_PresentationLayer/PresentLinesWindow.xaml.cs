@@ -39,7 +39,7 @@ namespace PresentationLayer
         {
             TextBox tbBusLine = sender as TextBox;
             BusLineBO busLineBO = (BusLineBO)tbBusLine.DataContext;
-            busLineBO.StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLines(busLineBO.LineNumber));
+            busLineBO.StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLinesOfBusLine(busLineBO.LineNumber));
             LineDetailsWindow lineDetailsWindow = new LineDetailsWindow(busLineBO, tbBusLine);
             lineDetailsWindow.ShowDialog();
         }

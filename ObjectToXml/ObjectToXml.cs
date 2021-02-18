@@ -21,6 +21,7 @@ namespace ObjectToXml
            // XMLTools.SaveListToXMLSerializer<CoupleStationInRowDAO>(DataSource.DataSource.CoupleStationInRowList, @"CoupleStationInRow.xml");
             XMLTools.SaveListToXMLSerializer<StationLineDAO>(DataSource.DataSource.StationLinesList, @"StationLines.xml");
             XMLTools.SaveListToXMLSerializer<StationDAO>(DataSource.DataSource.StationsList, @"Stations.xml");
+            XMLTools.SaveListToXMLSerializer<BusDAO>(DataSource.DataSource.BussesList, @"Busses.xml");
             XElement myElement = new XElement("CoupleStationInRowList");
             foreach (var item in DataSource.DataSource.CoupleStationInRowList)
             {

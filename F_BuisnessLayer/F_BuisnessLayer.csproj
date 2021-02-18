@@ -56,9 +56,12 @@
     <Compile Include="BO\StationLineBO.cs" />
     <Compile Include="BO\ToolsBO.cs" />
     <Compile Include="BusExeption.cs" />
+    <Compile Include="BusLineExeption.cs" />
     <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StationExeption.cs" />
+    <Compile Include="StationLineExeption.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\G_DALAPI\G_DALAPI.csproj">

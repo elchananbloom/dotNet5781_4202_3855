@@ -34,21 +34,14 @@ namespace DAL
 
 
         #region BusDAO functions
-        /// <summary>
-        /// this func adds a new bus to the buses list.
-        /// </summary>
-        /// <param name="bus">Bus from DO</param>
-        /// <returns></returns>
+        
         public bool AddBus(BusDAO bus)
         {
 
             if (DataSource.DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
             {
-                throw new BusException("License exists allready.");
-                //return false;
+                throw new BusException("License "+bus.LicenseNumber+" exists allready.");
             }
-            //BusDAO cloned = ;
-            //cloned.Deleted = false;
             DataSource.DataSource.BussesList.Add(bus.Cloned());
             return true;
         }
@@ -61,7 +54,7 @@ namespace DAL
         {
             if (bus.Status == Status.READY_TO_DRIVE)
                 return true;
-            throw new BusException("The bus is not ready to drive.");
+            throw new BusException("The bus "+bus.LicenseNumber+" is not ready to drive.");
         }
         /// <summary>
         /// this func is for refuel bus.
@@ -74,7 +67,7 @@ namespace DAL
             {
                 return true;
             }
-            throw new BusException("The bus needs to be refueled.");
+            throw new BusException("The bus "+bus.LicenseNumber+" needs to be refueled.");
         }
         /// <summary>
         /// this func is for trearment for the bus.
@@ -85,7 +78,7 @@ namespace DAL
         {
             if ((bus.Status == Status.READY_TO_DRIVE || bus.Status == Status.NEED_REFUELING || bus.Status == Status.NEED_TREATMENT) && bus.Maintnance != 0)
                 return true;
-            throw new BusException("The bus needs to be treated.");
+            throw new BusException("The bus "+bus.LicenseNumber+" needs to be treated.");
         }
         /// <summary>
         /// Delete a bus by updating his delete field.
@@ -101,7 +94,7 @@ namespace DAL
                     return true;
                 }
             }
-            throw new BusException("The bus does not exists in the system.");
+            throw new BusException("The bus "+bus.LicenseNumber+" does not exists in the system.");
             //if (!I_DataSource.DataSource.Buses.Exists(item => item.LicenseNumber == bus.LicenseNumber))
             //{
             //    throw new BusException("The bus does not exists in the system.");
@@ -179,7 +172,7 @@ namespace DAL
         {
             if (!DataSource.DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
             {
-                throw new BusException("The bus does not exist in the system.");
+                throw new BusException("The bus "+bus.LicenseNumber+" does not exist in the system.");
             }
             //delete
             DataSource.DataSource.BussesList.RemoveAll(currentBus => currentBus.LicenseNumber == bus.LicenseNumber);
@@ -191,11 +184,7 @@ namespace DAL
 
 
         #region BusInTravelDAO functions
-        /// <summary>
-        /// add bus in travel to the bussesInTravel list
-        /// </summary>
-        /// <param name="bus">Bus from BusInTravelDAO</param>
-        /// <returns></returns>
+        
         public bool AddBusInTravel(BusInTravelDAO bus)
         {
             if (DataSource.DataSource.BussesInTravelList.Exists(currentBusInTravel =>
@@ -206,7 +195,7 @@ namespace DAL
             {
                 // throw new InvalidOperationException("license exists allready")
                 //return false;
-                throw new BusException("The bus is already in travel.");
+                throw new BusInTravelException("The bus "+bus.LicenseNumber+" is already in travel.");
             }
             BusInTravelDAO cloned = bus.Cloned();
             cloned.CurrentSerialNB = Configuration.SerialBusInTravel;
@@ -214,11 +203,7 @@ namespace DAL
             DataSource.DataSource.BussesInTravelList.Add(cloned);
             return true;
         }
-        /// <summary>
-        /// remove bus in travel to the bussesInTravel list
-        /// </summary>
-        /// <param name="bus">Bus from BusInTravelDAO</param>
-        /// <returns></returns>
+        
         public bool RemoveBusInTravel(BusInTravelDAO bus)
         {
             foreach (var item in DataSource.DataSource.BussesInTravelList)
@@ -234,12 +219,9 @@ namespace DAL
                     return true;
                 }
             }
-            throw new BusException("The bus is not traveling.");
+            throw new BusInTravelException("The bus "+bus.LicenseNumber+" is not traveling.");
         }
-        /// <summary>
-        /// gets all busses in the bussesInTravel list.
-        /// </summary>
-        /// <returns></returns>
+        
         public List<BusInTravelDAO> GetAllBusesInTravel()
         {
             List<BusInTravelDAO> travels = new List<BusInTravelDAO>();
@@ -249,11 +231,7 @@ namespace DAL
             }
             return travels;
         }
-        /// <summary>
-        /// bus in travel update
-        /// </summary>
-        /// <param name="busInTravel"></param>
-        /// <returns></returns>
+       
         public bool UpdateBusInTravel(BusInTravelDAO busInTravel)
         {
             if (!DataSource.DataSource.BussesInTravelList.Exists(currentBusInTravel => currentBusInTravel.LicenseNumber == busInTravel.LicenseNumber))
@@ -266,42 +244,19 @@ namespace DAL
             DataSource.DataSource.BussesInTravelList.Add(busInTravel.Cloned());
             return true;
         }
-        /// <summary>
-        /// this func overrides the original CompareTo function.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="obj1"></param>
-        /// <returns></returns>
-        //public int CompareTo(Object obj, Object obj1)
-        //{
-        //    int stationLine1 = ((StationLineDAO)obj).NumberStationInLine;
-        //    int stationLine2 = ((StationLineDAO)obj1).NumberStationInLine;
-        //    return stationLine1.CompareTo(stationLine2);
-        //}
-        ///// <summary>
-        ///// implement IEnumerator 
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerator GetEnumerator()
-        //{
-        //    return DataSource.DataSource.StationLinesList.GetEnumerator();
-        //}
+        
         #endregion
 
 
         #region StationLineDAO functions
-        /// <summary>
-        /// add station line to the station lines list.
-        /// </summary>
-        /// <param name="stationLine"></param>
-        /// <returns></returns>
+        
         public bool AddStationLine(StationLineDAO stationLine)
         {
             if (DataSource.DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.LineNumber == stationLine.LineNumber
              && currentStationLine.StationNumber == stationLine.StationNumber
              &&!currentStationLine.Deleted))
             {
-                throw new BusException("The station line already exists in the system.");
+                throw new StationLineException("The station "+stationLine.StationNumber+" line already exists in the system.");
             }
             //StationLineDAO cloned = stationLine.Cloned();
             //cloned.Deleted = false;
@@ -337,11 +292,7 @@ namespace DAL
             //}
             //return true;
         }
-        /// <summary>
-        /// Delete a station line by updating his delete field.
-        /// </summary>
-        /// <param name="stationLine"></param>
-        /// <returns></returns>
+        
         public bool RemoveStationLine(StationLineDAO stationLine)
         {
             foreach (var currentStationLine in DataSource.DataSource.StationLinesList)
@@ -388,34 +339,11 @@ namespace DAL
                     return true;
                 }
             }
-            throw new BusException("The station line does not exists in the system.");
+            throw new StationLineException("The station line " + stationLine.StationNumber + " does not exists in the system.");
         }
-        /// <summary>
-        /// make the station line to be activated
-        /// </summary>
-        /// <param name="stationLine"></param>
-        /// <returns></returns>
+        
 
-        //public bool ActivateStationLine(int lineNumber, int stationNumber)
-        //{
-        //    foreach (var currentStationLine in DataSource.StationLinesList)
-        //    {
-        //        if (currentStationLine.CurrentSerialNB == lineNumber
-        //            && currentStationLine.StationNumber == stationNumber)
-        //        {
-        //            currentStationLine.Deleted = true;
-        //            return true;
-        //        }
-        //    }
-        //    throw new BusException("The station line does not exists in the system.");
-        //}
-
-      /// <summary>
-        /// this func gets a station line by his line number and his station number.
-        /// </summary>
-        /// <param name="lineNumber"></param>
-        /// <param name="stationNumber"></param>
-        /// <returns></returns>
+      
         public StationLineDAO GetOneStationLine(int lineNumber, int stationNumber)
         {
             StationLineDAO result = default(StationLineDAO);
@@ -427,11 +355,7 @@ namespace DAL
             }
             return null;
         }
-        /// <summary>
-        /// gets all the station lines inside the bus line
-        /// </summary>
-        /// <param name="lineNumber"></param>
-        /// <returns>all the stations in the bus line</returns>
+        
         public IEnumerable<StationLineDAO> GetAllStationsLineOfBusLine(int lineNumber)
         {
             IEnumerable<StationLineDAO> result = from currentStationLine in DataSource.DataSource.StationLinesList
@@ -454,11 +378,7 @@ namespace DAL
             return from item in DataSource.DataSource.StationLinesList
                    select item.Cloned();
         }
-        /// <summary>
-        /// station line update
-        /// </summary>
-        /// <param name="stationLine"></param>
-        /// <returns></returns>
+        
         public bool UpdateStationLine(StationLineDAO stationLine)
         {
             if (!DataSource.DataSource.StationLinesList.Exists(currentStationLine => currentStationLine.StationNumber == stationLine.StationNumber
@@ -478,11 +398,7 @@ namespace DAL
 
 
         #region StationDAO functions
-        /// <summary>
-        /// this func adds a new station to the stations list.
-        /// </summary>
-        /// <param name="station"></param>
-        /// <returns></returns>
+        
         public bool AddStation(StationDAO station)
         {
             if (DataSource.DataSource.StationsList.Exists(currentStation => currentStation.StationNumber == station.StationNumber))
@@ -495,11 +411,7 @@ namespace DAL
             DataSource.DataSource.StationsList.Add(station.Cloned());
             return true;
         }
-        /// <summary>
-        /// this func remove a station to the stations list.
-        /// </summary>
-        /// <param name="station"></param>
-        /// <returns></returns>
+        
         public bool RemoveStation(StationDAO station)
         {
             for(int i=0;i< DataSource.DataSource.StationsList.Count;i++)
@@ -536,11 +448,7 @@ namespace DAL
             //}
             throw new BusException("The station does not exists in the system.");
         }
-        /// <summary>
-        /// this func gets one station from the stations list
-        /// </summary>
-        /// <param name="stationNumber"></param>
-        /// <returns></returns>
+        
         public StationDAO GetOneStation(int stationNumber)
         {
             StationDAO result = default(StationDAO);
@@ -551,10 +459,7 @@ namespace DAL
             }
             return null;
         }
-        /// <summary>
-        /// gets all stations from the stations list
-        /// </summary>
-        /// <returns></returns>
+        
         public IEnumerable<StationDAO> GetAllStations()
         {
             IEnumerable<StationDAO> result = from currentStation in DataSource.DataSource.StationsList
@@ -562,11 +467,7 @@ namespace DAL
                                              select currentStation.Cloned();
             return result;
         }
-        /// <summary>
-        /// gets all the bus lines in the station
-        /// </summary>
-        /// <param name="stationNmber"></param>
-        /// <returns></returns>
+        
         public IEnumerable<BusLineDAO> GetBusLineInStation(int stationNmber)
         {
             IEnumerable<BusLineDAO> result = from currentStationLine in DataSource.DataSource.StationLinesList
@@ -579,11 +480,7 @@ namespace DAL
             //}
             return result;
         }
-        /// <summary>
-        /// station update
-        /// </summary>
-        /// <param name="station"></param>
-        /// <returns></returns>
+        
         public bool UpdateStation(StationDAO station)
         {
             if (!DataSource.DataSource.StationsList.Exists(currentStation => currentStation.StationNumber == station.StationNumber))
@@ -604,17 +501,13 @@ namespace DAL
 
 
         #region BusLineDAO functions
-        /// <summary>
-        /// adds a new bus line to the bus lines list.
-        /// </summary>
-        /// <param name="busLine"></param>
-        /// <returns></returns>
+        
         public bool AddBusLine(BusLineDAO busLine)
         {
             if (DataSource.DataSource.BusLinesList.Exists(currentBus => currentBus.LineNumber == busLine.LineNumber
             &&!currentBus.Deleted))
             {
-                throw new BusException("The bus line already exists.");
+                throw new BusLineException("The bus line "+busLine.LineNumber+" already exists.");
                 //return false;
             }
             BusLineDAO busLineDAO = busLine.Cloned();
@@ -623,11 +516,7 @@ namespace DAL
             DataSource.DataSource.BusLinesList.Add(busLineDAO);
             return true;
         }
-        /// <summary>
-        /// remove a bus line from the bus lines list.
-        /// </summary>
-        /// <param name="busLine"></param>
-        /// <returns></returns>
+        
         public bool RemoveBusLine(BusLineDAO busLine)
         {
             for (int i=0; i< DataSource.DataSource.BusLinesList.Count; i++)
@@ -666,13 +555,9 @@ namespace DAL
             //        return true;
             //    }
             //}
-            throw new BusException("The bus line does not exists in the system.");
+            throw new BusLineException("The bus line " + busLine.LineNumber + " does not exists in the system.");
         }
-        /// <summary>
-        /// gets bus line from the bus line list.
-        /// </summary>
-        /// <param name="lineNumber"></param>
-        /// <returns></returns>
+        
         public BusLineDAO GetOneBusLine(int lineNumber)
         {
             BusLineDAO result = default(BusLineDAO);
@@ -683,10 +568,7 @@ namespace DAL
             }
             return null;
         }
-        /// <summary>
-        ///  gets all bus lines from the bus line list.
-        /// </summary>
-        /// <returns></returns>
+        
         public IEnumerable<BusLineDAO> GetAllBusLines()
         {
             IEnumerable<BusLineDAO> result = from currentBusLine in DataSource.DataSource.BusLinesList
@@ -694,11 +576,7 @@ namespace DAL
                                              select currentBusLine.Cloned();
             return result;
         }
-        /// <summary>
-        /// bus line update
-        /// </summary>
-        /// <param name="busLine"></param>
-        /// <returns></returns>
+        
         public bool UpdateBusLine(BusLineDAO busLine)
         {
             if (!DataSource.DataSource.BusLinesList.Exists(currentBusLine => currentBusLine.CurrentSerialNB == busLine.CurrentSerialNB))
@@ -715,10 +593,7 @@ namespace DAL
 
 
         #region CoupleStationInRowDAO functions
-        /// <summary>
-        /// gets list of all the couple stations in a row
-        /// </summary>
-        /// <returns></returns>
+        
         public IEnumerable<CoupleStationInRowDAO> GetAllCoupleStationInRow()
         {
             //foreach (BusLineDAO busLine in GetAllBusLines())
@@ -809,20 +684,13 @@ namespace DAL
 
         //}
 
-        /// <summary>
-        /// couple station in a row update
-        /// </summary>
-        /// <param name="stationNumberOne"></param>
-        /// <param name="stationNumberTwo"></param>
-        /// <param name="time"></param>
-        /// <param name="distance"></param>
-        /// <returns></returns>
+        
         public bool UpdateCoupleStationInRow(CoupleStationInRowDAO coupleStationInRow)
         {
             if (!DataSource.DataSource.CoupleStationInRowList.Exists(currentCoupleStation => currentCoupleStation.StationNumberOne == coupleStationInRow.StationNumberOne
              && currentCoupleStation.StationNumberTwo == coupleStationInRow.StationNumberTwo))
             {
-                throw new BusException("This couple stations in row does not exists in the system.");
+                throw new CoupleStationException("The couple stations: " + coupleStationInRow.StationNumberOne + ',' + coupleStationInRow.StationNumberTwo + " does not exists in the system.");
             }
             //CoupleStationInRowDAO coupleStation = new CoupleStationInRowDAO
             //{
@@ -841,16 +709,12 @@ namespace DAL
 
 
         #region LineInServiceDAO functions
-        /// <summary>
-        /// this func adds a new line in service to the line in service list.
-        /// </summary>
-        /// <param name="lineInService"></param>
-        /// <returns></returns>
+        
         public bool AddLineInService(LineInServiceDAO lineInService)
         {
             if (DataSource.DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
             {
-                throw new BusException("Line in service already exists in the system.");
+                throw new LineInServiceException("Line in service "+lineInService.LineNumber+" already exists in the system.");
                 //return false;
             }
             LineInServiceDAO cloned = lineInService.Cloned();
@@ -858,11 +722,7 @@ namespace DAL
             DataSource.DataSource.LineInServicesList.Add(cloned);
             return true;
         }
-        /// <summary>
-        /// this func removes a line in service from the line in service list.
-        /// </summary>
-        /// <param name="lineInService"></param>
-        /// <returns></returns>
+        
         public bool RemoveLineInService(LineInServiceDAO lineInService)
         {
             if (!DataSource.DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))
@@ -873,11 +733,7 @@ namespace DAL
             DataSource.DataSource.LineInServicesList.RemoveAll(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber);
             return true;
         }
-        /// <summary>
-        /// this func update a line in service in the line in service list.
-        /// </summary>
-        /// <param name="lineInService"></param>
-        /// <returns></returns>
+        
         public bool UpdateLineInService(LineInServiceDAO lineInService)
         {
             if (!DataSource.DataSource.LineInServicesList.Exists(currentLineInService => currentLineInService.LineNumber == lineInService.LineNumber))

@@ -32,7 +32,7 @@ namespace PresentationLayer
             TbBusLine = tbBusLine;
             InitializeComponent();
             
-            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLines(busLineBO.LineNumber));
+            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLinesOfBusLine(busLineBO.LineNumber));
             lblArea.Content = busLineBO.Area;
             lblLineNumber.Content = busLineBO.LineNumber;
             lbStationLines.ItemsSource = StationLines;
@@ -50,7 +50,7 @@ namespace PresentationLayer
             var stationLine = s.DataContext as StationLineBO;
             UpdateStationLineWindow updateStationLine = new UpdateStationLineWindow(stationLine);
             updateStationLine.ShowDialog();
-            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLines(stationLine.LineNumber));
+            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLinesOfBusLine(stationLine.LineNumber));
             //StationLines.Remove(stationLine);
             lbStationLines.ItemsSource = StationLines;
             lbStationLines.Items.Refresh();
@@ -63,7 +63,7 @@ namespace PresentationLayer
             if (MessageBox.Show("Are you sure you want to delete station line: " + stationLine.Station.StationName + '?', "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 bl.RemoveStationLine(stationLine);
-                StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLines(stationLine.LineNumber));
+                StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLinesOfBusLine(stationLine.LineNumber));
                 //StationLines.Remove(stationLine);
                 lbStationLines.ItemsSource = StationLines;
                 lbStationLines.Items.Refresh();
@@ -76,7 +76,7 @@ namespace PresentationLayer
             var stationLine = s.DataContext as StationLineBO;
             AddStationLineWindow addStationLine = new AddStationLineWindow(stationLine);
             addStationLine.ShowDialog();
-            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLines(stationLine.LineNumber));
+            StationLines = new ObservableCollection<StationLineBO>(bl.GetAllStationLinesOfBusLine(stationLine.LineNumber));
             //StationLines.Remove(stationLine);
             lbStationLines.ItemsSource = StationLines;
             lbStationLines.Items.Refresh();

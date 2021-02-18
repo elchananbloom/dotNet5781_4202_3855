@@ -40,11 +40,11 @@ namespace PresentationLayer
                 {
                     MessageBox.Show("Error. At least one field has not been filled.");
                 }
-                if (float.Parse(tbLatitude.Text) < 31 || float.Parse(tbLatitude.Text) > 33.3)
+                else if (float.Parse(tbLatitude.Text) < 31 || float.Parse(tbLatitude.Text) > 33.3)
                 {
                     MessageBox.Show("Error. The latitude is out of the range 31-33.3");
                 }
-                if (float.Parse(tbLongtitude.Text) < 34.3 || float.Parse(tbLongtitude.Text) > 35.5)
+                else if (float.Parse(tbLongtitude.Text) < 34.3 || float.Parse(tbLongtitude.Text) > 35.5)
                 {
                     MessageBox.Show("Error. The longitude is out of the range 34.3-35.5");
                 }
@@ -66,7 +66,7 @@ namespace PresentationLayer
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                MessageBox.Show(error.Message + error.InnerException);
             }
         }
         /// <summary>

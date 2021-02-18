@@ -165,10 +165,19 @@ namespace BuisnessLayer
             {
                 if (dal.AddBusLine(busLineDAO))
                 {
+                    Random rand = new Random();
+                    int distance = rand.Next(1000, 20000);
                     busLineDAO.Deleted = false;
-                    AddStationLine(firstStationLineBO);
+                    dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
+                    {
+                        AverageTravelTime = new TimeSpan(0,distance/1000,rand.Next(59)),
+                        Distance = distance,
+                        StationNumberOne = firstStationLineBO.Station.StationNumber,
+                        StationNumberTwo = lastStationLineBO.Station.StationNumber
+                    });
                     AddStationLine(lastStationLineBO);
-                    busLine.StationLines = from item in GetAllStationLines(busLine.LineNumber)
+                    AddStationLine(firstStationLineBO);
+                    busLine.StationLines = from item in GetAllStationLinesOfBusLine(busLine.LineNumber)
                                              select item;
                     //StationLineBO firstStation = busLine.StationLines.ElementAt(0);
                     //firstStation.NumberStationInLine = 0;
@@ -180,9 +189,9 @@ namespace BuisnessLayer
                     return true;
                 }
             }
-            catch (Exception be)
+            catch (Exception error)
             {
-                throw new BusExeption(be.Message);
+                throw new BusLineExeption("busLineBO Exception: ",error);
             }
             //    if (DataSource.BussesList.Exists(currentBus => currentBus.LicenseNumber == bus.LicenseNumber))
             //    {
@@ -215,7 +224,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new BusLineExeption("busLineBO Exception: ",be);
             }
             return true;
         }
@@ -227,7 +236,7 @@ namespace BuisnessLayer
             {
                 busLineDAO = dal.GetOneBusLine(lineNumber);
                 busLine = busLineDoBoAdapter(busLineDAO);
-                busLine.StationLines = from item in GetAllStationLines(busLine.LineNumber)
+                busLine.StationLines = from item in GetAllStationLinesOfBusLine(busLine.LineNumber)
                                        select item;
                 //int i = 0;
                 //foreach (var item in dal.GetAllCoupleStationInRow())
@@ -253,7 +262,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new BusLineExeption("busLineBO Exception: ", be);
             }
             return busLine;
         }
@@ -270,12 +279,13 @@ namespace BuisnessLayer
             busLine.CopyPropertiesTo(busLineDAO);
             try
             {
-                if (!DataSource.DataSource.StationLinesList.Exists(s => s.StationNumber == firstStationLineBO.Station.StationNumber
+                var list = new List<StationLineBO>(GetAllStationLines());
+                if (!list.Exists(s => s.Station.StationNumber == firstStationLineBO.Station.StationNumber
                 && s.LineNumber==firstStationLineBO.LineNumber))
                 {
                     AddStationLine(firstStationLineBO);
                 }
-                if (!DataSource.DataSource.StationLinesList.Exists(s => s.StationNumber == lastStationLineBO.Station.StationNumber
+                if (!list.Exists(s => s.Station.StationNumber == lastStationLineBO.Station.StationNumber
                 && s.LineNumber==lastStationLineBO.LineNumber))
                 {
                     AddStationLine(lastStationLineBO);
@@ -291,7 +301,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new BusLineExeption("busLineBO Exception: ", be);
             }
             return true;
         }
@@ -327,21 +337,21 @@ namespace BuisnessLayer
             stationLine.CopyPropertiesTo(stationLineDAO);
             try
             {
-                IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLines(stationLine.LineNumber));
                 if (dal.AddStationLine(stationLineDAO))
                 {
+                    IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLinesOfBusLine(stationLine.LineNumber));
                     Random rand = new Random();
                     int distance = rand.Next(1000, 20000);
-                    if (list.Count() != 0)
+                    if (list.Count() != 1)
                     {
                         dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
                         {
                             Distance = distance,
                             AverageTravelTime = new TimeSpan(0, distance / 1000, rand.Next(59)),
-                            StationNumberOne = list.ToList()[stationLine.NumberStationInLine - 1].Station.StationNumber,
-                            StationNumberTwo = stationLine.Station.StationNumber
+                            StationNumberOne = stationLine.Station.StationNumber,
+                            StationNumberTwo = list.ToList()[stationLine.NumberStationInLine].Station.StationNumber
                         });
-                        if (list.Count() != 1)
+                        if (list.Count() != 2)
                         {
                             dal.AddCoupleStationInRow(new DO.CoupleStationInRowDAO
                             {
@@ -358,7 +368,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationLineExeption("stationLineBO Exception: ", be);
             }
             return true;
         }
@@ -374,9 +384,9 @@ namespace BuisnessLayer
                     //stationLineDAO.Deleted = true;
                     if (stationLine.NumberStationInLine > 0)
                     {
-                        foreach (var item in GetAllStationLines(stationLine.LineNumber))
+                        foreach (var item in GetAllStationLinesOfBusLine(stationLine.LineNumber))
                         {
-                            if (stationLine.NumberStationInLine == GetAllStationLines(stationLine.LineNumber).Count()
+                            if (stationLine.NumberStationInLine == GetAllStationLinesOfBusLine(stationLine.LineNumber).Count()
                                 && item.NumberStationInLine + 1 == stationLine.NumberStationInLine)
                             {
                                 item.Time = new TimeSpan(0, 0, 0);
@@ -395,7 +405,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationLineExeption("stationLineBO Exception: ", be);
             }
             return true;
         }
@@ -406,7 +416,7 @@ namespace BuisnessLayer
             stationLineDAO.StationNumber = stationLine.Station.StationNumber;
             try
             {
-                IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLines(stationLine.LineNumber));
+                IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLinesOfBusLine(stationLine.LineNumber));
                 if (dal.UpdateStationLine(stationLineDAO))
                 {
                     if (stationLine.NumberStationInLine < list.Count())
@@ -438,16 +448,25 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationLineExeption("stationLineBO Exception: ", be);
             }
             return true;
         }
-        public IEnumerable<StationLineBO> GetAllStationLines(int num)
+        public IEnumerable<StationLineBO> GetAllStationLines()
+        {
+            IEnumerable<StationLineBO> list = from item in dal.GetAllStationLines()
+                                              select StationLineDoBoAdapter(item);
+            return list;
+        }
+
+        public IEnumerable<StationLineBO> GetAllStationLinesOfBusLine(int num)
         {
             IEnumerable<StationLineBO> list = from item in dal.GetAllStationsLineOfBusLine(num)
                                               where item.LineNumber == num && !item.Deleted
+                                              orderby item.NumberStationInLine
                                               select StationLineDoBoAdapter(item);
             //int i = 0; i < list.Count() - 1; i++
+            //list.OrderBy(s => s.NumberStationInLine);
             List<StationLineBO> list1 = new List<StationLineBO>();
             int i = 0;
             for (; i < list.Count() - 1; i++)
@@ -524,7 +543,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationExeption("stationBO Exception: ", be);
             }
             return true;
         }
@@ -543,7 +562,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationExeption("stationBO Exception: ", be);
             }
             return true;
         }
@@ -560,7 +579,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationExeption("stationBO Exception: ", be);
             }
             return true;
         }
@@ -575,7 +594,7 @@ namespace BuisnessLayer
             }
             catch (Exception be)
             {
-                throw new BusExeption(be.Message);
+                throw new StationExeption("stationBO Exception: ", be);
             }
             return station;
         }
