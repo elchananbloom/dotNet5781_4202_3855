@@ -214,6 +214,7 @@ namespace BuisnessLayer
             {
                 if (dal.RemoveBusLine(busLineDAO))
                 {
+                    
                     //foreach (var item in busLine.StationLines)
                     //{
                     //    RemoveStationLine(item);
@@ -379,9 +380,51 @@ namespace BuisnessLayer
             stationLineDAO.StationNumber = stationLine.Station.StationNumber;
             try
             {
-                if (dal.RemoveStationLine(stationLineDAO))
                 {
                     //stationLineDAO.Deleted = true;
+                    foreach (var currentStationLine in dal.GetAllStationLines())
+                    {
+                        if (currentStationLine.LineNumber == stationLineDAO.LineNumber
+                    && currentStationLine.StationNumber == stationLineDAO.StationNumber)
+                        {
+                            dal.RemoveStationLine(stationLineDAO);
+
+                            IEnumerable<DO.StationLineDAO> list = new List<DO.StationLineDAO>(dal.GetAllStationsLineOfBusLine(stationLineDAO.LineNumber));
+                            for (int i =list.Count() - 1; i >= stationLineDAO.NumberStationInLine; i--)
+                            {
+                                list.ToList()[i].NumberStationInLine = i;
+                                //DataSource.DataSource.StationLinesList[i].NumberStationInLine = i - 1;
+                            }
+                            if (stationLine.NumberStationInLine > 0 && stationLine.NumberStationInLine < list.Count())
+                            {
+                                CoupleStationInRowBO coupleStation1 = new CoupleStationInRowBO();
+                                dal.GetOneCoupleStationInRow(list.ToList()[stationLine.NumberStationInLine - 1].StationNumber, stationLine.Station.StationNumber).CopyPropertiesTo(coupleStation1);
+                                CoupleStationInRowBO coupleStation2 = new CoupleStationInRowBO();
+                                dal.GetOneCoupleStationInRow(stationLine.Station.StationNumber, list.ToList()[stationLine.NumberStationInLine].StationNumber).CopyPropertiesTo(coupleStation2);
+                                CoupleStationInRowBO coupleStation = new CoupleStationInRowBO
+                                {
+                                    StationNumberOne = coupleStation1.StationNumberOne,
+                                    StationNumberTwo = coupleStation2.StationNumberTwo,
+                                    Distance = coupleStation1.Distance + coupleStation2.Distance,
+                                    AverageTravelTime = coupleStation1.AverageTravelTime + coupleStation2.AverageTravelTime
+                                };
+                                if(!dal.GetAllCoupleStationInRow().ToList().Exists(s=>s.StationNumberOne==coupleStation.StationNumberOne
+                                &&s.StationNumberTwo==coupleStation.StationNumberTwo))
+                                {
+                                    DO.CoupleStationInRowDAO coupleStationInRowDAO = new DO.CoupleStationInRowDAO();
+                                    coupleStation.CopyPropertiesTo(coupleStationInRowDAO);
+                                    dal.AddCoupleStationInRow(coupleStationInRowDAO);
+                                }
+                            }
+                            foreach (var item in list)
+                            {
+                                dal.UpdateStationLine(item);
+                            }
+                            
+                        }
+
+
+                    }
                     if (stationLine.NumberStationInLine > 0)
                     {
                         foreach (var item in GetAllStationLinesOfBusLine(stationLine.LineNumber))
@@ -399,8 +442,6 @@ namespace BuisnessLayer
                             }
                         }
                     }
-                    
-                    return true;
                 }
             }
             catch (Exception be)
@@ -419,7 +460,7 @@ namespace BuisnessLayer
                 IEnumerable<StationLineBO> list = new List<StationLineBO>(GetAllStationLinesOfBusLine(stationLine.LineNumber));
                 if (dal.UpdateStationLine(stationLineDAO))
                 {
-                    if (stationLine.NumberStationInLine < list.Count())
+                    if (stationLine.NumberStationInLine < list.Count()-1)
                     {
                         //Random rand = new Random();
                         //int distance = rand.Next(1000, 20000);

@@ -8,8 +8,8 @@ namespace BO
 {
     public class CoupleStationInRowBO
     {
-        public StationBO StationOne { get; set; }
-        public StationBO StationTwo { get; set; }
+        public int StationNumberOne { get; set; }
+        public int StationNumberTwo { get; set; }
         public int Distance { get; set; }
         public TimeSpan AverageTravelTime { get; set; }
     }

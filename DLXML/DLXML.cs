@@ -352,58 +352,60 @@ namespace DAL
                              select sta).FirstOrDefault();
             if (sta1 != null)
             {
-                //sta1.Element("Deleted").Value = true.ToString();
-                foreach (var currentStationLine in stationLineRootElem.Elements())
-                {
-                    if (int.Parse(currentStationLine.Element("StationNumber").Value) == stationLine.StationNumber
-                         && int.Parse(currentStationLine.Element("LineNumber").Value) == stationLine.LineNumber)
-                    {
-                        currentStationLine.Element("Deleted").Value = true.ToString();
-                        XMLTools.SaveListToXMLElement(stationLineRootElem, stationLinePath);
-                        stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
+                sta1.Element("Deleted").Value = true.ToString();
+                XMLTools.SaveListToXMLElement(stationLineRootElem, stationLinePath);
+                return true;
+                //foreach (var currentStationLine in stationLineRootElem.Elements())
+                //{
+                //    if (int.Parse(currentStationLine.Element("StationNumber").Value) == stationLine.StationNumber
+                //         && int.Parse(currentStationLine.Element("LineNumber").Value) == stationLine.LineNumber)
+                //    {
+                //        currentStationLine.Element("Deleted").Value = true.ToString();
+                //        XMLTools.SaveListToXMLElement(stationLineRootElem, stationLinePath);
+                //        stationLineRootElem = XMLTools.LoadListFromXMLElement(stationLinePath);
 
-                        IEnumerable<StationLineDAO> list = new List<StationLineDAO>(GetAllStationsLineOfBusLine(stationLine.LineNumber));
-                        for (int i = list.Count() - 1; i >= stationLine.NumberStationInLine; i--)
-                        {
-                            list.ToList()[i].NumberStationInLine = i;
-                        }
-                        if (stationLine.NumberStationInLine > 0 && stationLine.NumberStationInLine < list.Count())
-                        {
-                            CoupleStationInRowDAO coupleStation1 = GetOneCoupleStationInRow(list.ToList()[stationLine.NumberStationInLine - 1].StationNumber, stationLine.StationNumber);
-                            CoupleStationInRowDAO coupleStation2 = GetOneCoupleStationInRow(stationLine.StationNumber, list.ToList()[stationLine.NumberStationInLine].StationNumber);
-                            CoupleStationInRowDAO coupleStation = new CoupleStationInRowDAO
-                            {
-                                StationNumberOne = coupleStation1.StationNumberOne,
-                                StationNumberTwo = coupleStation2.StationNumberTwo,
-                                Distance = coupleStation1.Distance + coupleStation2.Distance,
-                                AverageTravelTime = coupleStation1.AverageTravelTime + coupleStation2.AverageTravelTime
-                            };
-                            XElement coupleStationElem = new XElement("CoupleStationInRowDAO", 
-                                new XElement("StationNumberOne", Int32.Parse(coupleStation.StationNumberOne.ToString())),
-                                new XElement("StationNumberTwo", Int32.Parse(coupleStation.StationNumberTwo.ToString())),
-                                 new XElement("Distance", Int32.Parse(coupleStation.Distance.ToString())),
-                                 new XElement("AverageTravelTime", coupleStation.AverageTravelTime));
+                //        IEnumerable<StationLineDAO> list = new List<StationLineDAO>(GetAllStationsLineOfBusLine(stationLine.LineNumber));
+                //        for (int i = list.Count() - 1; i >= stationLine.NumberStationInLine; i--)
+                //        {
+                //            list.ToList()[i].NumberStationInLine = i;
+                //        }
+                //        if (stationLine.NumberStationInLine > 0 && stationLine.NumberStationInLine < list.Count())
+                //        {
+                //            CoupleStationInRowDAO coupleStation1 = GetOneCoupleStationInRow(list.ToList()[stationLine.NumberStationInLine - 1].StationNumber, stationLine.StationNumber);
+                //            CoupleStationInRowDAO coupleStation2 = GetOneCoupleStationInRow(stationLine.StationNumber, list.ToList()[stationLine.NumberStationInLine].StationNumber);
+                //            CoupleStationInRowDAO coupleStation = new CoupleStationInRowDAO
+                //            {
+                //                StationNumberOne = coupleStation1.StationNumberOne,
+                //                StationNumberTwo = coupleStation2.StationNumberTwo,
+                //                Distance = coupleStation1.Distance + coupleStation2.Distance,
+                //                AverageTravelTime = coupleStation1.AverageTravelTime + coupleStation2.AverageTravelTime
+                //            };
+                //            XElement coupleStationElem = new XElement("CoupleStationInRowDAO", 
+                //                new XElement("StationNumberOne", Int32.Parse(coupleStation.StationNumberOne.ToString())),
+                //                new XElement("StationNumberTwo", Int32.Parse(coupleStation.StationNumberTwo.ToString())),
+                //                 new XElement("Distance", Int32.Parse(coupleStation.Distance.ToString())),
+                //                 new XElement("AverageTravelTime", coupleStation.AverageTravelTime));
 
 
-                            XElement coupleStationInRowRootElem = XMLTools.LoadListFromXMLElement(coupleStationInRowPath);
-                            XElement newCoupleStation = (from sta in coupleStationInRowRootElem.Elements()
-                                                         where int.Parse(sta.Element("StationNumberOne").Value) == coupleStation.StationNumberOne
-                                                         && int.Parse(sta.Element("StationNumberTwo").Value) == coupleStation.StationNumberTwo
-                                                         select sta).FirstOrDefault();
-                            if (newCoupleStation == null)
-                            {
-                                coupleStationInRowRootElem.Add(coupleStationElem);
-                                XMLTools.SaveListToXMLElement(coupleStationInRowRootElem, coupleStationInRowPath);
-                            }
+                //            XElement coupleStationInRowRootElem = XMLTools.LoadListFromXMLElement(coupleStationInRowPath);
+                //            XElement newCoupleStation = (from sta in coupleStationInRowRootElem.Elements()
+                //                                         where int.Parse(sta.Element("StationNumberOne").Value) == coupleStation.StationNumberOne
+                //                                         && int.Parse(sta.Element("StationNumberTwo").Value) == coupleStation.StationNumberTwo
+                //                                         select sta).FirstOrDefault();
+                //            if (newCoupleStation == null)
+                //            {
+                //                coupleStationInRowRootElem.Add(coupleStationElem);
+                //                XMLTools.SaveListToXMLElement(coupleStationInRowRootElem, coupleStationInRowPath);
+                //            }
                            
-                        }
-                        foreach (var item in list)
-                        {
-                            UpdateStationLine(item);
-                        }
-                        return true;
-                    }
-                }
+                //        }
+                //        foreach (var item in list)
+                //        {
+                //            UpdateStationLine(item);
+                //        }
+                //        return true;
+                //    }
+                //}
             }
             throw new StationLineException("stationLineDAO Exception: The station line " + stationLine.StationNumber + " does not exists in the system.");
             
@@ -467,17 +469,17 @@ namespace DAL
                              select sta).FirstOrDefault();
             if (sta1 != null)
             {
-                for (int i = 0; i < stationLineRootElem.Elements().Count(); i++)
-                {
-                    var currentStationLine = stationLineRootElem.Elements().ElementAt(i);
-                    if(Int32.Parse(currentStationLine.Element("StationNumber").Value)==stationLine.StationNumber
-                        && Int32.Parse(currentStationLine.Element("LineNumber").Value) == stationLine.LineNumber)
-                    {
-                        currentStationLine.Element("NumberStationInLine").Value = stationLine.NumberStationInLine.ToString();
-                        currentStationLine.Element("Deleted").Value = stationLine.Deleted.ToString();
+                //for (int i = 0; i < stationLineRootElem.Elements().Count(); i++)
+                //{
+                //    var currentStationLine = stationLineRootElem.Elements().ElementAt(i);
+                //    if(Int32.Parse(currentStationLine.Element("StationNumber").Value)==stationLine.StationNumber
+                //        && Int32.Parse(currentStationLine.Element("LineNumber").Value) == stationLine.LineNumber)
+                //    {
+                        sta1.Element("NumberStationInLine").Value = stationLine.NumberStationInLine.ToString();
+                        sta1.Element("Deleted").Value = stationLine.Deleted.ToString();
                         //currentStationLine.Remove();
-                    }
-                }
+                //    }
+                //}
                 //XElement stationLineElem = new XElement("StationLineDAO",
                 //new XElement("LineNumber", stationLine.LineNumber),
                 //new XElement("StationNumber", stationLine.StationNumber),
